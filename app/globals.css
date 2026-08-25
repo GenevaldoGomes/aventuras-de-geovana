@@ -140,3 +140,108 @@
   min-width:220px;
   max-width:310px;
 }
+
+/* V11.3 — HOME RESPONSIVA
+   Mantém a arte original como tela principal e reposiciona apenas as áreas clicáveis. */
+.home-screen{
+  width:100%;
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:#2b39a4;
+}
+.home-art{
+  position:relative;
+  width:min(100vw,calc(100svh * 1.5));
+  aspect-ratio:3/2;
+  max-height:100svh;
+  margin:auto;
+  overflow:hidden;
+}
+.home-art>img,.homeArt{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  display:block;
+}
+.hotspots{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+}
+.hotspots button{
+  position:absolute;
+  min-width:44px;
+  min-height:44px;
+  touch-action:manipulation;
+}
+
+/* Tablets e celulares em paisagem: a arte inteira continua visível. */
+@media (max-aspect-ratio: 3/2){
+  .home-screen{min-height:100svh}
+  .home-art{
+    width:100vw;
+    height:auto;
+    max-height:none;
+  }
+}
+
+/* Celular em retrato: não corta Geovana, Pudim nem os botões.
+   A home vira um pôster proporcional centralizado. */
+@media (orientation:portrait) and (max-width:700px){
+  html,body{overflow-x:hidden}
+  .home-screen{
+    min-height:100svh;
+    padding:0;
+    align-items:center;
+    background:linear-gradient(#6bc6ff,#f1dcff);
+  }
+  .home-art{
+    width:100vw;
+    height:auto;
+    aspect-ratio:3/2;
+    max-height:none;
+    flex:none;
+  }
+  .hotspots button{
+    min-width:40px;
+    min-height:40px;
+  }
+}
+
+/* Telas grandes / TV */
+@media (min-width:1600px){
+  .home-art{width:min(100vw,calc(100svh * 1.5))}
+}
+
+/* Compatibilidade com a estrutura atual da home */
+.app-shell:has(.game-poster){
+  width:100%;
+  min-height:100svh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+.game-poster{
+  width:min(100vw,calc(100svh * 1.5))!important;
+  height:auto!important;
+  aspect-ratio:3/2;
+  max-width:none!important;
+  max-height:100svh;
+  position:relative;
+}
+.game-poster>img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  display:block!important;
+}
+@media (orientation:portrait) and (max-width:700px){
+ .app-shell:has(.game-poster){min-height:100svh;align-items:center}
+ .game-poster{width:100vw!important;height:auto!important;max-height:none!important}
+}

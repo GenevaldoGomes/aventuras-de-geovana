@@ -27,3 +27,9 @@ Pudim integrado às fases: caminhada na trilha, pausas, falas e reações. Masco
 - Ao clicar, ele diz “Miau!” e depois lê a dica.
 - A voz usa pitch elevado e tenta priorizar uma voz feminina/infantil disponível no navegador.
 - Há fallback automático para uma voz em português disponível no dispositivo.
+
+## V11.3
+- Tela inicial adaptada para desktop, notebook, tablet, celular e TV.
+- Arte principal preserva a proporção original sem cortar Geovana, Pudim ou logotipo.
+- Áreas clicáveis continuam sobre a arte e recebem tamanho mínimo adequado para toque.
+- Suporte a `100svh` melhora a exibição em navegadores móveis.
