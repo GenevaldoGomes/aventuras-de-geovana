@@ -11,3 +11,10 @@ Jogo Web educacional e gamificado para o ensino de Inglês Básico a crianças d
 5. Clique em **Deploy**.
 
 Não é necessário cadastrar variáveis de ambiente nesta versão.
+
+
+## V5.1 — Correções do mascote
+- Entrada corrigida: Pudin agora caminha da esquerda para a direita, na mesma direção em que olha.
+- Removido o galho decorativo que aparecia atrás do mascote.
+- Transição de caminhada para idle suavizada.
+- Alinhamento no chão preservado entre os frames.
