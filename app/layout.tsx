@@ -1,3 +1,4 @@
-import type {Metadata} from "next";import "./globals.css";
-export const metadata:Metadata={title:"As Aventuras de Geovana",description:"Jogo educacional de inglês básico para crianças de 7 a 12 anos.",other:{"codex-preview":"development"},icons:{icon:"/favicon.svg"}};
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="pt-BR"><body>{children}</body></html>}
+import type { Metadata } from "next";
+import "./globals.css";
+export const metadata: Metadata = {title:"As Aventuras de Geovana",description:"Aprenda inglês enquanto vive grandes aventuras com Geovana e Pudim!",openGraph:{title:"As Aventuras de Geovana",description:"Um jogo educativo de inglês para crianças.",images:["/home-geovana.png"]}};
+export default function RootLayout({children}:Readonly<{children:React.ReactNode}>){return <html lang="pt-BR"><body>{children}</body></html>}

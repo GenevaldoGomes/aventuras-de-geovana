@@ -1,13 +1,16 @@
-# As Aventuras de Geovana
+# As Aventuras de Geovana — V10
 
-Jogo Web educacional e gamificado para o ensino de Inglês Básico a crianças de 7 a 12 anos.
+Jogo Web educacional de Inglês Básico para crianças.
 
-## Publicar no Vercel
+## V10
+- Base reorganizada para Next.js + Vercel.
+- 4 mundos, 40 desafios, ranking, área Aprender e certificado.
+- Pudim integrado com estados visuais: parado, andando, falando, acerto, erro e conclusão.
+- Música somente na Home e leitura das perguntas/respostas em inglês.
+- Progresso salvo no navegador.
 
-1. Envie esta pasta para um repositório no GitHub.
-2. No Vercel, selecione **Add New → Project**.
-3. Importe o repositório.
-4. Mantenha **Framework Preset: Next.js**.
-5. Clique em **Deploy**.
-
-Não é necessário cadastrar variáveis de ambiente nesta versão.
+## Publicação
+1. Substitua os arquivos do repositório local, preservando `.git`.
+2. Commit: `V10 - Pudim animado e base Vercel`.
+3. Push origin.
+4. Aguarde o Vercel marcar o deployment como Ready.
