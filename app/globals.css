@@ -59,3 +59,12 @@
 .game-walker img{width:100%!important;height:auto!important;max-height:190px!important;object-fit:contain!important;object-position:center bottom!important}
 .game-walker img.face-left{transform:scaleX(-1)!important}
 @media(max-width:650px){.game-walker{width:125px!important}.game-walker img{max-height:145px!important}}
+/* V10.8 — fala bilíngue e caminhada sincronizada */
+.game-walker{transition:left .125s linear!important}
+.game-walker.is-walking img{animation:pudimStep .25s ease-in-out infinite alternate!important}
+.game-walker.is-paused img{animation:pudimPause 1s ease-in-out infinite alternate!important}
+.walker-bubble strong,.walker-bubble small{display:block}
+.walker-bubble strong{font-size:1em;color:#4514b4}
+.walker-bubble small{margin-top:4px;font-size:.72em;line-height:1.1;color:#6a438f;font-weight:800}
+@keyframes pudimStep{from{translate:0 0}to{translate:0 -3px}}
+@keyframes pudimPause{from{translate:0 0}to{translate:0 -1px}}
