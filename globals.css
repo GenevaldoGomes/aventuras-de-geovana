@@ -41,3 +41,23 @@
 .homePudin.idle{animation:pudinSettle .32s ease-out both,pudinIdle 2.2s ease-in-out .32s infinite}
 @keyframes pudinSettle{from{transform:translateX(-5px) scale(.98)}to{transform:translateX(0) scale(1)}}
 @media(max-width:560px){@keyframes pudinWalkForward{0%{transform:translateX(-190px);opacity:0}10%{opacity:1}100%{transform:translateX(0);opacity:1}}}
+
+/* V6 — sprites limpos: usa somente o mascote isolado, sem números, galhos ou rótulos */
+.pudin>img{object-fit:contain;object-position:center bottom;transform-origin:50% 92%;will-change:transform}
+.homePudin.walk{animation:pudinCleanEntry 2.45s cubic-bezier(.2,.72,.25,1) both!important}
+.homePudin.walk>img{animation:pudinCleanSteps .32s ease-in-out infinite alternate}
+.homePudin.idle{animation:pudinSettle .28s ease-out both,pudinIdle 2.2s ease-in-out .28s infinite!important}
+.homePudin.idle>img{animation:none}
+.pudin.talk>img{animation:pudinCleanTalk .34s ease-in-out infinite alternate}
+.pudin.correct>img{animation:pudinCleanCelebrate .52s ease-in-out 3}
+.pudin.wrong>img{animation:pudinCleanWrong .5s ease-in-out 2}
+.pudin.happy>img{animation:pudinCleanHappy .72s ease-in-out infinite}
+@keyframes pudinCleanEntry{0%{transform:translateX(-360px);opacity:0}8%{opacity:1}100%{transform:translateX(0);opacity:1}}
+@keyframes pudinCleanSteps{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-8px) rotate(2deg)}}
+@keyframes pudinCleanTalk{from{transform:rotate(-1.5deg) scale(1)}to{transform:rotate(1.5deg) scale(1.025)}}
+@keyframes pudinCleanCelebrate{0%,100%{transform:translateY(0) rotate(0) scale(1)}50%{transform:translateY(-22px) rotate(5deg) scale(1.06)}}
+@keyframes pudinCleanWrong{0%,100%{transform:translateY(0) rotate(0)}35%{transform:translateY(5px) rotate(-4deg)}70%{transform:translateY(5px) rotate(4deg)}}
+@keyframes pudinCleanHappy{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+@media(max-width:900px){@keyframes pudinCleanEntry{0%{transform:translateX(-230px);opacity:0}10%{opacity:1}100%{transform:translateX(0);opacity:1}}}
+@media(max-width:560px){@keyframes pudinCleanEntry{0%{transform:translateX(-150px);opacity:0}10%{opacity:1}100%{transform:translateX(0);opacity:1}}}
+@media(prefers-reduced-motion:reduce){.homePudin.walk,.homePudin.walk>img,.pudin>img{animation:none!important}}

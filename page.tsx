@@ -82,15 +82,15 @@ const worlds:World[]=[
 ];
 const fresh:Profile={name:"",age:8,avatar:"🧒🏽",stars:0,coins:0,xp:0,streak:0,correct:0,wrong:0,worlds:[],themeScore:{}};
 
-const pudinFrames:Record<MascotMood,number>={idle:7,walk:8,talk:7,correct:7,wrong:5,happy:5};
 function Pudin({mood="idle",small=false,home=false}:{mood?:MascotMood;small?:boolean;home?:boolean}){
- const[frame,setFrame]=useState(0);
  const[homeArrived,setHomeArrived]=useState(false);
- const activeMood: MascotMood = home&&mood==="walk"&&homeArrived?"idle":mood;
- useEffect(()=>{setFrame(0);if(home&&mood==="walk"){setHomeArrived(false);const t=setTimeout(()=>setHomeArrived(true),2700);return()=>clearTimeout(t)}},[mood,home]);
- useEffect(()=>{const speed=activeMood==="walk"?115:activeMood==="talk"?180:activeMood==="correct"?125:activeMood==="wrong"?220:activeMood==="happy"?150:320;const t=setInterval(()=>setFrame(f=>(f+1)%pudinFrames[activeMood]),speed);return()=>clearInterval(t)},[activeMood]);
- const src=`/sprites/pudin/${activeMood}/${String(frame%pudinFrames[activeMood]).padStart(2,"0")}.png`;
- return <div className={`pudin ${mood} ${small?"small":""} ${home?"homePudin":""}`} aria-label="Pudin, mascote do jogo"><span className="pudinBubble">{mood==="correct"?"Great job! ⭐":mood==="wrong"?"Try again! 💛":mood==="talk"?"Listen! 🔊":mood==="walk"?"Come with me! 🐾":mood==="happy"?"Let’s go! 🚀":"Hi! 👋"}</span><span className="pudinSparkles" aria-hidden="true">✨⭐✨</span><img src={src} alt="Pudin, gato mascote"/></div>
+ useEffect(()=>{
+  if(home&&mood==="walk"){setHomeArrived(false);const t=setTimeout(()=>setHomeArrived(true),2500);return()=>clearTimeout(t)}
+  setHomeArrived(false);
+ },[mood,home]);
+ const activeMood: MascotMood=home&&mood==="walk"&&homeArrived?"idle":mood;
+ const bubble=activeMood==="correct"?"Great job! ⭐":activeMood==="wrong"?"Try again! 💛":activeMood==="talk"?"Listen! 🔊":activeMood==="walk"?"Come with me! 🐾":activeMood==="happy"?"Let’s go! 🚀":"Hi! 👋";
+ return <div className={`pudin ${activeMood} ${small?"small":""} ${home?"homePudin":""}`} aria-label="Pudin, mascote do jogo"><span className="pudinBubble">{bubble}</span><span className="pudinSparkles" aria-hidden="true">✨⭐✨</span><img src="/pudin-mascot.png" alt="Pudin, gato mascote"/></div>
 }
 
 export default function Home(){
