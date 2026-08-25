@@ -1,10 +1,13 @@
-# As Aventuras de Geovana — V6
+# As Aventuras de Geovana
 
-Versão com mascote limpo e animações CSS sem recortes contaminados da folha de referência.
+Jogo Web educacional e gamificado para o ensino de Inglês Básico a crianças de 7 a 12 anos.
 
-## Correções
-- remove números, galhos, rótulos e resíduos dos antigos sprites;
-- entrada do mascote da esquerda para a direita;
-- transição suave caminhada → idle;
-- reações de fala, acerto, erro e felicidade com o PNG limpo;
-- responsivo e compatível com prefers-reduced-motion.
+## Publicar no Vercel
+
+1. Envie esta pasta para um repositório no GitHub.
+2. No Vercel, selecione **Add New → Project**.
+3. Importe o repositório.
+4. Mantenha **Framework Preset: Next.js**.
+5. Clique em **Deploy**.
+
+Não é necessário cadastrar variáveis de ambiente nesta versão.
