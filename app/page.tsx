@@ -48,11 +48,20 @@ function GameWalkingPudim({reaction="walk",hint="",onHint}:{reaction?:"walk"|"co
  const [en,pt]=showHint?["Pudim's hint 🐾",hint]:normal;
  function giveHint(){if(reaction!=="walk"||!hint)return;setShowHint(true);setM(v=>({...v,pause:28}));onHint?.();window.setTimeout(()=>setShowHint(false),6500)}
  return <div className="pudim-playground">
-   <div className={`game-walker ${walking?"is-walking":"is-paused"} step-${m.phase} ${reaction==="walk"?"is-clickable":""}`} style={{left:`${m.x}%`}}>
+   <div
+    className={`game-walker ${walking?"is-walking":"is-paused"} step-${m.phase} ${reaction==="walk"?"is-clickable":""} ${showHint?"showing-hint":""}`}
+    style={{left:`${m.x}%`}}
+    onClick={giveHint}
+    onKeyDown={(e)=>{if((e.key==="Enter"||e.key===" ")&&reaction==="walk"){e.preventDefault();giveHint()}}}
+    role={reaction==="walk"?"button":undefined}
+    tabIndex={reaction==="walk"?0:-1}
+    aria-label={reaction==="walk"?"Clique no Pudim para receber uma dica":undefined}
+    title={reaction==="walk"?"Clique no Pudim para uma dica":undefined}
+   >
     <div className={`walker-bubble ${showHint?"hint-active":""}`}><strong>{en}</strong><small>{pt}</small></div>
-    <button className="pudim-click-target" onClick={giveHint} disabled={reaction!=="walk"} aria-label="Clique no Pudim para receber uma dica" title="Clique no Pudim para uma dica">
-      <img className={m.dir<0?"face-left":""} src={src} alt="Pudim animado"/>
-    </button>
+    <div className="pudim-click-target">
+      <img className={m.dir<0?"face-left":""} src={showHint?"/sprites/idle.png":src} alt="Pudim animado"/>
+    </div>
    </div>
    {reaction==="walk"&&<div className="hint-instruction">🐾 Clique no Pudim para receber uma dica!</div>}
   </div>
