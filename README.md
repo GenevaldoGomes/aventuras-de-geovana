@@ -1,8 +1,9 @@
-# As Aventuras de Geovana — V7
+# As Aventuras de Geovana — V7.1
 
-Tela principal atualizada a partir da nova arte oficial.
-
-- Mascote renomeado para **Pudim** na arte principal.
-- Arte completa usada como tela inicial.
-- Áreas clicáveis sobre JOGAR, MUNDOS, RANKING e APRENDER.
-- Demais mundos, lições e lógica da V6 preservados.
+Correção da tela principal:
+- arte oficial com Geovana e Pudim;
+- tela inicial isolada do cabeçalho e dos componentes antigos;
+- nenhuma renderização do sprite antigo na home;
+- nova imagem com nome Pudim e cache-busting;
+- áreas clicáveis sobre JOGAR, MUNDOS, RANKING e APRENDER;
+- mundos, progresso e atividades preservados.
