@@ -41,3 +41,16 @@
 .game-walker[style*="left: 5%"] .walker-bubble{left:70%;transform:none}
 .game-walker[style*="left: 78%"] .walker-bubble{left:auto;right:55%;transform:none}
 @media(max-width:650px){.pudim-playground{height:250px}.game-walker{bottom:9%;width:155px}.game-walker img{height:165px}.walker-bubble{top:-10%;max-width:155px;font-size:12px}}
+/* V10.5 - cenário oficial da trilha do Pudim */
+.pudim-playground{
+  height:clamp(280px,38vh,430px);
+  background-image:url('/cenario-trilha.png')!important;
+  background-size:cover!important;
+  background-position:center bottom!important;
+  background-repeat:no-repeat!important;
+  border-top:0!important;
+  box-shadow:none!important;
+}
+.pudim-playground:before{display:none!important}
+.game-walker{bottom:1.5%!important}
+@media(max-width:650px){.pudim-playground{height:270px;background-position:center bottom!important}.game-walker{bottom:1%!important}}
