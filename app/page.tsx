@@ -8,9 +8,9 @@ const W:World[]=[
  {icon:"🏝️",name:"Greetings Island",pt:"Ilha das Saudações",place:"Uma ilha tropical onde cada encontro começa com uma nova expressão!",color:"#15b75c",questions:[
   {en:"How do you greet someone?",pt:"Como você cumprimenta alguém?",o:["Hello","Goodbye","Sorry"],a:0,icon:"👋"},{en:"What do you say in the morning?",pt:"O que você diz pela manhã?",o:["Good night","Good morning","Good afternoon"],a:1,icon:"☀️"},{en:"Choose the farewell.",pt:"Escolha a despedida.",o:["Please","Goodbye","Welcome"],a:1,icon:"👋"},{en:"How are you?",pt:"Como você está?",o:["I'm fine, thank you!","My name is Geovana.","I live in Brazil."],a:0,icon:"😊"},{en:"I am fine, thank you.",pt:"Escolha a tradução correta.",o:["Estou cansado","Estou bem, obrigado","Estou com fome"],a:1,icon:"💛"},{en:"What is your name?",pt:"O que significa?",o:["Qual é seu nome?","Quantos anos você tem?","Como vai?"],a:0,icon:"🪪"},{en:"Nice to meet you!",pt:"Escolha a tradução.",o:["Até amanhã","Prazer em conhecer você","Com licença"],a:1,icon:"🤝"},{en:"See you later!",pt:"O que essa expressão significa?",o:["Até mais tarde","Bom dia","De nada"],a:0,icon:"⏰"},{en:"Good night!",pt:"Quando usamos essa expressão?",o:["Pela manhã","À noite","Ao meio-dia"],a:1,icon:"🌙"},{en:"You are welcome.",pt:"Escolha o significado.",o:["Por favor","De nada","Desculpe"],a:1,icon:"✨"}]},
  {icon:"🐾",name:"Animal Forest",pt:"Floresta dos Animais",place:"Explore a floresta com Pudim e descubra os nomes dos animais!",color:"#8c35e8",questions:[
-  {en:"Which animal says meow?",pt:"Qual animal faz miau?",o:["Cat","Dog","Bird"],a:0,icon:"🐱"},{en:"Choose the dog.",pt:"Escolha o cachorro.",o:["Fish","Dog","Rabbit"],a:1,icon:"🐶"},{en:"What animal can fly?",pt:"Qual animal pode voar?",o:["Bird","Horse","Lion"],a:0,icon:"🐦"},{en:"A fish lives in...",pt:"Um peixe vive...",o:["the sky","the water","the tree"],a:1,icon:"🐟"},{en:"Which animal has a long trunk?",pt:"Qual animal tem uma tromba longa?",o:["Elephant","Monkey","Frog"],a:0,icon:"🐘"},{en:"The king of the jungle is the...",pt:"O rei da selva é o...",o:["Rabbit","Lion","Duck"],a:1,icon:"🦁"},{en:"Which animal likes bananas?",pt:"Qual animal gosta de bananas?",o:["Monkey","Turtle","Cow"],a:0,icon:"🐒"},{en:"A rabbit has long...",pt:"Um coelho tem longas...",o:["wings","ears","fins"],a:1,icon:"🐰"},{en:"Choose the farm animal.",pt:"Escolha o animal da fazenda.",o:["Cow","Whale","Tiger"],a:0,icon:"🐮"},{en:"A turtle is usually...",pt:"Uma tartaruga geralmente é...",o:["fast","slow","loud"],a:1,icon:"🐢"}]},
+  {en:"Which animal says meow?",pt:"Qual animal faz miau?",o:["Cat","Dog","Bird"],a:0,icon:"🐱"},{en:"Which word means cachorro?",pt:"Qual palavra significa cachorro?",o:["Fish","Dog","Rabbit"],a:1,icon:"❓"},{en:"What animal can fly?",pt:"Qual animal pode voar?",o:["Bird","Horse","Lion"],a:0,icon:"🐦"},{en:"A fish lives in...",pt:"Um peixe vive...",o:["the sky","the water","the tree"],a:1,icon:"🐟"},{en:"Which animal has a long trunk?",pt:"Qual animal tem uma tromba longa?",o:["Elephant","Monkey","Frog"],a:0,icon:"🌳"},{en:"The king of the jungle is the...",pt:"O rei da selva é o...",o:["Rabbit","Lion","Duck"],a:1,icon:"🦁"},{en:"Which animal likes bananas?",pt:"Qual animal gosta de bananas?",o:["Monkey","Turtle","Cow"],a:0,icon:"🐒"},{en:"A rabbit has long...",pt:"Um coelho tem longas...",o:["wings","ears","fins"],a:1,icon:"🐰"},{en:"Choose the farm animal.",pt:"Escolha o animal da fazenda.",o:["Cow","Whale","Tiger"],a:0,icon:"🐮"},{en:"A turtle is usually...",pt:"Uma tartaruga geralmente é...",o:["fast","slow","loud"],a:1,icon:"🐢"}]},
  {icon:"🏙️",name:"London City",pt:"Cidade de Londres",place:"Passeie por Londres aprendendo cores, números e objetos!",color:"#1675d1",questions:[
-  {en:"What color is the London bus?",pt:"Qual é a cor do ônibus de Londres?",o:["Red","Green","Purple"],a:0,icon:"🚌"},{en:"What number comes after nine?",pt:"Qual número vem depois de nove?",o:["Eight","Ten","Twenty"],a:1,icon:"🔟"},{en:"The sky is usually...",pt:"O céu geralmente é...",o:["Blue","Orange","Black"],a:0,icon:"🌤️"},{en:"How many fingers on one hand?",pt:"Quantos dedos em uma mão?",o:["Three","Five","Seven"],a:1,icon:"✋"},{en:"What tells the time?",pt:"O que informa as horas?",o:["Clock","Book","Chair"],a:0,icon:"🕰️"},{en:"Choose the yellow object.",pt:"Escolha o objeto amarelo.",o:["Banana","Bus","Cloud"],a:0,icon:"🍌"},{en:"You read a...",pt:"Você lê um...",o:["Table","Book","Door"],a:1,icon:"📕"},{en:"One plus two is...",pt:"Um mais dois é...",o:["Two","Three","Four"],a:1,icon:"3️⃣"},{en:"Grass is usually...",pt:"A grama geralmente é...",o:["Green","Pink","Gray"],a:0,icon:"🌿"},{en:"You sit on a...",pt:"Você senta em uma...",o:["Window","Chair","Pencil"],a:1,icon:"🪑"}]},
+  {en:"What color is a traditional London double-decker bus?",pt:"Qual é a cor tradicional do ônibus de dois andares de Londres?",o:["Red","Green","Purple"],a:0,icon:"🎨"},{en:"What number comes after nine?",pt:"Qual número vem depois de nove?",o:["Eight","Ten","Twenty"],a:1,icon:"🔟"},{en:"The sky is usually...",pt:"O céu geralmente é...",o:["Blue","Orange","Black"],a:0,icon:"🌤️"},{en:"How many fingers on one hand?",pt:"Quantos dedos em uma mão?",o:["Three","Five","Seven"],a:1,icon:"✋"},{en:"What tells the time?",pt:"O que informa as horas?",o:["Clock","Book","Chair"],a:0,icon:"🕰️"},{en:"Choose the yellow object.",pt:"Escolha o objeto amarelo.",o:["Banana","Bus","Cloud"],a:0,icon:"🍌"},{en:"You read a...",pt:"Você lê um...",o:["Table","Book","Door"],a:1,icon:"📕"},{en:"One plus two is...",pt:"Um mais dois é...",o:["Two","Three","Four"],a:1,icon:"3️⃣"},{en:"Grass is usually...",pt:"A grama geralmente é...",o:["Green","Pink","Gray"],a:0,icon:"🌿"},{en:"You sit on a...",pt:"Você senta em uma...",o:["Window","Chair","Pencil"],a:1,icon:"🪑"}]},
  {icon:"🗽",name:"New York Quest",pt:"Aventura em Nova York",place:"A missão final reúne família, alimentos e lugares da cidade!",color:"#ed287d",questions:[
   {en:"My mother's son is my...",pt:"O filho da minha mãe é meu...",o:["Brother","Uncle","Father"],a:0,icon:"👦"},{en:"Which food is a fruit?",pt:"Qual alimento é uma fruta?",o:["Bread","Apple","Cheese"],a:1,icon:"🍎"},{en:"Where do students learn?",pt:"Onde os estudantes aprendem?",o:["School","Hospital","Airport"],a:0,icon:"🏫"},{en:"My father's wife is my...",pt:"A esposa do meu pai é minha...",o:["Sister","Mother","Aunt"],a:1,icon:"👩"},{en:"Where can you see a doctor?",pt:"Onde você encontra um médico?",o:["Park","Hospital","Cinema"],a:1,icon:"🏥"},{en:"Which drink is white?",pt:"Qual bebida é branca?",o:["Milk","Coffee","Juice"],a:0,icon:"🥛"},{en:"You can buy food at the...",pt:"Você compra alimentos no...",o:["Library","Supermarket","Museum"],a:1,icon:"🛒"},{en:"My mother's mother is my...",pt:"A mãe da minha mãe é minha...",o:["Grandmother","Cousin","Daughter"],a:0,icon:"👵"},{en:"Which food is made with cheese?",pt:"Qual alimento é feito com queijo?",o:["Pizza","Apple","Rice"],a:0,icon:"🍕"},{en:"The Statue of Liberty is in...",pt:"A Estátua da Liberdade fica em...",o:["London","New York","Paris"],a:1,icon:"🗽"}]}
 ];
@@ -26,25 +26,32 @@ function GameWalkingPudim({reaction="walk"}:{reaction?:"walk"|"correct"|"wrong"}
   ["Great job!","Muito bem!"],
   ["Keep going!","Continue!"],
  ];
- const [m,setM]=useState({x:6,dir:1,frame:0,pause:0,steps:0});
+ const [m,setM]=useState({x:6,dir:1,pause:0,steps:0,phase:0});
  const [phraseIndex,setPhraseIndex]=useState(0);
  useEffect(()=>{
   if(reaction!=="walk")return;
   const id=window.setInterval(()=>setM(v=>{
-   if(v.pause>0)return{...v,pause:v.pause-1,frame:0};
+   if(v.pause>0)return{...v,pause:v.pause-1};
    const nextSteps=v.steps+1;
-   if(nextSteps%42===0){setPhraseIndex(i=>(i+1)%phrases.length);return{...v,pause:14,frame:0,steps:nextSteps}}
-   // Cada avanço horizontal corresponde a um novo quadro das patas: sem efeito de deslizamento.
-   let x=v.x+v.dir*1.15,dir=v.dir;
+   if(nextSteps%38===0){
+    setPhraseIndex(i=>(i+1)%phrases.length);
+    return{...v,pause:12,steps:nextSteps,phase:0}
+   }
+   let x=v.x+v.dir*.72,dir=v.dir;
    if(x>=82){x=82;dir=-1}else if(x<=4){x=4;dir=1}
-   return{x,dir,frame:(v.frame+1)%8,pause:0,steps:nextSteps}
-  }),125);
+   return{x,dir,pause:0,steps:nextSteps,phase:(v.phase+1)%4}
+  }),115);
   return()=>window.clearInterval(id)
  },[reaction]);
  const walking=reaction==="walk"&&m.pause===0;
- const src=reaction==="correct"?"/sprites/correct.png":reaction==="wrong"?"/sprites/wrong.png":walking?`/sprites/walk-${m.frame}.png`:"/sprites/idle.png";
+ const src=reaction==="correct"?"/sprites/correct.png":reaction==="wrong"?"/sprites/wrong.png":walking?"/sprites/walk-clean.png":"/sprites/idle.png";
  const [en,pt]=reaction==="correct"?["Excellent! Great job! ⭐","Excelente! Muito bem! ⭐"]:reaction==="wrong"?["Try again. You can do it! 💛","Tente novamente. Você consegue! 💛"]:phrases[phraseIndex];
- return <div className="pudim-playground"><div className={`game-walker ${walking?"is-walking":"is-paused"}`} style={{left:`${m.x}%`}}><div className="walker-bubble"><strong>{en}</strong><small>{pt}</small></div><img className={m.dir<0?"face-left":""} src={src} alt="Pudim animado"/></div></div>
+ return <div className="pudim-playground">
+   <div className={`game-walker ${walking?"is-walking":"is-paused"} step-${m.phase}`} style={{left:`${m.x}%`}}>
+    <div className="walker-bubble"><strong>{en}</strong><small>{pt}</small></div>
+    <img className={m.dir<0?"face-left":""} src={src} alt="Pudim animado"/>
+   </div>
+  </div>
 }
 
 export default function Home(){

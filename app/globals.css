@@ -68,3 +68,23 @@
 .walker-bubble small{margin-top:4px;font-size:.72em;line-height:1.1;color:#6a438f;font-weight:800}
 @keyframes pudimStep{from{translate:0 0}to{translate:0 -3px}}
 @keyframes pudimPause{from{translate:0 0}to{translate:0 -1px}}
+
+/* V10.9 - caminhada limpa: um único Pudim por vez */
+.game-walker{overflow:visible!important;will-change:left}
+.game-walker.is-walking img{animation:pudimRealStep .34s steps(2,end) infinite!important;transform-origin:50% 100%!important}
+.game-walker.is-walking img.face-left{animation:pudimRealStepLeft .34s steps(2,end) infinite!important}
+.game-walker.is-paused img{animation:pudimPause 1s ease-in-out infinite alternate!important}
+@keyframes pudimRealStep{0%{transform:translateY(0) rotate(-1.8deg)}50%{transform:translateY(-7px) rotate(1.8deg)}100%{transform:translateY(0) rotate(-1.8deg)}}
+@keyframes pudimRealStepLeft{0%{transform:scaleX(-1) translateY(0) rotate(-1.8deg)}50%{transform:scaleX(-1) translateY(-7px) rotate(1.8deg)}100%{transform:scaleX(-1) translateY(0) rotate(-1.8deg)}}
+.walker-bubble{top:-24%!important;z-index:8!important;pointer-events:none}
+
+/* V10.10 - Pudim: um único PNG isolado por vez, sem recortes de frames vizinhos */
+.game-walker.is-walking img{animation:none!important}
+.game-walker.step-0 img{translate:0 0;rotate:-1.5deg}
+.game-walker.step-1 img{translate:0 -5px;rotate:0deg}
+.game-walker.step-2 img{translate:0 0;rotate:1.5deg}
+.game-walker.step-3 img{translate:0 -4px;rotate:0deg}
+.game-walker.is-paused img{animation:none!important;translate:0 0!important;rotate:0deg!important}
+.game-walker img{object-fit:contain!important;object-position:center bottom!important}
+.walker-bubble strong,.walker-bubble small{display:block}
+.walker-bubble small{margin-top:4px;font-size:.72em;font-weight:800}
