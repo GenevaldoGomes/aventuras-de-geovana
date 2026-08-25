@@ -245,3 +245,68 @@
  .app-shell:has(.game-poster){min-height:100svh;align-items:center}
  .game-poster{width:100vw!important;height:auto!important;max-height:none!important}
 }
+
+/* V11.4 — CORREÇÃO HOME EM RETRATO
+   Em retrato a arte preenche a tela, fica centralizada e os hotspots acompanham a escala. */
+@media (orientation:portrait) and (max-width:900px){
+  html,body{
+    width:100%;
+    min-height:100%;
+    margin:0;
+    overflow-x:hidden!important;
+  }
+  .app-shell:has(.game-poster),
+  .home-screen{
+    position:relative;
+    width:100vw!important;
+    min-height:100svh!important;
+    height:100svh!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    overflow:hidden!important;
+    padding:0!important;
+    margin:0!important;
+  }
+  .game-poster,
+  .home-art{
+    position:absolute!important;
+    left:50%!important;
+    top:50%!important;
+    transform:translate(-50%,-50%)!important;
+    width:auto!important;
+    height:100svh!important;
+    min-width:100vw!important;
+    max-width:none!important;
+    max-height:none!important;
+    aspect-ratio:3/2!important;
+    margin:0!important;
+    flex:none!important;
+  }
+  .game-poster>img,
+  .home-art>img,
+  .homeArt{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    object-fit:cover!important;
+    object-position:center center!important;
+    display:block!important;
+  }
+  .hotspots{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+  }
+}
+
+/* Telefones muito estreitos: prioriza o centro da composição em vez da lateral. */
+@media (orientation:portrait) and (max-width:480px){
+  .game-poster,
+  .home-art{
+    left:50%!important;
+    transform:translate(-50%,-50%)!important;
+  }
+}

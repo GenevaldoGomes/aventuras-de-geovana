@@ -33,3 +33,10 @@ Pudim integrado às fases: caminhada na trilha, pausas, falas e reações. Masco
 - Arte principal preserva a proporção original sem cortar Geovana, Pudim ou logotipo.
 - Áreas clicáveis continuam sobre a arte e recebem tamanho mínimo adequado para toque.
 - Suporte a `100svh` melhora a exibição em navegadores móveis.
+
+## V11.4
+- Corrigida a home em modo retrato.
+- Em celular/tablet vertical a arte passa a preencher toda a viewport.
+- Centralização forçada em 50%/50%, eliminando o deslocamento lateral.
+- `object-fit: cover` remove as faixas vazias no modo retrato.
+- Hotspots permanecem vinculados ao mesmo contêiner escalado da arte.
