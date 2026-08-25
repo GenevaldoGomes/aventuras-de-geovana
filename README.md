@@ -8,3 +8,9 @@ Pudim integrado às fases: caminhada na trilha, pausas, falas e reações. Masco
 - Movimento em quatro fases visuais para simular passos sem deslizar.
 - Questões revisadas para remover emojis que entregavam respostas.
 - Balões continuam bilíngues.
+
+## V11
+- Pudim agora é clicável durante os desafios.
+- Ao clicar, ele para, mostra uma dica sem entregar diretamente a resposta e lê a dica em português.
+- A dica usa a primeira letra e quantidade de letras da alternativa correta.
+- Após alguns segundos, Pudim volta às frases motivacionais e à caminhada.

@@ -88,3 +88,13 @@
 .game-walker img{object-fit:contain!important;object-position:center bottom!important}
 .walker-bubble strong,.walker-bubble small{display:block}
 .walker-bubble small{margin-top:4px;font-size:.72em;font-weight:800}
+
+/* V11 - Pudim interativo: clique para dica */
+.pudim-click-target{display:block;width:100%;padding:0;border:0;background:transparent;cursor:pointer}
+.pudim-click-target:disabled{cursor:default}
+.pudim-click-target img{pointer-events:none}
+.game-walker.is-clickable .pudim-click-target:hover{filter:brightness(1.05);transform:scale(1.035)}
+.game-walker.is-clickable .pudim-click-target:focus-visible{outline:5px solid #ffd528;outline-offset:4px;border-radius:40%}
+.walker-bubble.hint-active{background:#fff9c9;border-color:#ffb000;color:#3713a4;max-width:290px}
+.hint-instruction{position:absolute;right:18px;bottom:12px;z-index:2;background:#ffffffeb;border:3px solid #ff9818;border-radius:999px;padding:8px 14px;color:#4316a8;font-weight:900;font-size:clamp(11px,1.15vw,15px);box-shadow:0 4px 0 #d97012}
+@media(max-width:650px){.hint-instruction{right:8px;bottom:7px;padding:6px 9px;font-size:10px}.walker-bubble.hint-active{max-width:175px}}

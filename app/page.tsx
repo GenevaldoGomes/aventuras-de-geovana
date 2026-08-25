@@ -2,7 +2,7 @@
 import {useEffect,useRef,useState} from "react";
 
 type Screen="home"|"worlds"|"ranking"|"learn"|"intro"|"game"|"result"|"certificate";
-type Q={en:string;pt:string;o:string[];a:number;icon:string};
+type Q={en:string;pt:string;o:string[];a:number;icon:string;hint?:string};
 type World={icon:string;name:string;pt:string,place:string,color:string,questions:Q[]};
 const W:World[]=[
  {icon:"🏝️",name:"Greetings Island",pt:"Ilha das Saudações",place:"Uma ilha tropical onde cada encontro começa com uma nova expressão!",color:"#15b75c",questions:[
@@ -18,7 +18,7 @@ const vocab=[["👋","Hello","Olá"],["☀️","Good morning","Bom dia"],["🐱"
 type PudimState="idle"|"talk"|"happy"|"correct"|"wrong"|"jump"|"run";
 function Pudim({className="",state="idle"}:{className?:string;state?:PudimState}){return <div className={`pudim-sprite ${className} state-${state}`}><img src={`/sprites/${state}.png`} alt={`Pudim - ${state}`}/></div>}
 function WalkingPudim(){const [m,setM]=useState({x:64,dir:1,frame:0,pause:16,tick:0});useEffect(()=>{const id=window.setInterval(()=>setM(v=>{if(v.pause>0)return{...v,pause:v.pause-1,frame:0};const tick=v.tick+1;if(tick%52===0)return{...v,pause:22,frame:0,tick};let x=v.x+v.dir*.55,dir=v.dir;if(x>=90){x=90;dir=-1}else if(x<=62){x=62;dir=1}return{x,dir,frame:(v.frame+1)%8,pause:0,tick}}),100);return()=>window.clearInterval(id)},[]);const src=m.pause>0?"/sprites/idle.png":`/sprites/walk-${m.frame}.png`;return <div className="walking-pudim" style={{left:`${m.x}%`,transform:`scaleX(${m.dir})`}} aria-label={m.pause>0?"Pudim está parado":"Pudim está andando"}><img src={src} alt="Pudim andando"/></div>}
-function GameWalkingPudim({reaction="walk"}:{reaction?:"walk"|"correct"|"wrong"}){
+function GameWalkingPudim({reaction="walk",hint="",onHint}:{reaction?:"walk"|"correct"|"wrong";hint?:string;onHint?:()=>void}){
  const phrases=[
   ["You can do it!","Você consegue!"],
   ["Think carefully!","Pense com atenção!"],
@@ -28,15 +28,14 @@ function GameWalkingPudim({reaction="walk"}:{reaction?:"walk"|"correct"|"wrong"}
  ];
  const [m,setM]=useState({x:6,dir:1,pause:0,steps:0,phase:0});
  const [phraseIndex,setPhraseIndex]=useState(0);
+ const [showHint,setShowHint]=useState(false);
+ useEffect(()=>{setShowHint(false)},[hint]);
  useEffect(()=>{
   if(reaction!=="walk")return;
   const id=window.setInterval(()=>setM(v=>{
    if(v.pause>0)return{...v,pause:v.pause-1};
    const nextSteps=v.steps+1;
-   if(nextSteps%38===0){
-    setPhraseIndex(i=>(i+1)%phrases.length);
-    return{...v,pause:12,steps:nextSteps,phase:0}
-   }
+   if(nextSteps%38===0){setPhraseIndex(i=>(i+1)%phrases.length);return{...v,pause:12,steps:nextSteps,phase:0}}
    let x=v.x+v.dir*.72,dir=v.dir;
    if(x>=82){x=82;dir=-1}else if(x<=4){x=4;dir=1}
    return{x,dir,pause:0,steps:nextSteps,phase:(v.phase+1)%4}
@@ -45,12 +44,17 @@ function GameWalkingPudim({reaction="walk"}:{reaction?:"walk"|"correct"|"wrong"}
  },[reaction]);
  const walking=reaction==="walk"&&m.pause===0;
  const src=reaction==="correct"?"/sprites/correct.png":reaction==="wrong"?"/sprites/wrong.png":walking?"/sprites/walk-clean.png":"/sprites/idle.png";
- const [en,pt]=reaction==="correct"?["Excellent! Great job! ⭐","Excelente! Muito bem! ⭐"]:reaction==="wrong"?["Try again. You can do it! 💛","Tente novamente. Você consegue! 💛"]:phrases[phraseIndex];
+ const normal=reaction==="correct"?["Excellent! Great job! ⭐","Excelente! Muito bem! ⭐"]:reaction==="wrong"?["Try again. You can do it! 💛","Tente novamente. Você consegue! 💛"]:phrases[phraseIndex];
+ const [en,pt]=showHint?["Pudim's hint 🐾",hint]:normal;
+ function giveHint(){if(reaction!=="walk"||!hint)return;setShowHint(true);setM(v=>({...v,pause:28}));onHint?.();window.setTimeout(()=>setShowHint(false),6500)}
  return <div className="pudim-playground">
-   <div className={`game-walker ${walking?"is-walking":"is-paused"} step-${m.phase}`} style={{left:`${m.x}%`}}>
-    <div className="walker-bubble"><strong>{en}</strong><small>{pt}</small></div>
-    <img className={m.dir<0?"face-left":""} src={src} alt="Pudim animado"/>
+   <div className={`game-walker ${walking?"is-walking":"is-paused"} step-${m.phase} ${reaction==="walk"?"is-clickable":""}`} style={{left:`${m.x}%`}}>
+    <div className={`walker-bubble ${showHint?"hint-active":""}`}><strong>{en}</strong><small>{pt}</small></div>
+    <button className="pudim-click-target" onClick={giveHint} disabled={reaction!=="walk"} aria-label="Clique no Pudim para receber uma dica" title="Clique no Pudim para uma dica">
+      <img className={m.dir<0?"face-left":""} src={src} alt="Pudim animado"/>
+    </button>
    </div>
+   {reaction==="walk"&&<div className="hint-instruction">🐾 Clique no Pudim para receber uma dica!</div>}
   </div>
 }
 
@@ -70,6 +74,14 @@ export default function Home(){
  function beep(f=520){if(!sound)return;const C=window.AudioContext||(window as typeof window&{webkitAudioContext:typeof AudioContext}).webkitAudioContext,c=new C(),o=c.createOscillator(),g=c.createGain();o.frequency.value=f;g.gain.setValueAtTime(.06,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.15);o.connect(g).connect(c.destination);o.start();o.stop(c.currentTime+.15)}
  function go(s:Screen){beep();setScreen(s)} function chooseWorld(i:number){if(i>=unlocked)return;setWorld(i);go("intro")}
  function begin(){setQ(0);setScore(0);setLives(3);setSelected(null);setPassed(false);go("game")}
+ function getHint(item:Q){
+  if(item.hint)return item.hint;
+  const answer=item.o[item.a];
+  const first=answer.charAt(0).toUpperCase();
+  const length=answer.replace(/\s/g,"").length;
+  return `A resposta começa com "${first}" e tem ${length} letras. Ouça as opções e compare com a pergunta.`;
+ }
+ function sayHint(item:Q){const h=getHint(item);if(sound){const pt=new SpeechSynthesisUtterance(h);pt.lang="pt-BR";pt.rate=.88;speechSynthesis.cancel();speechSynthesis.speak(pt)}}
  function answer(i:number){if(selected!==null)return;setSelected(i);const item=W[world].questions[q],ok=i===item.a;if(ok){setScore(v=>v+10);setCoins(v=>v+5);beep(760)}else{setLives(v=>v-1);beep(220)}speak(item.o[item.a])}
  function next(){const last=q===9,dead=lives===0;if(last||dead){const ok=!dead&&score>=60;setPassed(ok);if(ok){const done=[...new Set([...completed,world])],nextUnlock=Math.min(4,Math.max(unlocked,world+2));setCompleted(done);setUnlocked(nextUnlock);localStorage.setItem("geovana-v3",JSON.stringify({unlocked:nextUnlock,completed:done,coins}));}setScreen("result")}else{setQ(v=>v+1);setSelected(null)}}
  function printCertificate(){window.print()}
@@ -79,7 +91,7 @@ export default function Home(){
  <section className="panel-screen"><header><button className="back" onClick={()=>go(screen==="game"||screen==="intro"?"worlds":"home")}>← Início</button><div className="mini-brand">🌎 As Aventuras de Geovana 🐾</div><div className="game-stats"><span>❤️ {lives}</span><span>🪙 {coins}</span><span>⭐ {score}</span></div></header>
  {screen==="worlds"&&<div className="content with-mascot"><Pudim className="corner-mascot"/><h1>🗺️ Mundos da Aventura</h1><p className="subtitle">Complete cada mundo para liberar a próxima viagem.</p><div className="world-grid">{W.map((w,i)=><button key={w.name} className={i>=unlocked?"locked":""} style={{borderColor:w.color}} onClick={()=>chooseWorld(i)}><span>{i>=unlocked?"🔒":w.icon}</span><strong>{w.name}</strong><small>{w.pt}</small><b>{completed.includes(i)?"CONCLUÍDO ⭐⭐⭐":i<unlocked?"JOGAR AGORA":"Mundo bloqueado"}</b></button>)}</div>{allDone&&<button className="primary certificate-button" onClick={()=>go("certificate")}>🎓 Ver meu certificado</button>}</div>}
  {screen==="intro"&&<div className="content intro-card"><Pudim className="intro-pudim" state="idle"/><div className="world-icon">{W[world].icon}</div><p className="eyebrow">MUNDO {world+1}</p><h1>{W[world].name}</h1><h2>{W[world].pt}</h2><p>{W[world].place}</p><div className="mission-rules"><span>❤️ 3 vidas</span><span>🎯 10 desafios</span><span>🪙 5 moedas por acerto</span></div><button className="primary" onClick={begin}>Começar aventura</button></div>}
- {screen==="game"&&<div className="content game-card"><div className="progress"><span style={{width:`${(q+1)*10}%`,background:W[world].color}}/></div><div className="mission-row"><p className="eyebrow">{W[world].icon} DESAFIO {q+1}/10</p><button className="listen" onClick={()=>speak(item.en)}>🔊 Ouvir pergunta</button></div><div className="mascot-line question-only"><div className="speech"><div className="question-icon">{item.icon}</div><h1>{item.en}</h1>{!english&&<p>{item.pt}</p>}</div></div><div className="answers">{item.o.map((o,i)=><div className="answer-choice" key={o}><button onClick={()=>answer(i)} className={`choice-main ${selected===null?"":i===item.a?"correct":selected===i?"wrong":"dim"}`}>{o}</button><button className="choice-audio" aria-label={`Ouvir ${o}`} onClick={()=>speak(o)}>🔊 Ouvir</button></div>)}</div><GameWalkingPudim reaction={selected===null?"walk":selected===item.a?"correct":"wrong"}/>{selected!==null&&<div className={`feedback ${selected===item.a?"yes":"no"}`}><strong>{selected===item.a?"Excellent! +10 ⭐ +5 🪙":"Quase! Use o botão Ouvir para praticar a resposta."}</strong><button onClick={next}>{q===9||lives===0?"Ver resultado":"Próxima →"}</button></div>}</div>}
+ {screen==="game"&&<div className="content game-card"><div className="progress"><span style={{width:`${(q+1)*10}%`,background:W[world].color}}/></div><div className="mission-row"><p className="eyebrow">{W[world].icon} DESAFIO {q+1}/10</p><button className="listen" onClick={()=>speak(item.en)}>🔊 Ouvir pergunta</button></div><div className="mascot-line question-only"><div className="speech"><div className="question-icon">{item.icon}</div><h1>{item.en}</h1>{!english&&<p>{item.pt}</p>}</div></div><div className="answers">{item.o.map((o,i)=><div className="answer-choice" key={o}><button onClick={()=>answer(i)} className={`choice-main ${selected===null?"":i===item.a?"correct":selected===i?"wrong":"dim"}`}>{o}</button><button className="choice-audio" aria-label={`Ouvir ${o}`} onClick={()=>speak(o)}>🔊 Ouvir</button></div>)}</div><GameWalkingPudim reaction={selected===null?"walk":selected===item.a?"correct":"wrong"} hint={getHint(item)} onHint={()=>sayHint(item)}/>{selected!==null&&<div className={`feedback ${selected===item.a?"yes":"no"}`}><strong>{selected===item.a?"Excellent! +10 ⭐ +5 🪙":"Quase! Use o botão Ouvir para praticar a resposta."}</strong><button onClick={next}>{q===9||lives===0?"Ver resultado":"Próxima →"}</button></div>}</div>}
  {screen==="result"&&<div className="content result-card"><Pudim className="result-mascot" state={passed?"happy":"wrong"}/><div className="big-trophy">{passed?"🏆":"💛"}</div><h1>{passed?"Mundo concluído!":"Vamos tentar novamente!"}</h1><p>{passed?`${name}, você liberou uma nova aventura!`:"Você consegue! Pudim está ao seu lado."}</p><div className="final-score">{score} pontos</div><div className="stars">{passed?"⭐⭐⭐":"⭐"}</div><button className="primary" onClick={passed?()=>go("worlds"):begin}>{passed?"Continuar viagem":"Tentar novamente"}</button><button className="secondary" onClick={()=>go("home")}>Voltar ao início</button></div>}
  {screen==="ranking"&&<div className="content with-mascot"><Pudim className="corner-mascot"/><h1>🏆 Ranking dos Aventureiros</h1><p className="subtitle">Seu progresso fica salvo neste aparelho.</p><div className="profile-edit"><label>Nome do jogador</label><div><input value={draft} maxLength={18} onChange={e=>setDraft(e.target.value)}/><button onClick={()=>{const n=draft.trim()||"Geovana";setName(n);localStorage.setItem("geovana-player",n);beep(720)}}>Salvar</button></div></div><ol className="leaderboard"><li><b>1</b><span>👧 {name}</span><strong>{completed.length*100} pts · {coins} 🪙</strong></li><li><b>2</b><span>🧒 Miguel</span><strong>280 pts</strong></li><li><b>3</b><span>👧 Sofia</span><strong>190 pts</strong></li></ol></div>}
  {screen==="learn"&&<div className="content with-mascot"><Pudim className="corner-mascot"/><h1>📚 Cantinho de Aprender</h1><p className="subtitle">Toque em qualquer palavra para ouvir em inglês.</p><div className="learn-grid">{vocab.map(([i,en,pt])=><button key={en} onClick={()=>speak(en)}><span>{i}</span><strong>{en} 🔊</strong><small>{pt}</small></button>)}</div><button className="primary" onClick={()=>go("worlds")}>Praticar nos mundos</button></div>}
