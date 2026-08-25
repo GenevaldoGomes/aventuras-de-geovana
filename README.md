@@ -1,9 +1,9 @@
-# As Aventuras de Geovana — V7.1
+# As Aventuras de Geovana — V8
 
-Correção da tela principal:
-- arte oficial com Geovana e Pudim;
-- tela inicial isolada do cabeçalho e dos componentes antigos;
-- nenhuma renderização do sprite antigo na home;
-- nova imagem com nome Pudim e cache-busting;
-- áreas clicáveis sobre JOGAR, MUNDOS, RANKING e APRENDER;
-- mundos, progresso e atividades preservados.
+Nova Home reconstruída do zero a partir da arte oficial com Geovana e Pudim.
+
+- Home usa somente `public/home-v8-pudim.png`.
+- Nenhum sprite antigo do Pudim é renderizado na tela principal.
+- JOGAR, MUNDOS, RANKING e APRENDER são áreas clicáveis sobre a arte.
+- Os 10 mundos e a lógica educacional foram preservados.
+- Nome oficial do mascote: Pudim.

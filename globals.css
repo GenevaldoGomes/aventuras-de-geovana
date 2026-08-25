@@ -88,3 +88,21 @@
 @media(max-aspect-ratio:4/3){
  .homeOnly .heroArtImage{object-fit:contain;background:#73c9f6}
 }
+
+/* V8 — Home reconstruída do zero. Não reutiliza hero/homePudin/sprites antigos. */
+.v8Home{width:100%;height:100dvh;margin:0;padding:0;overflow:hidden;background:#72c9f5}
+.v8Hero{position:relative;width:100%;height:100dvh;overflow:hidden;background:#72c9f5}
+.v8HeroImage{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center;user-select:none;-webkit-user-drag:none}
+.v8Hotspots{position:absolute;inset:0;z-index:10;pointer-events:none}
+.v8Hotspots button{position:absolute;display:block;pointer-events:auto;border:0;padding:0;margin:0;background:transparent;color:transparent;cursor:pointer;border-radius:28px;box-shadow:none;outline-offset:4px}
+.v8Hotspots button:hover,.v8Hotspots button:focus-visible{background:rgba(255,255,255,.10);box-shadow:inset 0 0 0 4px rgba(255,255,255,.75)}
+/* Coordenadas relativas à arte 1536x1024 */
+.v8Play{left:13.6%;top:61.0%;width:31.8%;height:14.0%}
+.v8Worlds{left:7.4%;top:78.1%;width:13.3%;height:15.1%}
+.v8Ranking{left:22.1%;top:78.1%;width:13.4%;height:15.1%}
+.v8Learn{left:36.8%;top:78.1%;width:13.3%;height:15.1%}
+@media(max-aspect-ratio:1/1){
+ .v8HeroImage{object-fit:contain;background:#72c9f5}
+ /* Em retrato, mantém a arte completa; hotspots continuam escalando com o contêiner. */
+}
+@media(prefers-reduced-motion:reduce){.v8Hotspots button{transition:none}}
