@@ -1,13 +1,10 @@
-# As Aventuras de Geovana — V9.1 Funcional
+# As Aventuras de Geovana — V6
 
-Reconstrução funcional da V9.
+Versão com mascote limpo e animações CSS sem recortes contaminados da folha de referência.
 
-- Home oficial com Geovana e Pudim
-- JOGAR, MUNDOS, RANKING e APRENDER com eventos reais de clique
-- Menu alternativo funcional em celular
-- 10 mundos clicáveis
-- 10 atividades (uma por mundo)
-- Feedback de acerto/erro e estrelas salvas no navegador
-- Navegação Início / escolher outro mundo
-
-Identificação interna: V9.1-FUNCIONAL
+## Correções
+- remove números, galhos, rótulos e resíduos dos antigos sprites;
+- entrada do mascote da esquerda para a direita;
+- transição suave caminhada → idle;
+- reações de fala, acerto, erro e felicidade com o PNG limpo;
+- responsivo e compatível com prefers-reduced-motion.
