@@ -7,3 +7,19 @@
 @media(max-width:900px){.mascot .pudin{width:170px;right:2%;bottom:0}.guide .pudin.small{width:68px;flex-basis:68px}.guide .pudin.small>img{width:68px;height:68px!important}}
 @media(max-width:560px){.mascot .pudin{width:125px}.pudinBubble{font-size:10px;padding:6px 8px}.guide{gap:8px}.guide .pudin.small{width:58px;flex-basis:58px}.guide .pudin.small>img{width:58px;height:58px!important}.guide .pudin.small .pudinBubble{display:none}}
 @media(prefers-reduced-motion:reduce){.pudin{animation:none!important}}
+
+/* V4 — Pudin interativo: entrada, caminhada e reações */
+.pudinSparkles{position:absolute;inset:-8% -8% auto auto;font-size:22px;letter-spacing:8px;opacity:0;pointer-events:none}
+.pudin.correct .pudinSparkles,.pudin.happy .pudinSparkles{opacity:1;animation:pudinSparkle .7s ease-in-out 2}
+.homePudin.walk{animation:pudinWalkIn 2.6s cubic-bezier(.2,.75,.25,1) both, pudinIdle 2.2s ease-in-out 2.6s infinite}
+.homePudin.walk .pudinBubble{animation:pudinHello 4.8s ease 1.9s both}
+.guide .pudin.talk img{animation:pudinPoint .42s ease-in-out infinite alternate}
+.guide .pudin.correct:after{content:"⭐";position:absolute;right:-5px;top:-12px;font-size:24px;animation:pudinStar .8s ease-out 2}
+.guide .pudin.wrong:after{content:"💛";position:absolute;right:0;top:-10px;font-size:20px;animation:pudinHeart 1s ease-out 1}
+@keyframes pudinWalkIn{0%{transform:translateX(420px) translateY(4px) rotate(3deg);opacity:0}12%{opacity:1}28%{transform:translateX(280px) translateY(-10px) rotate(-3deg)}45%{transform:translateX(185px) translateY(0) rotate(3deg)}62%{transform:translateX(105px) translateY(-10px) rotate(-3deg)}80%{transform:translateX(35px) translateY(0) rotate(2deg)}100%{transform:translateX(0) translateY(0) rotate(-1deg);opacity:1}}
+@keyframes pudinHello{0%,100%{opacity:0;transform:scale(.75)}12%,72%{opacity:1;transform:scale(1)}}
+@keyframes pudinSparkle{0%{transform:scale(.5) rotate(-12deg);opacity:0}45%{transform:scale(1.25) rotate(8deg);opacity:1}100%{transform:translateY(-18px) scale(.8);opacity:0}}
+@keyframes pudinPoint{from{transform:rotate(-1deg) translateX(0)}to{transform:rotate(2deg) translateX(4px)}}
+@keyframes pudinStar{0%{transform:scale(.3) translateY(10px);opacity:0}45%{transform:scale(1.35) translateY(-8px);opacity:1}100%{transform:scale(.7) translateY(-25px);opacity:0}}
+@keyframes pudinHeart{0%{transform:scale(.4);opacity:0}45%{transform:scale(1.1);opacity:1}100%{transform:translateY(-18px);opacity:0}}
+@media(max-width:900px){@keyframes pudinWalkIn{0%{transform:translateX(240px);opacity:0}15%{opacity:1}45%{transform:translateX(130px) translateY(-8px)}72%{transform:translateX(55px)}100%{transform:translateX(0);opacity:1}}}
