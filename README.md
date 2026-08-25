@@ -1,3 +1,3 @@
-# As Aventuras de Geovana — V10.3
+# As Aventuras de Geovana — V10.4
 
-Pudim animado nas fases, andando, parando, falando e reagindo a acertos/erros. Sprites ampliados para melhor exibição.
+Pudim integrado às fases: caminhada na trilha, pausas, falas e reações. Mascote estático removido da área da pergunta. Tailwind removido.
