@@ -1,10 +1,8 @@
-# As Aventuras de Geovana — V6
+# As Aventuras de Geovana — V7
 
-Versão com mascote limpo e animações CSS sem recortes contaminados da folha de referência.
+Tela principal atualizada a partir da nova arte oficial.
 
-## Correções
-- remove números, galhos, rótulos e resíduos dos antigos sprites;
-- entrada do mascote da esquerda para a direita;
-- transição suave caminhada → idle;
-- reações de fala, acerto, erro e felicidade com o PNG limpo;
-- responsivo e compatível com prefers-reduced-motion.
+- Mascote renomeado para **Pudim** na arte principal.
+- Arte completa usada como tela inicial.
+- Áreas clicáveis sobre JOGAR, MUNDOS, RANKING e APRENDER.
+- Demais mundos, lições e lógica da V6 preservados.
