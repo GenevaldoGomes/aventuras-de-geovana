@@ -23,7 +23,7 @@ function GameWalkingPudim({reaction="walk"}:{reaction?:"walk"|"correct"|"wrong"}
  const phrases=["You can do it!","Think carefully!","Listen and choose!","Great job!","Keep going!"];
  const [phrase,setPhrase]=useState(phrases[0]);
  useEffect(()=>{if(reaction!=="walk")return;const id=window.setInterval(()=>setM(v=>{if(v.pause>0)return{...v,pause:v.pause-1};const tick=v.tick+1;if(tick%48===0){setPhrase(phrases[Math.floor(tick/48)%phrases.length]);return{...v,pause:18,tick}}let x=v.x+v.dir*.8,dir=v.dir;if(x>=78){x=78;dir=-1}else if(x<=5){x=5;dir=1}return{x,dir,frame:(v.frame+1)%8,pause:0,tick}}),90);return()=>window.clearInterval(id)},[reaction]);
- const src=reaction==="correct"?"/sprites/correct.png":reaction==="wrong"?"/sprites/wrong.png":m.pause>0?"/sprites/talk.png":`/sprites/walk-${m.frame}.png`;
+ const src=reaction==="correct"?"/sprites/correct.png":reaction==="wrong"?"/sprites/wrong.png":m.pause>0?"/sprites/talk.png":"/sprites/walk-clean.png";
  const text=reaction==="correct"?"Excellent! Great job! ⭐":reaction==="wrong"?"Try again. You can do it! 💛":phrase;
  return <div className="pudim-playground"><div className="game-walker" style={{left:`${m.x}%`}}><div className="walker-bubble">{text}</div><img className={reaction==="walk"&&m.dir<0?"face-left":""} src={src} alt="Pudim animado"/></div></div>
 }

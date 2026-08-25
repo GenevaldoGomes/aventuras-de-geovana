@@ -54,3 +54,8 @@
 .pudim-playground:before{display:none!important}
 .game-walker{bottom:1.5%!important}
 @media(max-width:650px){.pudim-playground{height:270px;background-position:center bottom!important}.game-walker{bottom:1%!important}}
+/* V10.6 — correção do Pudim: um único frame limpo por vez */
+.game-walker{width:clamp(135px,15vw,190px)!important;overflow:visible!important}
+.game-walker img{width:100%!important;height:auto!important;max-height:190px!important;object-fit:contain!important;object-position:center bottom!important}
+.game-walker img.face-left{transform:scaleX(-1)!important}
+@media(max-width:650px){.game-walker{width:125px!important}.game-walker img{max-height:145px!important}}
