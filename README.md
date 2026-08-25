@@ -21,3 +21,9 @@ Pudim integrado às fases: caminhada na trilha, pausas, falas e reações. Masco
 - Enter e Espaço também ativam a dica para acessibilidade.
 - Ao pedir dica, Pudim para e troca para pose frontal.
 - A área clicável foi ampliada sem criar botão visível sobre o cenário.
+
+## V11.2
+- Pudim ganhou voz própria mais aguda e infantil.
+- Ao clicar, ele diz “Miau!” e depois lê a dica.
+- A voz usa pitch elevado e tenta priorizar uma voz feminina/infantil disponível no navegador.
+- Há fallback automático para uma voz em português disponível no dispositivo.

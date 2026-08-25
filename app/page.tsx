@@ -46,7 +46,14 @@ function GameWalkingPudim({reaction="walk",hint="",onHint}:{reaction?:"walk"|"co
  const src=reaction==="correct"?"/sprites/correct.png":reaction==="wrong"?"/sprites/wrong.png":walking?"/sprites/walk-clean.png":"/sprites/idle.png";
  const normal=reaction==="correct"?["Excellent! Great job! ⭐","Excelente! Muito bem! ⭐"]:reaction==="wrong"?["Try again. You can do it! 💛","Tente novamente. Você consegue! 💛"]:phrases[phraseIndex];
  const [en,pt]=showHint?["Pudim's hint 🐾",hint]:normal;
- function giveHint(){if(reaction!=="walk"||!hint)return;setShowHint(true);setM(v=>({...v,pause:28}));onHint?.();window.setTimeout(()=>setShowHint(false),6500)}
+ function giveHint(){
+  if(reaction!=="walk"||!hint)return;
+  setShowHint(true);setM(v=>({...v,pause:28}));
+  // Pequeno "miau" textual com voz aguda, seguido pela dica.
+  speakPudim("Miau!","pt-BR");
+  window.setTimeout(()=>onHint?.(),500);
+  window.setTimeout(()=>setShowHint(false),6500)
+ }
  return <div className="pudim-playground">
    <div
     className={`game-walker ${walking?"is-walking":"is-paused"} step-${m.phase} ${reaction==="walk"?"is-clickable":""} ${showHint?"showing-hint":""}`}
@@ -65,6 +72,23 @@ function GameWalkingPudim({reaction="walk",hint="",onHint}:{reaction?:"walk"|"co
    </div>
    {reaction==="walk"&&<div className="hint-instruction">🐾 Clique no Pudim para receber uma dica!</div>}
   </div>
+}
+
+
+function speakPudim(text:string,lang="pt-BR"){
+ if(typeof window==="undefined"||!("speechSynthesis" in window))return;
+ const utter=new SpeechSynthesisUtterance(text);
+ utter.lang=lang;
+ utter.rate=.93;
+ utter.pitch=1.65;
+ utter.volume=1;
+ const voices=window.speechSynthesis.getVoices();
+ const preferred=voices.find(v=>v.lang.toLowerCase().startsWith(lang.toLowerCase().slice(0,2)) &&
+   /female|child|menina|luciana|francisca|maria|google português/i.test(v.name))
+   || voices.find(v=>v.lang.toLowerCase().startsWith(lang.toLowerCase().slice(0,2)));
+ if(preferred)utter.voice=preferred;
+ window.speechSynthesis.cancel();
+ window.speechSynthesis.speak(utter);
 }
 
 export default function Home(){
@@ -90,7 +114,7 @@ export default function Home(){
   const length=answer.replace(/\s/g,"").length;
   return `A resposta começa com "${first}" e tem ${length} letras. Ouça as opções e compare com a pergunta.`;
  }
- function sayHint(item:Q){const h=getHint(item);if(sound){const pt=new SpeechSynthesisUtterance(h);pt.lang="pt-BR";pt.rate=.88;speechSynthesis.cancel();speechSynthesis.speak(pt)}}
+ function sayHint(item:Q){const h=getHint(item);if(sound){speakPudim(h,"pt-BR")}}
  function answer(i:number){if(selected!==null)return;setSelected(i);const item=W[world].questions[q],ok=i===item.a;if(ok){setScore(v=>v+10);setCoins(v=>v+5);beep(760)}else{setLives(v=>v-1);beep(220)}speak(item.o[item.a])}
  function next(){const last=q===9,dead=lives===0;if(last||dead){const ok=!dead&&score>=60;setPassed(ok);if(ok){const done=[...new Set([...completed,world])],nextUnlock=Math.min(4,Math.max(unlocked,world+2));setCompleted(done);setUnlocked(nextUnlock);localStorage.setItem("geovana-v3",JSON.stringify({unlocked:nextUnlock,completed:done,coins}));}setScreen("result")}else{setQ(v=>v+1);setSelected(null)}}
  function printCertificate(){window.print()}
