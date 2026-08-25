@@ -40,3 +40,10 @@ Pudim integrado às fases: caminhada na trilha, pausas, falas e reações. Masco
 - Centralização forçada em 50%/50%, eliminando o deslocamento lateral.
 - `object-fit: cover` remove as faixas vazias no modo retrato.
 - Hotspots permanecem vinculados ao mesmo contêiner escalado da arte.
+
+## V11.5
+- Corrigido o zoom excessivo da home em celular vertical.
+- Removido `object-fit: cover` no retrato.
+- A arte passa a usar 100% da largura do aparelho e mantém proporção 3:2.
+- Nenhuma lateral da arte é cortada; Geovana, Pudim, título e botões permanecem visíveis.
+- Hotspots continuam alinhados à arte.

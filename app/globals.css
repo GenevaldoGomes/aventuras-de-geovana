@@ -310,3 +310,77 @@
     transform:translate(-50%,-50%)!important;
   }
 }
+
+/* V11.5 — RETRATO SEM CORTES
+   Sobrescreve a V11.4: em celular vertical a largura é a referência.
+   A arte inteira aparece, centralizada, sem zoom/crop lateral. */
+@media (orientation:portrait) and (max-width:900px){
+  html,body{
+    width:100%!important;
+    min-height:100%!important;
+    margin:0!important;
+    overflow-x:hidden!important;
+  }
+
+  .app-shell:has(.game-poster),
+  .home-screen{
+    position:relative!important;
+    width:100vw!important;
+    min-height:100svh!important;
+    height:100svh!important;
+    padding:0!important;
+    margin:0!important;
+    display:flex!important;
+    align-items:flex-start!important;
+    justify-content:center!important;
+    overflow:hidden!important;
+    background:linear-gradient(180deg,#72caff 0%,#d9d7ff 72%,#f5dfff 100%)!important;
+  }
+
+  .game-poster,
+  .home-art{
+    position:relative!important;
+    left:auto!important;
+    top:auto!important;
+    transform:none!important;
+    width:100vw!important;
+    min-width:0!important;
+    max-width:100vw!important;
+    height:auto!important;
+    max-height:none!important;
+    aspect-ratio:3/2!important;
+    margin:0 auto!important;
+    flex:0 0 auto!important;
+    overflow:visible!important;
+  }
+
+  .game-poster>img,
+  .home-art>img,
+  .homeArt{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    object-fit:contain!important;
+    object-position:center top!important;
+    display:block!important;
+  }
+
+  .hotspots{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    transform:none!important;
+  }
+}
+
+/* Celulares baixos: continua mostrando a composição inteira pela largura. */
+@media (orientation:portrait) and (max-width:480px){
+  .game-poster,.home-art{
+    left:auto!important;
+    top:auto!important;
+    transform:none!important;
+    width:100vw!important;
+  }
+}
