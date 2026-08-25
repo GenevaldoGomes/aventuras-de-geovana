@@ -29,7 +29,7 @@ function GameWalkingPudim({reaction="walk"}:{reaction?:"walk"|"correct"|"wrong"}
 }
 
 export default function Home(){
- const [screen,setScreen]=useState<Screen>("home"),[sound,setSound]=useState(false),[english,setEnglish]=useState(false),[name,setName]=useState("Geovana"),[draft,setDraft]=useState("Geovana");
+ const [screen,setScreen]=useState<Screen>("home"),[sound,setSound]=useState(true),[english,setEnglish]=useState(false),[name,setName]=useState("Geovana"),[draft,setDraft]=useState("Geovana");
  const [world,setWorld]=useState(0),[q,setQ]=useState(0),[score,setScore]=useState(0),[coins,setCoins]=useState(0),[lives,setLives]=useState(3),[selected,setSelected]=useState<number|null>(null),[unlocked,setUnlocked]=useState(1),[completed,setCompleted]=useState<number[]>([]),[passed,setPassed]=useState(false);
  const musicCtx=useRef<AudioContext|null>(null),musicTimer=useRef<number|null>(null),musicStep=useRef(0),interacted=useRef(false);
  useEffect(()=>{const n=localStorage.getItem("geovana-player"),p=JSON.parse(localStorage.getItem("geovana-v3")||"{}");if(n){setName(n);setDraft(n)}setUnlocked(p.unlocked||1);setCompleted(p.completed||[]);setCoins(p.coins||0)},[]);
