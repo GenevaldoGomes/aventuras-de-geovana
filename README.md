@@ -62,3 +62,13 @@ Pudim integrado às fases: caminhada na trilha, pausas, falas e reações. Masco
 - A mesma composição é usada em celular, tablet, notebook e desktop.
 - Em telas largas, a arte vertical permanece centralizada.
 - Mantidos os botões funcionais e toda a lógica do jogo.
+
+## V12.3
+- Reorganizados os controles sobre a Home vertical.
+- Som e idioma menores e visíveis no topo esquerdo.
+- Perfil reduzido no topo direito.
+- Balão do Pudim reposicionado para não cobrir seu rosto.
+- Jogar centralizado na área livre.
+- Mundos, Ranking e Aprender alinhados em uma fileira.
+- Pudim caminhante ocultado somente na Home, pois o personagem já faz parte da arte.
+- Pudim animado e interativo continua nas fases.
