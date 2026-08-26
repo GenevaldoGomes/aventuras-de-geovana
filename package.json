@@ -1,6 +1,6 @@
 {
   "name": "aventuras-de-geovana",
-  "version": "13.1.0",
+  "version": "14.19.0",
   "private": true,
   "scripts": {
     "dev": "next dev",

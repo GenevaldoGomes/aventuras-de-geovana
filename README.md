@@ -1,5 +1,12 @@
 # As Aventuras de Geovana — V13
 
+## V14.19 — Alternativas dos mundos em inglês
+- Todas as alternativas das 40 questões dos quatro mundos estão em inglês.
+- Questões que antes exigiam respostas traduzidas em português foram reformuladas como situações de uso do inglês.
+- O enunciado em português foi preservado como apoio visual para as crianças.
+- O Mundo Greetings recebeu gabaritos mais equilibrados entre A, B e C.
+- Mantidos o áudio, a resposta por voz, as tentativas até o acerto e as reações do Pudim.
+
 Código reconstruído do zero. Home 9:16 é o layout padrão e não depende de rotação/orientation para aparecer. Mantém 4 mundos, 40 questões, áudio, progresso, ranking, aprender e Pudim interativo com dicas.
 
 ## V13.1 — Correção de segurança para Vercel
