@@ -907,3 +907,94 @@
     }
   }
 }
+
+/* V12.7 — JOGO EXCLUSIVAMENTE VERTICAL (RETRATO)
+   Inclusive quando o aparelho físico é girado, o conteúdo permanece em 9:16. */
+
+html, body{
+  margin:0!important;
+  padding:0!important;
+  width:100%!important;
+  height:100%!important;
+  overflow:hidden!important;
+  background:#16084f!important;
+}
+
+body{
+  position:fixed!important;
+  inset:0!important;
+}
+
+.app-shell:has(.game-poster){
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  min-height:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  overflow:hidden!important;
+  background:#16084f!important;
+}
+
+.game-poster{
+  position:relative!important;
+  width:min(100vw,calc(100dvh * 9 / 16))!important;
+  height:min(100dvh,calc(100vw * 16 / 9))!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:100vw!important;
+  max-height:100dvh!important;
+  aspect-ratio:9/16!important;
+  margin:auto!important;
+  overflow:hidden!important;
+}
+
+.game-poster>.home-main-art{
+  display:block!important;
+  visibility:visible!important;
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  z-index:0!important;
+}
+
+/* Neutraliza regras antigas específicas de landscape:
+   a Home NÃO muda mais para layout horizontal. */
+@media screen and (orientation:landscape){
+  .app-shell:has(.game-poster){
+    width:100vw!important;
+    height:100dvh!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+  }
+
+  .game-poster{
+    width:min(100vw,calc(100dvh * 9 / 16))!important;
+    height:min(100dvh,calc(100vw * 16 / 9))!important;
+    aspect-ratio:9/16!important;
+    max-width:100vw!important;
+    max-height:100dvh!important;
+  }
+
+  .game-poster>.home-main-art{
+    display:block!important;
+    width:100%!important;
+    height:100%!important;
+    object-fit:contain!important;
+  }
+}
+
+@supports not (height:100dvh){
+  .app-shell:has(.game-poster){height:100vh!important}
+  .game-poster{
+    width:min(100vw,calc(100vh * 9 / 16))!important;
+    height:min(100vh,calc(100vw * 16 / 9))!important;
+    max-height:100vh!important;
+  }
+}

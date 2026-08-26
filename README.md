@@ -92,3 +92,9 @@ Pudim integrado às fases: caminhada na trilha, pausas, falas e reações. Masco
 - A arte 9:16 é dimensionada para caber integralmente na tela.
 - Removido o cálculo que podia criar uma Home maior que a área visível.
 - Mantidos hotspots e funções da V12.5.
+
+## V12.7 — Somente retrato
+- Removido o layout horizontal/paisagem da Home.
+- O jogo passa a usar sempre a composição vertical 9:16.
+- Ao girar o aparelho, a interface não troca para uma versão horizontal.
+- Mantidos os controles funcionais e as fases.
