@@ -345,6 +345,14 @@ export default function Home(){
    setTimeout(()=>setReaction(r=>r==="wrong"?"walk":r),1800);
   }
  };
+ const saveProfile=()=>{
+  const clean=draft.trim();
+  if(!clean)return;
+  setName(clean);
+  try{localStorage.setItem("geovana-player",clean)}catch{}
+  setScreen("home");
+ };
+
  const next=()=>{
   if(selected!==q.a)return;
   if(qi<W[world].questions.length-1){

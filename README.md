@@ -84,3 +84,8 @@ Todas as mensagens do Pudim no chat exibem inglês e, logo abaixo, a tradução 
 - O desbloqueio dos mundos continua sendo calculado pela constante `unlocked`,
   baseada na quantidade de mundos concluídos.
 - Mantidas conversação realista, tradução visual e demais recursos da V14.8.
+
+## V14.10 — Correção saveProfile
+- Restaurada a função `saveProfile`.
+- O botão Salvar do Perfil volta a atualizar o nome, gravar no localStorage e retornar à tela inicial.
+- Mantida a correção anterior de `setUnlocked`.
