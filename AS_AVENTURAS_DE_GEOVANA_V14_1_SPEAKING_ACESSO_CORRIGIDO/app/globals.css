@@ -1,0 +1,176 @@
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,sans-serif;background:#24105e;color:#32136f}button{font:inherit}.home{min-height:100svh;display:grid;place-items:center;background:#180a4b;overflow:hidden}.poster{position:relative;width:min(100vw,calc(100svh * 9 / 16));aspect-ratio:9/16;max-height:100svh}.poster>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.hit{position:absolute;background:transparent;border:0;color:transparent;font-size:0;cursor:pointer;z-index:5;touch-action:manipulation}.hit:focus-visible{outline:4px solid #fff500;border-radius:20px}.sound{left:3%;top:1.5%;width:13%;height:7%}.lang{left:16.5%;top:1.5%;width:13%;height:7%}.profile{left:68%;top:1.5%;width:28%;height:7%}.play{left:18%;top:70.5%;width:64%;height:9%}.worlds{left:5%;top:79.5%;width:28%;height:12%}.ranking{left:36%;top:79.5%;width:28%;height:12%}.learn{left:67%;top:79.5%;width:28%;height:12%}
+.screen,.game{min-height:100svh;background:linear-gradient(#7552df,#d9ccff);padding-bottom:24px}.top,.game-head{min-height:68px;background:#5222b6;color:#fff;display:flex;align-items:center;gap:16px;padding:10px 18px}.top{justify-content:space-between}.top button,.game-head>button{border:0;background:#fff;color:#5222b6;border-radius:50%;width:42px;height:42px;font-size:25px;font-weight:bold}.top h1{margin:0;font-size:24px}.content{width:min(1000px,94vw);margin:24px auto}.card{background:#fff;border-radius:24px;padding:24px;box-shadow:0 12px 30px #31107135}.profile-card{max-width:520px;margin:auto}.profile-card label{display:grid;gap:8px;font-weight:bold}.profile-card input{padding:14px;border:2px solid #bda9ee;border-radius:12px;font-size:18px}.primary,.next{border:0;border-radius:16px;background:#ff7b17;color:#fff;font-weight:900;padding:14px 24px;font-size:18px;margin-top:18px}.world-grid,.vocab{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.world-card,.vocab button{border:0;background:#fff;border-radius:22px;padding:20px;box-shadow:0 8px 20px #34136c2b;display:grid;gap:6px;text-align:center}.world-card>span,.vocab button>span{font-size:44px}.world-card b,.vocab b{font-size:20px}.world-card small,.vocab small{font-size:14px}.world-card em,.vocab em{font-style:normal;color:#6d36cf;font-weight:bold}.world-card.locked{filter:grayscale(.6);opacity:.65}.result{text-align:center}.big-score{font-size:34px;font-weight:900;color:#f08300;margin:20px}
+.game-head{justify-content:space-between}.game-head>div:nth-child(2){display:grid}.game-head small{opacity:.85}.stats{font-weight:bold}.progress{height:9px;background:#ddd}.progress i{display:block;height:100%;background:#ffb000}.question-card{width:min(980px,94vw);margin:18px auto 0;background:#fff;border-radius:26px;padding:20px;box-shadow:0 12px 30px #35127033}.question{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center}.qicon{font-size:48px}.question h1{margin:0;color:#5121b4;font-size:clamp(22px,4vw,34px)}.question p{margin:5px 0;color:#555;font-weight:bold}.listen{border:0;border-radius:12px;background:#6528c7;color:#fff;padding:10px 14px;font-weight:bold}.answers{display:grid;gap:10px;margin-top:18px}.answer{display:grid;grid-template-columns:1fr auto;gap:8px}.answer>button:first-child{border:3px solid #b8a0ef;background:#fff;border-radius:16px;padding:14px;text-align:left;font-weight:900;color:#3e197e}.answer>button:first-child span{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#5c28c4;color:#fff;margin-right:12px}.answer.ok>button:first-child{border-color:#28b56a;background:#e8fff2}.answer.bad>button:first-child{border-color:#e74b65;background:#fff0f3}.listen.small{font-size:13px}.next{display:block;margin-left:auto}
+.trail{position:relative;width:min(980px,94vw);height:280px;margin:0 auto;background:url("/cenario-trilha-v133.png") center/cover no-repeat;border-radius:0 0 26px 26px;overflow:hidden}.walker{position:absolute;bottom:7%;width:150px;cursor:pointer;transition:left .09s linear;z-index:3}.walker img{display:block;width:100%;height:145px;object-fit:contain;filter:drop-shadow(0 8px 5px #3b235a55)}.walker img.flip{transform:scaleX(-1)}.bubble{position:absolute;left:50%;top:-48px;transform:translateX(-50%);width:190px;background:#fff;border:4px solid #ff9616;border-radius:20px;padding:8px;text-align:center;color:#4b1aa7;box-shadow:0 5px 0 #c96810}.bubble b,.bubble span{display:block}.bubble span{font-size:12px;margin-top:3px}.hint-note{position:absolute;right:10px;bottom:8px;background:#ffffffdf;border:2px solid #ff9616;border-radius:999px;padding:6px 10px;font-weight:bold;font-size:12px}
+@media(max-width:650px){.world-grid,.vocab{grid-template-columns:1fr}.game-head{font-size:12px;padding:8px}.stats{font-size:11px}.question-card{padding:13px;margin-top:10px}.question{grid-template-columns:auto 1fr}.question>.listen{grid-column:1/-1}.qicon{font-size:36px}.answer{grid-template-columns:1fr auto}.trail{height:230px}.walker{width:125px}.walker img{height:125px}.bubble{width:150px;top:-40px;font-size:12px}.hint-note{font-size:10px}}
+
+/* V13.2 — caminhada quadro a quadro */
+.walker img{
+  animation:pudimBob .23s ease-in-out infinite alternate;
+  transform-origin:50% 100%;
+}
+.walker img.flip{
+  animation:pudimBobFlip .23s ease-in-out infinite alternate;
+}
+@keyframes pudimBob{
+  from{transform:translateY(0) rotate(-1deg)}
+  to{transform:translateY(-4px) rotate(1deg)}
+}
+@keyframes pudimBobFlip{
+  from{transform:scaleX(-1) translateY(0) rotate(-1deg)}
+  to{transform:scaleX(-1) translateY(-4px) rotate(1deg)}
+}
+
+/* V13.3: cenário enviado pelo usuário e frames válidos */
+.trail{background-image:url("/cenario-trilha-v133.png")!important;background-size:cover!important;background-position:center bottom!important;background-repeat:no-repeat!important}
+.walker img{object-fit:contain!important}
+
+/* V13.4 — Pudim clicável para dica */
+.walker{
+  border:0!important;
+  padding:0!important;
+  background:transparent!important;
+  color:inherit!important;
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+.walker:focus-visible{outline:4px solid #ffd400;border-radius:18px}
+.walker .bubble{pointer-events:none!important}
+.walker img{pointer-events:none!important;user-select:none!important;-webkit-user-drag:none!important}
+.hint-note{pointer-events:none!important;z-index:5!important}
+
+/* V13.5 — quadros limpos e estáveis do Pudim */
+.walker{width:155px!important;height:165px!important}
+.walker img{
+ width:155px!important;height:165px!important;
+ object-fit:contain!important;object-position:center bottom!important;
+ background:transparent!important;
+}
+@media(max-width:650px){
+ .walker{width:130px!important;height:145px!important}
+ .walker img{width:130px!important;height:145px!important}
+}
+
+/* V13.6 — Pudim companheiro interativo */
+.pudim-paused img{animation:pudimBreath .7s ease-in-out infinite alternate!important}
+.pudim-paused img.flip{animation:pudimBreathFlip .7s ease-in-out infinite alternate!important}
+@keyframes pudimBreath{from{transform:translateY(0)}to{transform:translateY(-3px)}}
+@keyframes pudimBreathFlip{from{transform:scaleX(-1) translateY(0)}to{transform:scaleX(-1) translateY(-3px)}}
+.walker .bubble{
+ min-width:185px!important;max-width:245px!important;height:auto!important;min-height:54px!important;
+ padding:8px 12px!important;white-space:normal!important;overflow:visible!important;
+ z-index:20!important;bottom:145px!important;
+}
+.walker .bubble b,.walker .bubble span,.walker .bubble small{display:block!important;line-height:1.18!important}
+.walker .bubble span{margin-top:3px!important;font-size:.82em!important}
+.walker .bubble small{margin-top:5px!important;font-size:.7em!important}
+.hint-bubble{min-height:72px!important}
+@media(max-width:650px){
+ .walker .bubble{min-width:160px!important;max-width:205px!important;bottom:126px!important;font-size:13px!important}
+}
+
+/* V13.7 — Pudim vira de frente ao conversar */
+.walker img.front-facing{
+ transform:none!important;
+ animation:pudimFrontTalk .72s ease-in-out infinite alternate!important;
+ object-fit:contain!important;
+ object-position:center bottom!important;
+}
+@keyframes pudimFrontTalk{
+ from{transform:translateY(0) scale(1)}
+ to{transform:translateY(-3px) scale(1.025)}
+}
+
+/* V13.8 — reações de acerto e erro */
+.walker img.pudim-positive{
+ animation:pudimCelebrate .34s ease-in-out infinite alternate!important;
+}
+.walker img.pudim-sad{
+ animation:pudimSad 1.05s ease-in-out infinite alternate!important;
+}
+@keyframes pudimCelebrate{
+ from{transform:translateY(0) scale(1) rotate(-2deg)}
+ to{transform:translateY(-10px) scale(1.06) rotate(2deg)}
+}
+@keyframes pudimSad{
+ from{transform:translateY(0) rotate(0deg)}
+ to{transform:translateY(3px) rotate(-2deg)}
+}
+.pudim-stars{
+ position:absolute;left:50%;bottom:82px;transform:translateX(-50%);
+ width:190px;height:145px;pointer-events:none;z-index:25;
+}
+.pudim-stars i{position:absolute;font-style:normal;font-size:25px;animation:starBurst 1.15s ease-out infinite}
+.pudim-stars i:nth-child(1){left:8%;top:48%;animation-delay:0s}
+.pudim-stars i:nth-child(2){left:24%;top:10%;animation-delay:.16s}
+.pudim-stars i:nth-child(3){left:48%;top:0;animation-delay:.3s}
+.pudim-stars i:nth-child(4){right:20%;top:14%;animation-delay:.1s}
+.pudim-stars i:nth-child(5){right:3%;top:48%;animation-delay:.42s}
+.pudim-stars i:nth-child(6){left:46%;top:42%;animation-delay:.55s}
+@keyframes starBurst{
+ 0%{opacity:0;transform:translateY(15px) scale(.35) rotate(0)}
+ 35%{opacity:1}
+ 100%{opacity:0;transform:translateY(-42px) scale(1.25) rotate(120deg)}
+}
+
+.learn-speaking{margin-bottom:18px}.learn-speaking>button{width:100%;border:0;border-radius:24px;padding:18px;background:#ff8a17;color:#fff;display:grid;gap:6px;text-align:center}.learn-speaking span{font-size:42px}.learn-speaking b{font-size:21px}.learn-speaking em{font-style:normal;font-weight:900}.speaking-wrap{width:min(760px,94vw);margin:18px auto;display:grid;gap:14px}.speaking-pudim{position:relative;height:245px;background:linear-gradient(#85d9ff,#e3f7ff);border-radius:28px;overflow:hidden}.speaking-pudim img{position:absolute;left:4%;bottom:0;width:190px;height:190px;object-fit:contain}.speak-bubble{position:absolute;left:31%;right:4%;top:30px;background:#fff;border:4px solid #ff9417;border-radius:24px;padding:18px;color:#5121b4}.speak-bubble b,.speak-bubble span{display:block}.speak-bubble b{font-size:23px}.speak-bubble span{margin-top:7px;font-weight:bold;color:#555}.speaking-card{background:#fff;border-radius:26px;padding:22px;text-align:center}.example,.model-answer button{border:0;border-radius:999px;background:#6330c6;color:#fff;padding:10px 16px;font-weight:bold}.mic{font-size:65px;margin:14px}.mic.listening{animation:micPulse .65s ease-in-out infinite alternate}@keyframes micPulse{to{transform:scale(1.18)}}.heard,.model-answer,.speech-good,.speech-retry,.speech-warning{margin:12px auto;padding:12px;border-radius:16px}.heard,.model-answer{background:#f0eaff;display:grid;gap:5px}.speech-good{background:#e4ffef;color:#137642;font-weight:900}.speech-retry{background:#fff3db;color:#945100;font-weight:900}.speech-warning{background:#fff0f0;color:#9a2935}.model-answer button{justify-self:center;background:#fff;color:#5b28ba}@media(max-width:600px){.speaking-pudim{height:220px}.speaking-pudim img{width:135px;height:150px;left:1%}.speak-bubble{left:30%;top:22px;padding:13px}.speak-bubble b{font-size:18px}.speaking-card{padding:16px}}
+
+/* V14.1 — acesso destacado ao Speaking */
+.speaking-launcher{
+  width:min(1180px,96%);
+  margin:0 auto 24px;
+  padding-top:6px;
+}
+.speaking-launch-button{
+  width:100%;
+  min-height:112px;
+  border:4px solid #fff;
+  outline:4px solid #ff9417;
+  border-radius:28px;
+  padding:18px 24px;
+  background:linear-gradient(135deg,#ff7b18 0%,#ffad20 55%,#ffcf32 100%);
+  color:#fff;
+  box-shadow:0 10px 0 #c8580a,0 18px 30px #3b166a33;
+  display:grid;
+  grid-template-columns:90px 1fr auto;
+  align-items:center;
+  gap:18px;
+  cursor:pointer;
+}
+.speaking-launch-icon{font-size:58px;line-height:1}
+.speaking-launch-copy{text-align:left;display:grid;gap:5px}
+.speaking-launch-copy b{font-size:30px;line-height:1.05;text-shadow:0 2px 2px #8b2d00}
+.speaking-launch-copy small{font-size:17px;font-weight:800}
+.speaking-launch-cta{
+  background:#fff;
+  color:#5520b7;
+  border-radius:999px;
+  padding:15px 22px;
+  font-size:18px;
+  font-weight:1000;
+  box-shadow:0 5px 0 #7d42d3;
+  white-space:nowrap;
+}
+.speaking-launch-button:active{transform:translateY(4px);box-shadow:0 6px 0 #c8580a,0 12px 22px #3b166a33}
+@media(max-width:650px){
+  .speaking-launcher{width:92%;margin-bottom:22px}
+  .speaking-launch-button{
+    min-height:150px;
+    grid-template-columns:62px 1fr;
+    padding:16px;
+    gap:10px;
+  }
+  .speaking-launch-icon{font-size:46px}
+  .speaking-launch-copy b{font-size:22px}
+  .speaking-launch-copy small{font-size:14px}
+  .speaking-launch-cta{
+    grid-column:1/-1;
+    width:100%;
+    text-align:center;
+    padding:12px;
+    font-size:16px;
+  }
+}
