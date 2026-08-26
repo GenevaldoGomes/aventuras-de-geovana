@@ -47,3 +47,11 @@ Pudim integrado às fases: caminhada na trilha, pausas, falas e reações. Masco
 - A arte passa a usar 100% da largura do aparelho e mantém proporção 3:2.
 - Nenhuma lateral da arte é cortada; Geovana, Pudim, título e botões permanecem visíveis.
 - Hotspots continuam alinhados à arte.
+
+## V12 — Home vertical nativa
+- Mantém a Home horizontal existente em desktop e celular na horizontal.
+- Adiciona uma arte 9:16 exclusiva para celular em modo retrato.
+- A arte vertical não possui botões desenhados no fundo.
+- Som, idioma, perfil, jogar, mundos, ranking e aprender continuam sendo controles reais do jogo.
+- Os controles são reposicionados sobre a composição vertical.
+- Todas as fases, áudio, Pudim animado e sistema de dicas da V11.5 foram preservados.

@@ -384,3 +384,110 @@
     width:100vw!important;
   }
 }
+
+
+/* =========================================================
+   V12 — HOME PORTRAIT NATIVA
+   Desktop/paisagem: mantém a arte e os controles atuais.
+   Retrato: usa uma composição vertical própria, sem botões
+   desenhados no fundo. Os controles continuam sendo HTML.
+   ========================================================= */
+.mobile-home-v12{display:none!important;pointer-events:none!important}
+
+@media (orientation:portrait) and (max-width:900px){
+  html,body{
+    width:100%!important;
+    min-height:100%!important;
+    margin:0!important;
+    overflow-x:hidden!important;
+    background:#23105f!important;
+  }
+
+  .app-shell:has(.game-poster){
+    width:100vw!important;
+    min-height:100svh!important;
+    height:auto!important;
+    display:block!important;
+    overflow-x:hidden!important;
+    background:#23105f!important;
+  }
+
+  .game-poster{
+    position:relative!important;
+    width:100vw!important;
+    height:auto!important;
+    min-height:100svh!important;
+    max-width:none!important;
+    max-height:none!important;
+    aspect-ratio:9/16!important;
+    margin:0!important;
+    overflow:hidden!important;
+  }
+
+  /* Esconde somente a arte horizontal da home. */
+  .game-poster > img:not(.mobile-home-v12){
+    visibility:hidden!important;
+  }
+
+  .game-poster > .mobile-home-v12{
+    display:block!important;
+    visibility:visible!important;
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    object-fit:cover!important;
+    object-position:center top!important;
+    z-index:0!important;
+  }
+
+  /* Hotspots/controles ficam acima da arte vertical. */
+  .game-poster .hotspots{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    z-index:5!important;
+    pointer-events:none!important;
+  }
+  .game-poster .hotspots button{
+    pointer-events:auto!important;
+    touch-action:manipulation!important;
+  }
+
+  /* Reposicionamento proporcional dos controles da HOME.
+     Os seletores nth-child mantêm os mesmos handlers existentes. */
+  .game-poster .hotspots button:nth-child(1){
+    left:4%!important; top:2.2%!important;
+    width:12%!important; height:6.8%!important;
+  }
+  .game-poster .hotspots button:nth-child(2){
+    left:17%!important; top:2.2%!important;
+    width:12%!important; height:6.8%!important;
+  }
+  .game-poster .hotspots button:nth-child(3){
+    left:72%!important; top:2.2%!important;
+    width:24%!important; height:6.8%!important;
+  }
+  .game-poster .hotspots button:nth-child(4){
+    left:17%!important; top:61.2%!important;
+    width:66%!important; height:10.5%!important;
+  }
+  .game-poster .hotspots button:nth-child(5){
+    left:4%!important; top:74%!important;
+    width:28%!important; height:13%!important;
+  }
+  .game-poster .hotspots button:nth-child(6){
+    left:36%!important; top:74%!important;
+    width:28%!important; height:13%!important;
+  }
+  .game-poster .hotspots button:nth-child(7){
+    left:68%!important; top:74%!important;
+    width:28%!important; height:13%!important;
+  }
+}
+
+/* Paisagem continua usando exatamente a home desktop já aprovada. */
+@media (orientation:landscape){
+  .mobile-home-v12{display:none!important}
+}
