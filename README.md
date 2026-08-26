@@ -85,3 +85,10 @@ Pudim integrado às fases: caminhada na trilha, pausas, falas e reações. Masco
 - Hotspots reajustados para os novos botões desenhados.
 - Mantidas as funções Som, Idioma, Perfil, Jogar, Mundos, Ranking e Aprender.
 - Fases e interações do Pudim preservadas.
+
+## V12.6 — Correção de abertura em celular
+- Corrigida a Home que só aparecia após girar o celular.
+- Retrato agora usa o viewport real do navegador (`100dvh`).
+- A arte 9:16 é dimensionada para caber integralmente na tela.
+- Removido o cálculo que podia criar uma Home maior que a área visível.
+- Mantidos hotspots e funções da V12.5.
