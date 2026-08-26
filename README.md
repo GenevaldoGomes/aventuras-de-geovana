@@ -72,3 +72,10 @@ Pudim integrado às fases: caminhada na trilha, pausas, falas e reações. Masco
 - Mundos, Ranking e Aprender alinhados em uma fileira.
 - Pudim caminhante ocultado somente na Home, pois o personagem já faz parte da arte.
 - Pudim animado e interativo continua nas fases.
+
+## V12.4 — Nova tela principal
+- Nova arte vertical aplicada como única imagem da Home.
+- Botões desenhados na própria arte.
+- Hotspots transparentes mantêm Som, Idioma, Perfil, Jogar, Mundos, Ranking e Aprender funcionais.
+- Removidos da Home os elementos duplicados de balão, aviso e Pudim caminhante.
+- As fases e o Pudim animado/interativo continuam preservados.

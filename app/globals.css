@@ -708,3 +708,68 @@
     display:none!important;
   }
 }
+
+/* V12.4 — NOVA ARTE PRINCIPAL COM BOTÕES DESENHADOS
+   Os hotspots HTML ficam transparentes e exatamente sobre os botões da arte. */
+@media (orientation:portrait), (max-width:900px){
+  .game-poster>.home-main-art{
+    object-fit:cover!important;
+    object-position:center top!important;
+  }
+
+  /* Remove aparência visual dos botões HTML: a arte já contém os botões. */
+  .game-poster>.hotspot{
+    background:transparent!important;
+    border:0!important;
+    box-shadow:none!important;
+    outline:none!important;
+    color:transparent!important;
+    font-size:0!important;
+    opacity:1!important;
+  }
+  .game-poster>.hotspot::before,
+  .game-poster>.hotspot::after{display:none!important}
+
+  /* Som */
+  .game-poster>.hotspot.sound{
+    left:3.2%!important; top:1.1%!important;
+    width:12.5%!important; height:7.5%!important;
+  }
+  /* Idioma */
+  .game-poster>.hotspot.language{
+    left:16.5%!important; top:1.1%!important;
+    width:12.5%!important; height:7.5%!important;
+  }
+  /* Perfil */
+  .game-poster>.hotspot.friend{
+    left:67%!important; top:1.3%!important;
+    width:29%!important; height:7%!important;
+  }
+  /* Jogar */
+  .game-poster>.hotspot.play{
+    left:15%!important; top:67.2%!important;
+    width:70%!important; height:10.5%!important;
+  }
+  /* Mundos */
+  .game-poster>.hotspot.worlds{
+    left:3.5%!important; top:78.2%!important;
+    width:29%!important; height:13.8%!important;
+  }
+  /* Ranking */
+  .game-poster>.hotspot.ranking{
+    left:35.5%!important; top:78.2%!important;
+    width:29%!important; height:13.8%!important;
+  }
+  /* Aprender */
+  .game-poster>.hotspot.learn{
+    left:67.5%!important; top:78.2%!important;
+    width:29%!important; height:13.8%!important;
+  }
+
+  /* O novo desenho já possui balão e instrução do Pudim. */
+  .game-poster>.pudim-phrase,
+  .game-poster>.music-hint,
+  .game-poster>.pudim-walker{
+    display:none!important;
+  }
+}
