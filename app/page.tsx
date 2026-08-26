@@ -33,22 +33,31 @@ function hintFor(q:Q){
 
 function Pudim({q,reaction,sound}:{q:Q;reaction:"walk"|"correct"|"wrong";sound:boolean}){
  const [x,setX]=useState(8),[dir,setDir]=useState(1),[hint,setHint]=useState(false),[frame,setFrame]=useState(0);
+ const [companion,setCompanion]=useState<{en:string;pt:string;hint?:boolean}|null>(null);
+ const companionTimer=useRef<ReturnType<typeof setTimeout>|null>(null);
+
  const walkFrames=[
   "/sprites/walk-clean-0.png","/sprites/walk-clean-1.png","/sprites/walk-clean-2.png","/sprites/walk-clean-3.png",
   "/sprites/walk-clean-4.png","/sprites/walk-clean-5.png","/sprites/walk-clean-6.png","/sprites/walk-clean-7.png"
  ];
- const idleFrames=["/sprites/idle.png"];
- const correctFrames=["/sprites/correct.png","/sprites/happy.png"];
- const wrongFrames=["/sprites/wrong.png"];
- const frames=reaction==="correct"?correctFrames:reaction==="wrong"?wrongFrames:hint?idleFrames:walkFrames;
+ const frames=walkFrames;
+
+ const phrases=[
+  {en:"Are you okay?",pt:"Está tudo bem?"},
+  {en:"Do you have any questions?",pt:"Você tem alguma dúvida?"},
+  {en:"Do you need help?",pt:"Você precisa de ajuda?"},
+  {en:"Would you like a hint?",pt:"Você quer uma dica?",hint:true},
+  {en:"Take your time!",pt:"Faça com calma!"},
+  {en:"You can do it!",pt:"Você consegue!"}
+ ];
 
  useEffect(()=>{
   const id=setInterval(()=>setFrame(v=>(v+1)%frames.length),115);
   return()=>clearInterval(id);
- },[reaction,hint]);
+ },[]);
 
  useEffect(()=>{
-  if(reaction!=="walk"||hint)return;
+  if(reaction!=="walk"||hint||companion)return;
   const id=setInterval(()=>setX(v=>{
    let n=v+dir*.42;
    if(n>80){setDir(-1);n=80}
@@ -56,32 +65,65 @@ function Pudim({q,reaction,sound}:{q:Q;reaction:"walk"|"correct"|"wrong";sound:b
    return n;
   }),45);
   return()=>clearInterval(id);
- },[reaction,dir,hint]);
+ },[reaction,dir,hint,companion]);
 
- const click=()=>{
+ useEffect(()=>{
+  if(companionTimer.current) clearTimeout(companionTimer.current);
+  if(reaction!=="walk"||hint||companion)return;
+  const delay=9000+Math.floor(Math.random()*7000);
+  companionTimer.current=setTimeout(()=>{
+   const p=phrases[Math.floor(Math.random()*phrases.length)];
+   setCompanion(p);
+   if(sound){
+    speak(p.en,"en-US",1.28);
+    setTimeout(()=>speak(p.pt,"pt-BR",1.3),1100);
+   }
+   setTimeout(()=>setCompanion(null),5500);
+  },delay);
+  return()=>{if(companionTimer.current)clearTimeout(companionTimer.current)};
+ },[q,reaction,hint,companion,sound]);
+
+ const giveHint=()=>{
   if(reaction!=="walk")return;
+  setCompanion(null);
   setHint(true);
+  const answer=q.o[q.a];
+  const clean=answer.replace(/[^A-Za-zÀ-ÿ]/g,"");
+  const first=clean.charAt(0).toUpperCase();
+  const msg=`A resposta começa com a letra ${first} e tem ${clean.length} letras. Ouça as alternativas com atenção.`;
   if(sound){
-   speak("Miau!","pt-BR",1.75);
-   setTimeout(()=>speak(hintFor(q),"pt-BR",1.45),450);
+   speak("Meow! I have a hint for you!","en-US",1.35);
+   setTimeout(()=>speak("Miau! Eu tenho uma dica para você!","pt-BR",1.45),900);
+   setTimeout(()=>speak(msg,"pt-BR",1.3),1900);
   }
-  setTimeout(()=>setHint(false),6500);
+  setTimeout(()=>setHint(false),8000);
  };
 
- const text=hint?["💡 Pudim's hint",hintFor(q)]
-  :reaction==="correct"?["Great job!","Muito bem!"]
-  :reaction==="wrong"?["Think carefully!","Pense com atenção!"]
-  :["Keep going!","Continue!"];
+ const click=()=>{
+   if(companion?.hint || reaction==="walk") giveHint();
+ };
+
+ let text:{en:string;pt:string};
+ if(hint){
+   const answer=q.o[q.a].replace(/[^A-Za-zÀ-ÿ]/g,"");
+   text={en:"💡 Pudim's hint",pt:`A resposta começa com "${answer.charAt(0).toUpperCase()}" e tem ${answer.length} letras.`};
+ }else if(reaction==="correct") text={en:"Great job!",pt:"Muito bem!"};
+ else if(reaction==="wrong") text={en:"Think carefully!",pt:"Pense com atenção!"};
+ else if(companion) text={en:companion.en,pt:companion.pt};
+ else text={en:"Keep going!",pt:"Continue!"};
 
  return <div className="trail">
-   <div className="walker" style={{left:`${x}%`}} onClick={click} role="button" tabIndex={0} aria-label="Pudim - clique para uma dica">
-    <div className="bubble"><b>{text[0]}</b><span>{text[1]}</span></div>
-    <img key={frames[frame%frames.length]} src={frames[frame%frames.length]} className={dir<0?"flip":""} alt="Pudim animado"/>
-   </div>
-   {reaction==="walk"&&<div className="hint-note">🐾 Clique no Pudim para uma dica!</div>}
+   <button type="button" className={`walker ${hint||companion?"pudim-paused":""}`} style={{left:`${x}%`}} onClick={click}
+    aria-label={companion?.hint?"Pudim pergunta se você quer uma dica":"Pudim - clique para receber uma dica"}>
+    <div className={`bubble ${hint?"hint-bubble":""}`}>
+      <b>{text.en}</b><span>{text.pt}</span>
+      {companion?.hint&&!hint&&<small>🐾 Toque no Pudim / Tap Pudim</small>}
+    </div>
+    <img src={frames[frame%frames.length]} className={dir<0?"flip":""} alt="Pudim animado"/>
+   </button>
+   {reaction==="walk"&&!hint&&!companion&&<div className="hint-note">🐾 Clique no Pudim para uma dica!</div>}
  </div>
 }
-
 export default function Home(){
  const [screen,setScreen]=useState<Screen>("home");
  const [sound,setSound]=useState(true),[english,setEnglish]=useState(false);

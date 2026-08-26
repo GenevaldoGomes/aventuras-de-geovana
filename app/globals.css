@@ -53,3 +53,21 @@
  .walker{width:130px!important;height:145px!important}
  .walker img{width:130px!important;height:145px!important}
 }
+
+/* V13.6 — Pudim companheiro interativo */
+.pudim-paused img{animation:pudimBreath .7s ease-in-out infinite alternate!important}
+.pudim-paused img.flip{animation:pudimBreathFlip .7s ease-in-out infinite alternate!important}
+@keyframes pudimBreath{from{transform:translateY(0)}to{transform:translateY(-3px)}}
+@keyframes pudimBreathFlip{from{transform:scaleX(-1) translateY(0)}to{transform:scaleX(-1) translateY(-3px)}}
+.walker .bubble{
+ min-width:185px!important;max-width:245px!important;height:auto!important;min-height:54px!important;
+ padding:8px 12px!important;white-space:normal!important;overflow:visible!important;
+ z-index:20!important;bottom:145px!important;
+}
+.walker .bubble b,.walker .bubble span,.walker .bubble small{display:block!important;line-height:1.18!important}
+.walker .bubble span{margin-top:3px!important;font-size:.82em!important}
+.walker .bubble small{margin-top:5px!important;font-size:.7em!important}
+.hint-bubble{min-height:72px!important}
+@media(max-width:650px){
+ .walker .bubble{min-width:160px!important;max-width:205px!important;bottom:126px!important;font-size:13px!important}
+}

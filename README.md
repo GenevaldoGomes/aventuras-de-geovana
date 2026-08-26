@@ -32,3 +32,12 @@ Código reconstruído do zero. Home 9:16 é o layout padrão e não depende de r
 - Criados 8 quadros limpos a partir do Pudim isolado.
 - Todos os frames usam a mesma caixa e o mesmo alinhamento.
 - Mantidas caminhada, direção, balão e dica clicável.
+
+## V13.6 — Pudim Companheiro Interativo
+- Pudim caminha normalmente e para em intervalos aleatórios.
+- Durante as pausas, conversa com a criança em inglês e português.
+- Perguntas incluem: está tudo bem, tem dúvidas, precisa de ajuda e quer uma dica.
+- Quando pergunta se quer uma dica, a criança pode tocar no Pudim.
+- Ao parar, Pudim mantém o mesmo personagem, tamanho e estilo lateral.
+- O balão foi ampliado e fica acima do mascote sem esconder o texto.
+- Com som ligado, as falas são reproduzidas em inglês e depois em português.
