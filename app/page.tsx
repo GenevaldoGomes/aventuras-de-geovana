@@ -32,27 +32,51 @@ function hintFor(q:Q){
 }
 
 function Pudim({q,reaction,sound}:{q:Q;reaction:"walk"|"correct"|"wrong";sound:boolean}){
- const [x,setX]=useState(8),[dir,setDir]=useState(1),[pause,setPause]=useState(false),[hint,setHint]=useState(false);
+ const [x,setX]=useState(8),[dir,setDir]=useState(1),[hint,setHint]=useState(false),[frame,setFrame]=useState(0);
+ const walkFrames=[
+  "/00 (40).png","/01 (6).png","/01 (31).png","/01 (37).png",
+  "/01 (44).png","/02 (1).png","/02 (15).png","/02 (20).png"
+ ];
+ const idleFrames=["/00 (2).png","/00 (9).png","/00 (16).png","/00 (21).png"];
+ const correctFrames=["/03.png","/03 (5).png","/03 (12).png","/03 (17).png","/03 (24).png"];
+ const wrongFrames=["/04 (19).png","/04 (26).png","/04 (32).png"];
+ const frames=reaction==="correct"?correctFrames:reaction==="wrong"?wrongFrames:hint?idleFrames:walkFrames;
+
+ useEffect(()=>{
+  const id=setInterval(()=>setFrame(v=>(v+1)%frames.length),115);
+  return()=>clearInterval(id);
+ },[reaction,hint]);
+
  useEffect(()=>{
   if(reaction!=="walk"||hint)return;
   const id=setInterval(()=>setX(v=>{
-   let n=v+dir*.65;
-   if(n>78){setDir(-1);n=78} if(n<5){setDir(1);n=5}
+   let n=v+dir*.42;
+   if(n>80){setDir(-1);n=80}
+   if(n<3){setDir(1);n=3}
    return n;
-  }),90); return()=>clearInterval(id);
+  }),45);
+  return()=>clearInterval(id);
  },[reaction,dir,hint]);
+
  const click=()=>{
   if(reaction!=="walk")return;
-  setHint(true);setPause(true);
-  if(sound){speak("Miau!","pt-BR",1.7);setTimeout(()=>speak(hintFor(q),"pt-BR",1.45),450)}
-  setTimeout(()=>{setHint(false);setPause(false)},6500);
+  setHint(true);
+  if(sound){
+   speak("Miau!","pt-BR",1.75);
+   setTimeout(()=>speak(hintFor(q),"pt-BR",1.45),450);
+  }
+  setTimeout(()=>setHint(false),6500);
  };
- const img=reaction==="correct"?"/sprites/correct.png":reaction==="wrong"?"/sprites/wrong.png":pause?"/sprites/idle.png":"/sprites/walk-clean.png";
- const text=hint?["💡 Pudim's hint",hintFor(q)]:reaction==="correct"?["Excellent!","Excelente!"]:reaction==="wrong"?["Try again!","Tente novamente!"]:["Keep going!","Continue!"];
+
+ const text=hint?["💡 Pudim's hint",hintFor(q)]
+  :reaction==="correct"?["Great job!","Muito bem!"]
+  :reaction==="wrong"?["Think carefully!","Pense com atenção!"]
+  :["Keep going!","Continue!"];
+
  return <div className="trail">
-   <div className="walker" style={{left:`${x}%`}} onClick={click} role="button" tabIndex={0}>
+   <div className="walker" style={{left:`${x}%`}} onClick={click} role="button" tabIndex={0} aria-label="Pudim - clique para uma dica">
     <div className="bubble"><b>{text[0]}</b><span>{text[1]}</span></div>
-    <img src={img} className={dir<0?"flip":""} alt="Pudim"/>
+    <img key={frames[frame%frames.length]} src={frames[frame%frames.length]} className={dir<0?"flip":""} alt="Pudim animado"/>
    </div>
    {reaction==="walk"&&<div className="hint-note">🐾 Clique no Pudim para uma dica!</div>}
  </div>
