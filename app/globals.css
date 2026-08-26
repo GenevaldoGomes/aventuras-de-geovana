@@ -237,3 +237,10 @@
   .voice-answer-button .voice-mic{font-size:29px}
   .voice-answer-button b{font-size:16px}
 }
+
+/* V14.3 */
+.speaking-geovana img{width:205px!important;height:225px!important;object-fit:cover!important;object-position:50% 20%;border-radius:0 0 24px 0}
+.speaking-pudim-trail{position:relative;height:118px;border-radius:22px;overflow:hidden;background:url("/cenario-trilha.png") center 74%/cover no-repeat;border:2px solid #d8c5ff}
+.speaking-pudim-trail img{position:absolute;bottom:2px;width:92px;height:92px;object-fit:contain;animation:pudimLearnWalk 8s linear infinite,pudimBob .23s ease-in-out infinite alternate}
+@keyframes pudimLearnWalk{0%{left:-12%;transform:scaleX(1)}47%{left:88%;transform:scaleX(1)}50%{left:88%;transform:scaleX(-1)}97%{left:-12%;transform:scaleX(-1)}100%{left:-12%;transform:scaleX(1)}}
+@media(max-width:600px){.speaking-geovana img{width:125px!important;height:160px!important}.speaking-geovana .speak-bubble{left:31%}.speaking-pudim-trail{height:100px}.speaking-pudim-trail img{width:78px;height:78px}}

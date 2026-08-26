@@ -40,26 +40,27 @@ const SPEAKING=[
  {ask:"What's your favorite animal?",pt:"Qual é o seu animal favorito?",example:"My favorite animal is a cat.",keys:["cat","dog","bird","fish","rabbit","lion","tiger"]},
  {ask:"What do you like to do?",pt:"O que você gosta de fazer?",example:"I like to play games.",keys:["i like","play","read","study","draw","sing","dance","swim","games"]}
 ];
-function Speaking({sound,onBack}:{sound:boolean;onBack:()=>void}){
+function Speaking({onBack}:{onBack:()=>void}){
  const [step,setStep]=useState(0),[heard,setHeard]=useState(""),[listening,setListening]=useState(false),[feedback,setFeedback]=useState<"idle"|"good"|"retry">("idle");
  const [supported,setSupported]=useState(true); const item=SPEAKING[step];
  useEffect(()=>{setSupported(typeof window!=="undefined"&&!!((window as any).SpeechRecognition||(window as any).webkitSpeechRecognition))},[]);
- useEffect(()=>{if(sound)speak(item.ask,"en-US",1.18)},[step]);
+ useEffect(()=>{speak(item.ask,"en-US",1.18)},[step]);
  const listen=()=>{const SR=(window as any).SpeechRecognition||(window as any).webkitSpeechRecognition;if(!SR){setSupported(false);return}
   const rec=new SR();rec.lang="en-US";rec.interimResults=false;rec.maxAlternatives=3;setListening(true);setFeedback("idle");setHeard("");
-  rec.onresult=(e:any)=>{const text=e.results[0][0].transcript;setHeard(text);const ok=item.keys.some(k=>text.toLowerCase().includes(k));setFeedback(ok?"good":"retry");if(sound)speak(ok?"Excellent! Great job!":"Good try! Listen to the example and try again.","en-US",1.2)};
+  rec.onresult=(e:any)=>{const text=e.results[0][0].transcript;setHeard(text);const ok=item.keys.some(k=>text.toLowerCase().includes(k));setFeedback(ok?"good":"retry");speak(ok?"Excellent! Great job!":"Good try! Listen to the example and try again.","en-US",1.2)};
   rec.onerror=()=>{setListening(false);setFeedback("retry")};rec.onend=()=>setListening(false);rec.start();
  };
  const next=()=>{setHeard("");setFeedback("idle");setStep(v=>(v+1)%SPEAKING.length)};
  return <main className="screen"><header className="top"><button onClick={onBack}>←</button><h1>🗣️ Speaking</h1><span/></header><section className="speaking-wrap">
-  <div className="speaking-pudim"><img src="/sprites/pudim-front.png" alt="Pudim"/><div className="speak-bubble"><b>{item.ask}</b><span>{item.pt}</span></div></div>
-  <div className="speaking-card"><p><b>Conversation {step+1} / {SPEAKING.length}</b></p><button className="example" onClick={()=>sound&&speak(item.ask)}>🔊 Ouvir pergunta</button>
+  <div className="speaking-pudim speaking-geovana"><img src="/geovana-learn.png" alt="Geovana"/><div className="speak-bubble"><b>{item.ask}</b><span>{item.pt}</span></div></div>
+  <div className="speaking-pudim-trail"><img src="/sprites/walk-clean-2.png" alt="Pudim caminhando"/></div>
+  <div className="speaking-card"><p><b>Conversation {step+1} / {SPEAKING.length}</b></p><button className="example" onClick={()=>speak(item.ask)}>🔊 Ouvir pergunta</button>
    <div className={`mic ${listening?"listening":""}`}>🎤</div><button className="primary" onClick={listen} disabled={listening||!supported}>{listening?"Listening...":"🎤 Falar em inglês"}</button>
    {!supported&&<div className="speech-warning">Permita o microfone e use Chrome ou Edge para esta atividade.</div>}
    {heard&&<div className="heard"><small>I heard:</small><strong>“{heard}”</strong></div>}
    {feedback==="good"&&<div className="speech-good">⭐ Excellent! Muito bem!</div>}
    {feedback==="retry"&&<div className="speech-retry">🐾 Good try! Ouça o exemplo e tente novamente.</div>}
-   <div className="model-answer"><span>Exemplo de resposta:</span><b>{item.example}</b><button onClick={()=>sound&&speak(item.example)}>🔊 Ouvir exemplo</button></div>
+   <div className="model-answer"><span>Exemplo de resposta:</span><b>{item.example}</b><button onClick={()=>speak(item.example)}>🔊 Ouvir exemplo</button></div>
    {feedback==="good"&&<button className="next" onClick={next}>Próxima conversa →</button>}
   </div></section></main>
 }
@@ -169,17 +170,28 @@ function Pudim({q,reaction,sound}:{q:Q;reaction:"walk"|"correct"|"wrong";sound:b
 }
 export default function Home(){
  const [screen,setScreen]=useState<Screen>("home");
- const [sound,setSound]=useState(true),[english,setEnglish]=useState(false);
+ const sound=true; const [english,setEnglish]=useState(false);
  const [name,setName]=useState("Geovana"),[draft,setDraft]=useState("Geovana");
  const [world,setWorld]=useState(0),[qi,setQi]=useState(0),[score,setScore]=useState(0),[coins,setCoins]=useState(0),[lives,setLives]=useState(3),[selected,setSelected]=useState<number|null>(null);
  const [completed,setCompleted]=useState<number[]>([]);
  const [voiceListening,setVoiceListening]=useState(false);
  const [voiceHeard,setVoiceHeard]=useState("");
  const [voiceMessage,setVoiceMessage]=useState("");
+ const [reaction,setReaction]=useState<"walk"|"correct"|"wrong">("walk");
  useEffect(()=>{try{const n=localStorage.getItem("geovana-player");if(n){setName(n);setDraft(n)}const c=JSON.parse(localStorage.getItem("geovana-completed")||"[]");setCompleted(c)}catch{}},[]);
+ useEffect(()=>{
+  if(screen!=="home")return;
+  const audio=new Audio("/home-music.wav");audio.loop=true;audio.volume=.34;
+  const start=()=>audio.play().catch(()=>{});
+  start();
+  const unlock=()=>start();
+  window.addEventListener("pointerdown",unlock,{once:true});
+  window.addEventListener("keydown",unlock,{once:true});
+  return()=>{audio.pause();audio.currentTime=0;window.removeEventListener("pointerdown",unlock);window.removeEventListener("keydown",unlock)};
+ },[screen]);
  const q=W[world].questions[qi];
  const unlocked=Math.min(4,Math.max(1,completed.length+1));
- const goWorld=(i:number)=>{if(i>=unlocked)return;setWorld(i);setQi(0);setScore(0);setCoins(0);setLives(3);setSelected(null);setVoiceHeard("");setVoiceMessage("");setScreen("game")};
+ const goWorld=(i:number)=>{if(i>=unlocked)return;setWorld(i);setQi(0);setScore(0);setCoins(0);setLives(3);setSelected(null);setVoiceHeard("");setVoiceMessage("");setReaction("walk");setReaction("walk");setScreen("game")};
  const normalizeSpeech=(text:string)=>text
    .toLowerCase()
    .normalize("NFD")
@@ -238,9 +250,15 @@ export default function Home(){
  };
 
  const answer=(i:number)=>{
-  if(selected!==null)return;setSelected(i);
-  if(i===q.a){setScore(v=>v+10);setCoins(v=>v+5);if(sound)speak("Excellent! Great job!","en-US",1.35)}
-  else{setLives(v=>Math.max(0,v-1));if(sound)speak("Try again!","en-US",1.35)}
+  if(selected!==null)return;
+  if(i===q.a){
+   setSelected(i);setReaction("correct");setScore(v=>v+10);setCoins(v=>v+5);
+   speak("Excellent! Great job!","en-US",1.35);
+  }else{
+   setReaction("wrong");setLives(v=>Math.max(0,v-1));
+   speak("Try again!","en-US",1.35);
+   setTimeout(()=>setReaction("walk"),1800);
+  }
  };
  const next=()=>{
   if(qi<W[world].questions.length-1){setQi(v=>v+1);setSelected(null);setVoiceHeard("");setVoiceMessage("")}
@@ -251,7 +269,6 @@ export default function Home(){
  if(screen==="home")return <main className="home">
    <div className="poster">
     <img src="/home-main-v125.png" alt="As Aventuras de Geovana"/>
-    <button className="hit sound" onClick={()=>setSound(v=>!v)} aria-label="Som">{sound?"🔊":"🔇"}</button>
     <button className="hit lang" onClick={()=>setEnglish(v=>!v)} aria-label="Idioma">{english?"EN":"PT"}</button>
     <button className="hit profile" onClick={()=>setScreen("profile")} aria-label="Perfil">Perfil</button>
     <button className="hit play" onClick={()=>setScreen("worlds")} aria-label="Jogar">Jogar</button>
@@ -278,7 +295,7 @@ export default function Home(){
   </button>
 </div><div className="vocab">{vocab.map(v=><button key={v[1]} onClick={()=>sound&&speak(v[1],"en-US",1.25)}><span>{v[0]}</span><b>{v[1]}</b><small>{v[2]}</small><em>🔊 Ouvir</em></button>)}</div></Shell>;
 
- if(screen==="speaking")return <Speaking sound={sound} onBack={()=>setScreen("learn")}/>;
+ if(screen==="speaking")return <Speaking onBack={()=>setScreen("learn")}/>;
 
  if(screen==="result")return <Shell title="Missão concluída!" back={()=>setScreen("home")}><div className="card result"><h1>🎉 Parabéns, {name}!</h1><p>Você concluiu <b>{W[world].name}</b>.</p><div className="big-score">⭐ {score} pontos</div><button className="primary" onClick={()=>setScreen("worlds")}>Próximo mundo</button></div></Shell>;
 
@@ -308,9 +325,9 @@ export default function Home(){
       </div>}
     </div>
 
-    {selected!==null&&<button className="next" onClick={next}>{qi===W[world].questions.length-1?"Concluir":"Próximo →"}</button>}
+    {selected===q.a&&<button className="next" onClick={next}>{qi===W[world].questions.length-1?"Concluir":"Próximo →"}</button>}
    </section>
-   <Pudim q={q} reaction={selected===null?"walk":selected===q.a?"correct":"wrong"} sound={sound}/>
+   <Pudim q={q} reaction={reaction} sound={sound}/>
  </main>
 }
 
