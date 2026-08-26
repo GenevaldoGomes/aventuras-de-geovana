@@ -83,3 +83,35 @@
  from{transform:translateY(0) scale(1)}
  to{transform:translateY(-3px) scale(1.025)}
 }
+
+/* V13.8 — reações de acerto e erro */
+.walker img.pudim-positive{
+ animation:pudimCelebrate .34s ease-in-out infinite alternate!important;
+}
+.walker img.pudim-sad{
+ animation:pudimSad 1.05s ease-in-out infinite alternate!important;
+}
+@keyframes pudimCelebrate{
+ from{transform:translateY(0) scale(1) rotate(-2deg)}
+ to{transform:translateY(-10px) scale(1.06) rotate(2deg)}
+}
+@keyframes pudimSad{
+ from{transform:translateY(0) rotate(0deg)}
+ to{transform:translateY(3px) rotate(-2deg)}
+}
+.pudim-stars{
+ position:absolute;left:50%;bottom:82px;transform:translateX(-50%);
+ width:190px;height:145px;pointer-events:none;z-index:25;
+}
+.pudim-stars i{position:absolute;font-style:normal;font-size:25px;animation:starBurst 1.15s ease-out infinite}
+.pudim-stars i:nth-child(1){left:8%;top:48%;animation-delay:0s}
+.pudim-stars i:nth-child(2){left:24%;top:10%;animation-delay:.16s}
+.pudim-stars i:nth-child(3){left:48%;top:0;animation-delay:.3s}
+.pudim-stars i:nth-child(4){right:20%;top:14%;animation-delay:.1s}
+.pudim-stars i:nth-child(5){right:3%;top:48%;animation-delay:.42s}
+.pudim-stars i:nth-child(6){left:46%;top:42%;animation-delay:.55s}
+@keyframes starBurst{
+ 0%{opacity:0;transform:translateY(15px) scale(.35) rotate(0)}
+ 35%{opacity:1}
+ 100%{opacity:0;transform:translateY(-42px) scale(1.25) rotate(120deg)}
+}

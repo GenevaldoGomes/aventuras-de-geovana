@@ -48,3 +48,9 @@ Código reconstruído do zero. Home 9:16 é o layout padrão e não depende de r
 - Quando o aluno toca nele para pedir dica, também vira de frente.
 - Durante a interação frontal há uma animação suave de respiração/fala.
 - Ao terminar a interação, volta para a caminhada lateral.
+
+## V13.8 — Reações do Pudim
+- Acerto: Pudim para, vira de frente, comemora e aparecem estrelas animadas.
+- Erro: Pudim para, vira de frente e demonstra tristeza.
+- As reações usam imagens frontais dedicadas e não alteram a escala da pista.
+- Depois da reação, o fluxo normal do jogo pode continuar.

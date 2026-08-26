@@ -119,10 +119,19 @@ function Pudim({q,reaction,sound}:{q:Q;reaction:"walk"|"correct"|"wrong";sound:b
       <b>{text.en}</b><span>{text.pt}</span>
       {companion?.hint&&!hint&&<small>🐾 Toque no Pudim / Tap Pudim</small>}
     </div>
+    {reaction==="correct"&&<div className="pudim-stars" aria-hidden="true">
+      <i>⭐</i><i>✨</i><i>⭐</i><i>🌟</i><i>✨</i><i>⭐</i>
+    </div>}
     <img
-      src={(hint||companion)?"/sprites/pudim-front.png":frames[frame%frames.length]}
-      className={(hint||companion)?"front-facing":(dir<0?"flip":"")}
-      alt={(hint||companion)?"Pudim olhando para o aluno":"Pudim caminhando"}
+      src={reaction==="correct"?"/sprites/pudim-positive.png":
+           reaction==="wrong"?"/sprites/pudim-sad.png":
+           (hint||companion)?"/sprites/pudim-front.png":frames[frame%frames.length]}
+      className={reaction==="correct"?"front-facing pudim-positive":
+                 reaction==="wrong"?"front-facing pudim-sad":
+                 (hint||companion)?"front-facing":(dir<0?"flip":"")}
+      alt={reaction==="correct"?"Pudim comemorando":
+           reaction==="wrong"?"Pudim triste":
+           (hint||companion)?"Pudim olhando para o aluno":"Pudim caminhando"}
     />
    </button>
    {reaction==="walk"&&!hint&&!companion&&<div className="hint-note">🐾 Clique no Pudim para uma dica!</div>}
