@@ -69,3 +69,6 @@ Código reconstruído do zero. Home 9:16 é o layout padrão e não depende de r
 - Acertos e erros continuam acionando as reações do Pudim.
 - Mostra na tela o que foi entendido pelo reconhecimento de voz.
 - Em navegadores sem reconhecimento de fala, é exibida uma orientação para usar Chrome ou Edge e permitir o microfone.
+
+## V14.5 — Interface animada
+Cards por categoria flutuam suavemente, ícones reagem, estrelas piscam, o card de conversação ganha brilho, botões têm pulso e feedback ao toque, alternativas recebem brilho passageiro e botões de áudio mostram notas musicais.

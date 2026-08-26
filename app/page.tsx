@@ -32,38 +32,76 @@ function hintFor(q:Q){
 }
 
 
-const SPEAKING=[
- {ask:"Hello! What's your name?",pt:"Olá! Qual é o seu nome?",example:"My name is Geovana.",keys:["my name is","i am","i'm"]},
- {ask:"How old are you?",pt:"Quantos anos você tem?",example:"I am nine years old.",keys:["years old","i am","i'm"]},
- {ask:"How are you today?",pt:"Como você está hoje?",example:"I am fine, thank you.",keys:["fine","good","great","happy","okay","ok"]},
- {ask:"What's your favorite color?",pt:"Qual é a sua cor favorita?",example:"My favorite color is blue.",keys:["blue","red","green","yellow","pink","purple","orange","black","white"]},
- {ask:"What's your favorite animal?",pt:"Qual é o seu animal favorito?",example:"My favorite animal is a cat.",keys:["cat","dog","bird","fish","rabbit","lion","tiger"]},
- {ask:"What do you like to do?",pt:"O que você gosta de fazer?",example:"I like to play games.",keys:["i like","play","read","study","draw","sing","dance","swim","games"]}
+
+const LEARN_CATEGORIES=[
+ {name:"Animals",pt:"Animais",icon:"🐾",items:[["🐱","Cat","Gato"],["🐶","Dog","Cachorro"],["🐰","Rabbit","Coelho"],["🐟","Fish","Peixe"],["🐘","Elephant","Elefante"],["🦁","Lion","Leão"]]},
+ {name:"Family",pt:"Família",icon:"👨‍👩‍👧‍👦",items:[["👩","Mother","Mãe"],["👨","Father","Pai"],["👧","Sister","Irmã"],["👦","Brother","Irmão"],["👵","Grandmother","Avó"],["👴","Grandfather","Avô"]]},
+ {name:"Colors",pt:"Cores",icon:"🎨",items:[["🔴","Red","Vermelho"],["🔵","Blue","Azul"],["🟢","Green","Verde"],["🟡","Yellow","Amarelo"],["🟣","Purple","Roxo"],["🟠","Orange","Laranja"]]},
+ {name:"Greetings",pt:"Saudações",icon:"👋",items:[["👋","Hello","Olá"],["☀️","Good morning","Bom dia"],["🌤️","Good afternoon","Boa tarde"],["🌙","Good night","Boa noite"],["😊","How are you?","Como você está?"],["👋","Goodbye","Tchau"]]},
+ {name:"Food",pt:"Comidas",icon:"🍎",items:[["🍎","Apple","Maçã"],["🍌","Banana","Banana"],["🍞","Bread","Pão"],["🥛","Milk","Leite"],["🍚","Rice","Arroz"],["🥚","Egg","Ovo"]]},
+ {name:"School",pt:"Escola",icon:"🎒",items:[["📚","Book","Livro"],["✏️","Pencil","Lápis"],["🖊️","Pen","Caneta"],["📓","Notebook","Caderno"],["🎒","Backpack","Mochila"],["🏫","School","Escola"]]},
+ {name:"Numbers",pt:"Números",icon:"🔢",items:[["1️⃣","One","Um"],["2️⃣","Two","Dois"],["3️⃣","Three","Três"],["4️⃣","Four","Quatro"],["5️⃣","Five","Cinco"],["🔟","Ten","Dez"]]},
+ {name:"Body",pt:"Corpo",icon:"🧒",items:[["👁️","Eyes","Olhos"],["👂","Ears","Orelhas"],["👃","Nose","Nariz"],["👄","Mouth","Boca"],["✋","Hand","Mão"],["🦶","Foot","Pé"]]}
+];
+const CHAT_STEPS=[
+ {pudim:"Hi! What's your name?",pt:"Oi! Qual é o seu nome?",placeholder:"My name is Geovana.",reply:(v:string)=>`Nice to meet you, ${v.replace(/^(my name is|i am|i'm)\s+/i,"") || "my friend"}! My name is Pudim. How are you today?`,next:"How are you today?"},
+ {pudim:"How are you today?",pt:"Como você está hoje?",placeholder:"I am fine, thank you.",reply:()=>`Great! I'm very happy today! How old are you?`,next:"How old are you?"},
+ {pudim:"How old are you?",pt:"Quantos anos você tem?",placeholder:"I am nine years old.",reply:()=>`Cool! What's your favorite color?`,next:"What's your favorite color?"},
+ {pudim:"What's your favorite color?",pt:"Qual é a sua cor favorita?",placeholder:"My favorite color is blue.",reply:()=>`Beautiful color! My favorite color is yellow. What's your favorite animal?`,next:"What's your favorite animal?"},
+ {pudim:"What's your favorite animal?",pt:"Qual é o seu animal favorito?",placeholder:"My favorite animal is a cat.",reply:()=>`Wonderful! I love cats too! It was great talking to you. See you soon!`,next:""}
 ];
 function Speaking({onBack}:{onBack:()=>void}){
- const [step,setStep]=useState(0),[heard,setHeard]=useState(""),[listening,setListening]=useState(false),[feedback,setFeedback]=useState<"idle"|"good"|"retry">("idle");
- const [supported,setSupported]=useState(true); const item=SPEAKING[step];
- useEffect(()=>{setSupported(typeof window!=="undefined"&&!!((window as any).SpeechRecognition||(window as any).webkitSpeechRecognition))},[]);
- useEffect(()=>{speak(item.ask,"en-US",1.18)},[step]);
- const listen=()=>{const SR=(window as any).SpeechRecognition||(window as any).webkitSpeechRecognition;if(!SR){setSupported(false);return}
-  const rec=new SR();rec.lang="en-US";rec.interimResults=false;rec.maxAlternatives=3;setListening(true);setFeedback("idle");setHeard("");
-  rec.onresult=(e:any)=>{const text=e.results[0][0].transcript;setHeard(text);const ok=item.keys.some(k=>text.toLowerCase().includes(k));setFeedback(ok?"good":"retry");speak(ok?"Excellent! Great job!":"Good try! Listen to the example and try again.","en-US",1.2)};
-  rec.onerror=()=>{setListening(false);setFeedback("retry")};rec.onend=()=>setListening(false);rec.start();
+ const [step,setStep]=useState(0);
+ const [messages,setMessages]=useState<{who:"pudim"|"user";text:string}[]>([
+  {who:"pudim",text:CHAT_STEPS[0].pudim}
+ ]);
+ const [listening,setListening]=useState(false);
+ const [heard,setHeard]=useState("");
+ const [supported,setSupported]=useState(true);
+ const [finished,setFinished]=useState(false);
+ const item=CHAT_STEPS[Math.min(step,CHAT_STEPS.length-1)];
+
+ useEffect(()=>{setSupported(typeof window!=="undefined"&&!!((window as any).SpeechRecognition||(window as any).webkitSpeechRecognition));setTimeout(()=>speak(CHAT_STEPS[0].pudim,"en-US",1.18),350)},[]);
+
+ const respond=(text:string)=>{
+  const clean=text.trim(); if(!clean)return;
+  setMessages(m=>[...m,{who:"user",text:clean}]);setHeard("");
+  const reply=item.reply(clean);
+  setTimeout(()=>{
+   setMessages(m=>[...m,{who:"pudim",text:reply}]);speak(reply,"en-US",1.18);
+   if(step>=CHAT_STEPS.length-1){setFinished(true)}
+   else setStep(v=>v+1);
+  },450);
  };
- const next=()=>{setHeard("");setFeedback("idle");setStep(v=>(v+1)%SPEAKING.length)};
- return <main className="screen"><header className="top"><button onClick={onBack}>←</button><h1>🗣️ Speaking</h1><span/></header><section className="speaking-wrap">
-  <div className="speaking-pudim speaking-geovana"><img src="/geovana-learn.png" alt="Geovana"/><div className="speak-bubble"><b>{item.ask}</b><span>{item.pt}</span></div></div>
-  <div className="speaking-pudim-trail"><img src="/sprites/walk-clean-2.png" alt="Pudim caminhando"/></div>
-  <div className="speaking-card"><p><b>Conversation {step+1} / {SPEAKING.length}</b></p><button className="example" onClick={()=>speak(item.ask)}>🔊 Ouvir pergunta</button>
-   <div className={`mic ${listening?"listening":""}`}>🎤</div><button className="primary" onClick={listen} disabled={listening||!supported}>{listening?"Listening...":"🎤 Falar em inglês"}</button>
-   {!supported&&<div className="speech-warning">Permita o microfone e use Chrome ou Edge para esta atividade.</div>}
-   {heard&&<div className="heard"><small>I heard:</small><strong>“{heard}”</strong></div>}
-   {feedback==="good"&&<div className="speech-good">⭐ Excellent! Muito bem!</div>}
-   {feedback==="retry"&&<div className="speech-retry">🐾 Good try! Ouça o exemplo e tente novamente.</div>}
-   <div className="model-answer"><span>Exemplo de resposta:</span><b>{item.example}</b><button onClick={()=>speak(item.example)}>🔊 Ouvir exemplo</button></div>
-   {feedback==="good"&&<button className="next" onClick={next}>Próxima conversa →</button>}
-  </div></section></main>
+ const listen=()=>{
+  const SR=(window as any).SpeechRecognition||(window as any).webkitSpeechRecognition;
+  if(!SR){setSupported(false);return}
+  const rec=new SR();rec.lang="en-US";rec.interimResults=false;rec.maxAlternatives=3;setListening(true);
+  rec.onresult=(e:any)=>{const t=String(e.results[0][0].transcript||"");setHeard(t);respond(t)};
+  rec.onerror=()=>setListening(false);rec.onend=()=>setListening(false);rec.start();
+ };
+ const restart=()=>{setStep(0);setFinished(false);setHeard("");setMessages([{who:"pudim",text:CHAT_STEPS[0].pudim}]);speak(CHAT_STEPS[0].pudim,"en-US",1.18)};
+ return <main className="screen"><header className="top"><button onClick={onBack}>←</button><h1>💬 Conversation</h1><span/></header>
+  <section className="chat-scene">
+   <div className="chat-geovana"><img src="/geovana-learn.png" alt="Geovana"/></div>
+   <div className="chat-phone">
+    <div className="chat-head"><img src="/sprites/pudim-front.png" alt="Pudim"/><div><b>Pudim</b><small>● online • English chat</small></div></div>
+    <div className="chat-body">
+     {messages.map((m,i)=><div key={i} className={`chat-row ${m.who}`}><div className="chat-bubble">{m.text}<small>{m.who==="pudim"?"Pudim":"You"}</small></div></div>)}
+     {!finished&&<div className="chat-help"><b>💡 Responda em inglês</b><span>Exemplo: {item.placeholder}</span><span className="translation">{item.pt}</span></div>}
+    </div>
+    <div className="chat-compose">
+     {!finished?<><button className={`chat-mic ${listening?"listening":""}`} onClick={listen} disabled={listening||!supported}>🎤</button>
+     <button className="chat-example" onClick={()=>speak(item.placeholder,"en-US",1.12)}>🔊 Ouvir exemplo</button></>:
+     <button className="chat-restart" onClick={restart}>🔄 Conversar novamente</button>}
+    </div>
+    {!supported&&<div className="speech-warning">Use Chrome ou Edge e permita o microfone.</div>}
+   </div>
+   <div className="chat-pudim-walk"><img src="/sprites/walk-clean-2.png" alt="Pudim"/></div>
+  </section>
+ </main>
 }
+
 function Pudim({q,reaction,sound}:{q:Q;reaction:"walk"|"correct"|"wrong";sound:boolean}){
  const [x,setX]=useState(8),[dir,setDir]=useState(1),[hint,setHint]=useState(false),[frame,setFrame]=useState(0);
  const [companion,setCompanion]=useState<{en:string;pt:string;hint?:boolean}|null>(null);
@@ -178,6 +216,7 @@ export default function Home(){
  const [voiceHeard,setVoiceHeard]=useState("");
  const [voiceMessage,setVoiceMessage]=useState("");
  const [reaction,setReaction]=useState<"walk"|"correct"|"wrong">("walk");
+ const [learnCategory,setLearnCategory]=useState<number|null>(null);
  useEffect(()=>{try{const n=localStorage.getItem("geovana-player");if(n){setName(n);setDraft(n)}const c=JSON.parse(localStorage.getItem("geovana-completed")||"[]");setCompleted(c)}catch{}},[]);
  useEffect(()=>{
   if(screen!=="home")return;
@@ -284,16 +323,13 @@ export default function Home(){
 
  if(screen==="ranking")return <Shell title="Ranking" back={()=>setScreen("home")}><div className="card"><h2>🏆 Seu progresso</h2><p><b>{name}</b></p><p>Mundos concluídos: {completed.length}/4</p><p>Continue jogando para conquistar novas estrelas!</p></div></Shell>;
 
- if(screen==="learn")return <Shell title="Aprender" back={()=>setScreen("home")}><div className="speaking-launcher">
-  <button type="button" onClick={()=>setScreen("speaking")} className="speaking-launch-button">
-    <span className="speaking-launch-icon">🗣️</span>
-    <span className="speaking-launch-copy">
-      <b>FALAR — SPEAKING</b>
-      <small>Treine sua conversação com o Pudim</small>
-    </span>
-    <span className="speaking-launch-cta">🎤 COMEÇAR</span>
-  </button>
-</div><div className="vocab">{vocab.map(v=><button key={v[1]} onClick={()=>sound&&speak(v[1],"en-US",1.25)}><span>{v[0]}</span><b>{v[1]}</b><small>{v[2]}</small><em>🔊 Ouvir</em></button>)}</div></Shell>;
+ if(screen==="learn")return <Shell title="Aprender" back={()=>{if(learnCategory!==null)setLearnCategory(null);else setScreen("home")}}>
+   <div className="learn-speaking"><button onClick={()=>setScreen("speaking")}><span>💬</span><b>CONVERSAÇÃO COM PUDIM</b><small>Converse em inglês como em um chat</small><em>🎤 COMEÇAR</em></button></div>
+   {learnCategory===null?
+    <div className="category-grid">{LEARN_CATEGORIES.map((c,i)=><button key={c.name} className="category-card" onClick={()=>setLearnCategory(i)}><span>{c.icon}</span><b>{c.name}</b><small>{c.pt}</small><em>Explorar →</em></button>)}</div>
+    :
+    <div className="category-view"><div className="category-title"><button onClick={()=>setLearnCategory(null)}>← Categorias</button><h2>{LEARN_CATEGORIES[learnCategory].icon} {LEARN_CATEGORIES[learnCategory].name}</h2></div><div className="vocab">{LEARN_CATEGORIES[learnCategory].items.map(v=><div className="word" key={v[1]}><span>{v[0]}</span><b>{v[1]}</b><small>{v[2]}</small><button onClick={()=>speak(v[1])}>🔊 Ouvir</button></div>)}</div></div>}
+  </Shell>;
 
  if(screen==="speaking")return <Speaking onBack={()=>setScreen("learn")}/>;
 
