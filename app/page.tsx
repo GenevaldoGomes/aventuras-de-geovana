@@ -230,7 +230,7 @@ export default function Home(){
  },[screen]);
  const q=W[world].questions[qi];
  const unlocked=Math.min(4,Math.max(1,completed.length+1));
- const goWorld=(i:number)=>{if(i>=unlocked)return;setWorld(i);setQi(0);setScore(0);setCoins(0);setLives(3);setSelected(null);setVoiceHeard("");setVoiceMessage("");setReaction("walk");setReaction("walk");setScreen("game")};
+ const goWorld=(i:number)=>{if(i>=unlocked)return;setWorld(i);setQi(0);setScore(0);setCoins(0);setLives(3);setSelected(null);setVoiceHeard("");setVoiceMessage("");setReaction("walk");setScreen("game")};
  const normalizeSpeech=(text:string)=>text
    .toLowerCase()
    .normalize("NFD")
@@ -296,14 +296,31 @@ export default function Home(){
   }else{
    setReaction("wrong");setLives(v=>Math.max(0,v-1));
    speak("Try again!","en-US",1.35);
-   setTimeout(()=>setReaction("walk"),1800);
+   setTimeout(()=>setReaction(r=>r==="wrong"?"walk":r),1800);
   }
  };
  const next=()=>{
-  if(qi<W[world].questions.length-1){setQi(v=>v+1);setSelected(null);setVoiceHeard("");setVoiceMessage("")}
-  else{const c=[...new Set([...completed,world])];setCompleted(c);localStorage.setItem("geovana-completed",JSON.stringify(c));setScreen("result")}
+  if(selected!==q.a)return;
+  if(qi<W[world].questions.length-1){
+   setSelected(null);
+   setVoiceHeard("");
+   setVoiceMessage("");
+   setVoiceListening(false);
+   setReaction("walk");
+   setQi(v=>v+1);
+  }else{
+   const done=[...new Set([...completed,world])];
+   setCompleted(done);
+   localStorage.setItem("geovana-completed",JSON.stringify(done));
+   setUnlocked(v=>Math.max(v,world+2));
+   setSelected(null);
+   setVoiceHeard("");
+   setVoiceMessage("");
+   setVoiceListening(false);
+   setReaction("walk");
+   setScreen("result");
+  }
  };
- const saveProfile=()=>{const n=draft.trim()||"Geovana";setName(n);localStorage.setItem("geovana-player",n);setScreen("home")};
 
  if(screen==="home")return <main className="home">
    <div className="poster">
@@ -363,7 +380,7 @@ export default function Home(){
 
     {selected===q.a&&<button className="next" onClick={next}>{qi===W[world].questions.length-1?"Concluir":"Próximo →"}</button>}
    </section>
-   <Pudim q={q} reaction={reaction} sound={sound}/>
+   <Pudim key={`pudim-${world}-${qi}`} q={q} reaction={reaction} sound={sound}/>
  </main>
 }
 
