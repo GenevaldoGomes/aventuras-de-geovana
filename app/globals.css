@@ -174,3 +174,66 @@
     font-size:16px;
   }
 }
+
+
+/* V14.2 — responder às questões falando */
+.voice-answer-box{
+  margin:18px auto 4px;
+  display:grid;
+  gap:10px;
+  justify-items:center;
+}
+.voice-answer-button{
+  width:min(430px,100%);
+  border:0;
+  border-radius:22px;
+  padding:13px 20px;
+  background:linear-gradient(135deg,#ff7b18,#ffb51f);
+  color:#fff;
+  box-shadow:0 7px 0 #cb5b0c,0 12px 22px rgba(64,24,113,.22);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:13px;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+.voice-answer-button:disabled{opacity:.62;cursor:default}
+.voice-answer-button .voice-mic{font-size:34px;line-height:1}
+.voice-answer-button b,
+.voice-answer-button small{display:block;text-align:left}
+.voice-answer-button b{font-size:18px}
+.voice-answer-button small{font-size:12px;margin-top:2px}
+.voice-answer-button.is-listening{
+  animation:voiceButtonPulse .7s ease-in-out infinite alternate;
+}
+@keyframes voiceButtonPulse{
+  from{transform:scale(1);filter:brightness(1)}
+  to{transform:scale(1.025);filter:brightness(1.12)}
+}
+.voice-answer-feedback{
+  width:min(560px,100%);
+  min-height:43px;
+  padding:10px 14px;
+  border:2px solid #bba4ed;
+  border-radius:15px;
+  background:#f7f3ff;
+  color:#4e218f;
+  text-align:center;
+  display:grid;
+  gap:4px;
+}
+.voice-answer-feedback strong{font-size:13px}
+.voice-wave{
+  color:#f07b16;
+  letter-spacing:6px;
+  animation:voiceWave 650ms ease-in-out infinite alternate;
+}
+@keyframes voiceWave{to{transform:scale(1.18);opacity:.55}}
+
+@media(max-width:650px){
+  .voice-answer-box{margin-top:14px}
+  .voice-answer-button{padding:11px 14px;border-radius:18px}
+  .voice-answer-button .voice-mic{font-size:29px}
+  .voice-answer-button b{font-size:16px}
+}

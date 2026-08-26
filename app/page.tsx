@@ -173,17 +173,77 @@ export default function Home(){
  const [name,setName]=useState("Geovana"),[draft,setDraft]=useState("Geovana");
  const [world,setWorld]=useState(0),[qi,setQi]=useState(0),[score,setScore]=useState(0),[coins,setCoins]=useState(0),[lives,setLives]=useState(3),[selected,setSelected]=useState<number|null>(null);
  const [completed,setCompleted]=useState<number[]>([]);
+ const [voiceListening,setVoiceListening]=useState(false);
+ const [voiceHeard,setVoiceHeard]=useState("");
+ const [voiceMessage,setVoiceMessage]=useState("");
  useEffect(()=>{try{const n=localStorage.getItem("geovana-player");if(n){setName(n);setDraft(n)}const c=JSON.parse(localStorage.getItem("geovana-completed")||"[]");setCompleted(c)}catch{}},[]);
  const q=W[world].questions[qi];
  const unlocked=Math.min(4,Math.max(1,completed.length+1));
- const goWorld=(i:number)=>{if(i>=unlocked)return;setWorld(i);setQi(0);setScore(0);setCoins(0);setLives(3);setSelected(null);setScreen("game")};
+ const goWorld=(i:number)=>{if(i>=unlocked)return;setWorld(i);setQi(0);setScore(0);setCoins(0);setLives(3);setSelected(null);setVoiceHeard("");setVoiceMessage("");setScreen("game")};
+ const normalizeSpeech=(text:string)=>text
+   .toLowerCase()
+   .normalize("NFD")
+   .replace(/[\u0300-\u036f]/g,"")
+   .replace(/[^a-z0-9' ]/g,"")
+   .trim();
+
+ const answerByVoice=()=>{
+  if(selected!==null||voiceListening)return;
+  const SR=(window as any).SpeechRecognition||(window as any).webkitSpeechRecognition;
+  if(!SR){
+   setVoiceMessage("O reconhecimento de voz não está disponível. Use Chrome ou Edge e permita o microfone.");
+   return;
+  }
+  const rec=new SR();
+  rec.lang="en-US";
+  rec.interimResults=false;
+  rec.maxAlternatives=5;
+  setVoiceListening(true);
+  setVoiceHeard("");
+  setVoiceMessage("Listening... Fale uma das alternativas em inglês.");
+
+  rec.onresult=(e:any)=>{
+   const heard=String(e.results?.[0]?.[0]?.transcript||"").trim();
+   setVoiceHeard(heard);
+   const h=normalizeSpeech(heard);
+
+   let matched=q.o.findIndex(opt=>{
+    const o=normalizeSpeech(opt);
+    return h===o || h.includes(o) || o.includes(h);
+   });
+
+   if(matched<0){
+    // Pequena tolerância para respostas curtas reconhecidas com palavras extras.
+    matched=q.o.findIndex(opt=>{
+      const words=normalizeSpeech(opt).split(/\s+/).filter(Boolean);
+      return words.length>0 && words.every(w=>h.includes(w));
+    });
+   }
+
+   if(matched>=0){
+    setVoiceMessage(`I heard: "${heard}"`);
+    answer(matched);
+   }else{
+    setVoiceMessage(`I heard: "${heard}". Não identifiquei uma das alternativas. Tente novamente.`);
+    if(sound)speak("Try again. Say one of the answer choices.","en-US",1.2);
+   }
+  };
+  rec.onerror=(e:any)=>{
+   setVoiceMessage(e?.error==="not-allowed"
+     ?"Permita o acesso ao microfone para responder falando."
+     :"Não consegui ouvir claramente. Tente novamente.");
+  };
+  rec.onend=()=>setVoiceListening(false);
+  try{rec.start()}catch{setVoiceListening(false)}
+ };
+
  const answer=(i:number)=>{
   if(selected!==null)return;setSelected(i);
   if(i===q.a){setScore(v=>v+10);setCoins(v=>v+5);if(sound)speak("Excellent! Great job!","en-US",1.35)}
   else{setLives(v=>Math.max(0,v-1));if(sound)speak("Try again!","en-US",1.35)}
  };
  const next=()=>{
-  if(qi<W[world].questions.length-1){setQi(v=>v+1);setSelected(null)}
+  if(qi<W[world].questions.length-1){setQi(v=>v+1);setSelected(null);setVoiceHeard("");setVoiceMessage("")}
   else{const c=[...new Set([...completed,world])];setCompleted(c);localStorage.setItem("geovana-completed",JSON.stringify(c));setScreen("result")}
  };
  const saveProfile=()=>{const n=draft.trim()||"Geovana";setName(n);localStorage.setItem("geovana-player",n);setScreen("home")};
@@ -228,6 +288,26 @@ export default function Home(){
    <section className="question-card">
     <div className="question"><span className="qicon">{q.icon}</span><div><h1>{q.en}</h1><p>{q.pt}</p></div><button className="listen" onClick={()=>sound&&speak(q.en)}>🔊 Ouvir</button></div>
     <div className="answers">{q.o.map((o,i)=><div key={o} className={`answer ${selected===i?(i===q.a?"ok":"bad"):""}`}><button onClick={()=>answer(i)} disabled={selected!==null}><span>{String.fromCharCode(65+i)}</span>{o}</button><button className="listen small" onClick={()=>sound&&speak(o)}>🔊 Ouvir</button></div>)}</div>
+
+    <div className="voice-answer-box">
+      <button
+        type="button"
+        className={`voice-answer-button ${voiceListening?"is-listening":""}`}
+        onClick={answerByVoice}
+        disabled={selected!==null||voiceListening}
+      >
+        <span className="voice-mic">{voiceListening?"🎙️":"🎤"}</span>
+        <span>
+          <b>{voiceListening?"Listening...":"Responder falando"}</b>
+          <small>Say your answer in English</small>
+        </span>
+      </button>
+      {(voiceMessage||voiceHeard)&&<div className="voice-answer-feedback">
+        {voiceListening&&<span className="voice-wave">● ● ●</span>}
+        <strong>{voiceMessage}</strong>
+      </div>}
+    </div>
+
     {selected!==null&&<button className="next" onClick={next}>{qi===W[world].questions.length-1?"Concluir":"Próximo →"}</button>}
    </section>
    <Pudim q={q} reaction={selected===null?"walk":selected===q.a?"correct":"wrong"} sound={sound}/>

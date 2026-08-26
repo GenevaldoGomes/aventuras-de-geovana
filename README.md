@@ -60,3 +60,12 @@ Código reconstruído do zero. Home 9:16 é o layout padrão e não depende de r
 - Removida a leitura em português das interações e dicas.
 - A tradução em português continua aparecendo visualmente nos balões para apoiar a compreensão.
 - Acertos, erros, estrelas, caminhada e interações da V13.8 foram preservados.
+
+## V14.2 — Responder falando dentro dos exercícios
+- Cada questão ganhou o botão `🎤 Responder falando`.
+- O aluno pode dizer em inglês uma das alternativas em vez de tocar nela.
+- O navegador converte a fala em texto e compara com as opções da questão.
+- Quando identifica uma alternativa, o jogo registra a resposta exatamente como se ela tivesse sido clicada.
+- Acertos e erros continuam acionando as reações do Pudim.
+- Mostra na tela o que foi entendido pelo reconhecimento de voz.
+- Em navegadores sem reconhecimento de fala, é exibida uma orientação para usar Chrome ou Edge e permitir o microfone.
