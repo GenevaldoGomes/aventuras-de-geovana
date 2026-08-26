@@ -1,5 +1,18 @@
 # As Aventuras de Geovana — V13
 
+## V14.21 — Pergunta sobre Mother simplificada
+- Substituída a relação indireta “My father's wife is my...” por uma pergunta direta de vocabulário.
+- Nova questão: `How do you say 'mãe' in English?` / `Como se diz “mãe” em inglês?`.
+- Alternativas continuam integralmente em inglês: Sister, Mother e Aunt.
+
+## V14.20 — Música animada e Pudim motivador na Home
+- Nova música original, infantil e mais animada na tela principal.
+- Pudim caminha pela tela usando os mesmos quadros animados dos exercícios.
+- Em pausas naturais, Pudim vira de frente e incentiva a criança em inglês.
+- Cada fala possui tradução visual em português, mas a voz continua somente em inglês.
+- As mensagens mudam conforme o progresso: início, mundos em andamento ou aventura completa.
+- Ao tocar no Pudim, ele responde com uma mensagem contextual de incentivo.
+
 ## V14.19 — Alternativas dos mundos em inglês
 - Todas as alternativas das 40 questões dos quatro mundos estão em inglês.
 - Questões que antes exigiam respostas traduzidas em português foram reformuladas como situações de uso do inglês.

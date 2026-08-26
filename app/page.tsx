@@ -10,7 +10,7 @@ const W:World[]=[
  {icon:"🏙️",name:"London City",pt:"Cidade de Londres",place:"Passeie por Londres aprendendo cores, números e objetos!",color:"#1675d1",questions:[
   {en:"What color is a traditional London double-decker bus?",pt:"Qual é a cor tradicional do ônibus de dois andares de Londres?",o:["Red","Green","Purple"],a:0,icon:"🎨"},{en:"What number comes after nine?",pt:"Qual número vem depois de nove?",o:["Eight","Ten","Twenty"],a:1,icon:"🔟"},{en:"The sky is usually...",pt:"O céu geralmente é...",o:["Blue","Orange","Black"],a:0,icon:"🌤️"},{en:"How many fingers on one hand?",pt:"Quantos dedos em uma mão?",o:["Three","Five","Seven"],a:1,icon:"✋"},{en:"What tells the time?",pt:"O que informa as horas?",o:["Clock","Book","Chair"],a:0,icon:"🕰️"},{en:"Choose the yellow object.",pt:"Escolha o objeto amarelo.",o:["Banana","Bus","Cloud"],a:0,icon:"🍌"},{en:"You read a...",pt:"Você lê um...",o:["Table","Book","Door"],a:1,icon:"📕"},{en:"One plus two is...",pt:"Um mais dois é...",o:["Two","Three","Four"],a:1,icon:"3️⃣"},{en:"Grass is usually...",pt:"A grama geralmente é...",o:["Green","Pink","Gray"],a:0,icon:"🌿"},{en:"You sit on a...",pt:"Você senta em uma...",o:["Window","Chair","Pencil"],a:1,icon:"🪑"}]},
  {icon:"🗽",name:"New York Quest",pt:"Aventura em Nova York",place:"A missão final reúne família, alimentos e lugares da cidade!",color:"#ed287d",questions:[
-  {en:"My mother's son is my...",pt:"O filho da minha mãe é meu...",o:["Brother","Uncle","Father"],a:0,icon:"👦"},{en:"Which food is a fruit?",pt:"Qual alimento é uma fruta?",o:["Bread","Apple","Cheese"],a:1,icon:"🍎"},{en:"Where do students learn?",pt:"Onde os estudantes aprendem?",o:["School","Hospital","Airport"],a:0,icon:"🏫"},{en:"My father's wife is my...",pt:"A esposa do meu pai é minha...",o:["Sister","Mother","Aunt"],a:1,icon:"👩"},{en:"Where can you see a doctor?",pt:"Onde você encontra um médico?",o:["Park","Hospital","Cinema"],a:1,icon:"🏥"},{en:"Which drink is white?",pt:"Qual bebida é branca?",o:["Milk","Coffee","Juice"],a:0,icon:"🥛"},{en:"You can buy food at the...",pt:"Você compra alimentos no...",o:["Library","Supermarket","Museum"],a:1,icon:"🛒"},{en:"My mother's mother is my...",pt:"A mãe da minha mãe é minha...",o:["Grandmother","Cousin","Daughter"],a:0,icon:"👵"},{en:"Which food is made with cheese?",pt:"Qual alimento é feito com queijo?",o:["Pizza","Apple","Rice"],a:0,icon:"🍕"},{en:"The Statue of Liberty is in...",pt:"A Estátua da Liberdade fica em...",o:["London","New York","Paris"],a:1,icon:"🗽"}]}
+  {en:"My mother's son is my...",pt:"O filho da minha mãe é meu...",o:["Brother","Uncle","Father"],a:0,icon:"👦"},{en:"Which food is a fruit?",pt:"Qual alimento é uma fruta?",o:["Bread","Apple","Cheese"],a:1,icon:"🍎"},{en:"Where do students learn?",pt:"Onde os estudantes aprendem?",o:["School","Hospital","Airport"],a:0,icon:"🏫"},{en:"How do you say 'mãe' in English?",pt:"Como se diz “mãe” em inglês?",o:["Sister","Mother","Aunt"],a:1,icon:"👩"},{en:"Where can you see a doctor?",pt:"Onde você encontra um médico?",o:["Park","Hospital","Cinema"],a:1,icon:"🏥"},{en:"Which drink is white?",pt:"Qual bebida é branca?",o:["Milk","Coffee","Juice"],a:0,icon:"🥛"},{en:"You can buy food at the...",pt:"Você compra alimentos no...",o:["Library","Supermarket","Museum"],a:1,icon:"🛒"},{en:"My mother's mother is my...",pt:"A mãe da minha mãe é minha...",o:["Grandmother","Cousin","Daughter"],a:0,icon:"👵"},{en:"Which food is made with cheese?",pt:"Qual alimento é feito com queijo?",o:["Pizza","Apple","Rice"],a:0,icon:"🍕"},{en:"The Statue of Liberty is in...",pt:"A Estátua da Liberdade fica em...",o:["London","New York","Paris"],a:1,icon:"🗽"}]}
 ];
 
 type Screen="home"|"worlds"|"game"|"ranking"|"learn"|"speaking"|"result"|"profile";
@@ -322,6 +322,64 @@ function Pudim({q,reaction,sound}:{q:Q;reaction:"walk"|"correct"|"wrong";sound:b
    {reaction==="walk"&&!hint&&!companion&&<div className="hint-note">🐾 Clique no Pudim para uma dica!</div>}
  </div>
 }
+
+function HomePudim({name,completed}:{name:string;completed:number}){
+ const frames=[0,1,2,3,4,5,6,7].map(i=>`/sprites/walk-clean-${i}.png`);
+ const [x,setX]=useState(7),[dir,setDir]=useState(1),[frame,setFrame]=useState(0);
+ const [paused,setPaused]=useState(false);
+ const [message,setMessage]=useState<{en:string;pt:string}|null>(null);
+ const talking=useRef(false);
+ const timer=useRef<ReturnType<typeof setTimeout>|null>(null);
+
+ const phrases=completed===0?[
+  {en:`Hi, ${name}! Ready for your first English adventure?`,pt:`Olá, ${name}! Preparado para sua primeira aventura em inglês?`},
+  {en:"Every new word is a new superpower!",pt:"Cada palavra nova é um novo superpoder!"},
+  {en:"Let's learn, play, and speak English together!",pt:"Vamos aprender, jogar e falar inglês juntos!"}
+ ]:completed<4?[
+  {en:`Great to see you again, ${name}!`,pt:`Que bom ver você novamente, ${name}!`},
+  {en:`You have completed ${completed} ${completed===1?"world":"worlds"}. Keep going!`,pt:`Você concluiu ${completed} ${completed===1?"mundo":"mundos"}. Continue!`},
+  {en:"Practice a little every day and English gets easier!",pt:"Pratique um pouco todos os dias e o inglês ficará mais fácil!"}
+ ]:[
+  {en:`Amazing, ${name}! You explored every world!`,pt:`Incrível, ${name}! Você explorou todos os mundos!`},
+  {en:"A great explorer keeps practicing. Let's speak English!",pt:"Um grande explorador continua praticando. Vamos falar inglês!"},
+  {en:"Visit Learn and practice a new word with me!",pt:"Visite Aprender e pratique uma palavra nova comigo!"}
+ ];
+
+ const talk=(index?:number)=>{
+  if(timer.current)clearTimeout(timer.current);
+  talking.current=true;setPaused(true);
+  const chosen=phrases[index??Math.floor(Math.random()*phrases.length)];
+  setMessage(chosen);speak(chosen.en,"en-US",1.2);
+  timer.current=setTimeout(()=>{setMessage(null);setPaused(false);talking.current=false},4300);
+ };
+
+ useEffect(()=>{
+  const animation=setInterval(()=>{
+   if(talking.current)return;
+   setFrame(v=>(v+1)%frames.length);
+   setX(v=>{
+    let next=v+dir*.55;
+    if(next>79){setDir(-1);next=79}
+    if(next<4){setDir(1);next=4}
+    return next;
+   });
+  },105);
+  return()=>clearInterval(animation);
+ },[dir]);
+
+ useEffect(()=>{
+  const invitation=setInterval(()=>{if(!talking.current)talk()},12000);
+  return()=>{clearInterval(invitation);if(timer.current)clearTimeout(timer.current)};
+ },[completed,name]);
+
+ return <button type="button" className={`home-pudim ${paused?"talking":"walking"}`} style={{left:`${x}%`}}
+  onClick={()=>talk(completed===0?0:1)} aria-label="Clique no Pudim para ouvir uma mensagem de incentivo"
+  onKeyDown={e=>{if(e.key==="Enter"||e.key===" ")talk()}}>
+   {message&&<span className="home-pudim-bubble"><b>{message.en}</b><small>🇧🇷 {message.pt}</small></span>}
+   <span className="home-pudim-sparkles" aria-hidden="true">✨ ⭐ ✨</span>
+   <img src={paused?"/sprites/pudim-front.png":frames[frame]} className={!paused&&dir<0?"flip":""} alt={paused?"Pudim conversando":"Pudim caminhando"}/>
+  </button>;
+}
 export default function Home(){
  const [screen,setScreen]=useState<Screen>("home");
  const sound=true; const [english,setEnglish]=useState(false);
@@ -450,6 +508,7 @@ export default function Home(){
  if(screen==="home")return <main className="home">
    <div className="poster">
     <img src="/home-main-v125.png" alt="As Aventuras de Geovana"/>
+    <HomePudim name={name} completed={completed.length}/>
     <button className="hit lang" onClick={()=>setEnglish(v=>!v)} aria-label="Idioma">{english?"EN":"PT"}</button>
     <button className="hit profile" onClick={()=>setScreen("profile")} aria-label="Perfil">Perfil</button>
     <button className="hit play" onClick={()=>setScreen("worlds")} aria-label="Jogar">Jogar</button>
