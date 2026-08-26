@@ -47,19 +47,25 @@ const CHAT_STEPS=[
  {q:"Hi! What's your name?",pt:"Oi! Qual é o seu nome?",example:"My name is Geovana.",kind:"name"},
  {q:"How are you today?",pt:"Como você está hoje?",example:"I am fine, thank you.",kind:"feeling"},
  {q:"How old are you?",pt:"Quantos anos você tem?",example:"I am nine years old.",kind:"age"},
+ {q:"Where are you from?",pt:"De onde você é?",example:"I am from Brazil.",kind:"place"},
  {q:"What's your favorite color?",pt:"Qual é a sua cor favorita?",example:"My favorite color is blue.",kind:"color"},
- {q:"What's your favorite animal?",pt:"Qual é o seu animal favorito?",example:"My favorite animal is a cat.",kind:"animal"}
+ {q:"What's your favorite animal?",pt:"Qual é o seu animal favorito?",example:"My favorite animal is a cat.",kind:"animal"},
+ {q:"What's your favorite food?",pt:"Qual é a sua comida favorita?",example:"My favorite food is pizza.",kind:"food"},
+ {q:"What do you like to do?",pt:"O que você gosta de fazer?",example:"I like to play and read.",kind:"hobby"}
 ];
 
 function Speaking({onBack}:{onBack:()=>void}){
  const [step,setStep]=useState(0);
  const [messages,setMessages]=useState<{who:"pudim"|"user";text:string;pt?:string}[]>([{who:"pudim",text:CHAT_STEPS[0].q,pt:CHAT_STEPS[0].pt}]);
  const [listening,setListening]=useState(false),[supported,setSupported]=useState(true),[finished,setFinished]=useState(false);
+ const [typing,setTyping]=useState(false);
  const [pudimChatState,setPudimChatState]=useState<"walk"|"front"|"talk">("walk");
  const [pudimChatTip,setPudimChatTip]=useState("");
+ const chatBodyRef=useRef<HTMLDivElement|null>(null);
  const item=CHAT_STEPS[Math.min(step,CHAT_STEPS.length-1)];
 
  useEffect(()=>{setSupported(typeof window!=="undefined"&&!!((window as any).SpeechRecognition||(window as any).webkitSpeechRecognition));setTimeout(()=>speak(CHAT_STEPS[0].q,"en-US",1.18),350)},[]);
+ useEffect(()=>{const el=chatBodyRef.current;if(el)el.scrollTo({top:el.scrollHeight,behavior:"smooth"})},[messages,typing,finished]);
 
  const translatePudim=(en:string)=>{
   if(en.startsWith("Please answer in English"))return "Responda em inglês. Use o exemplo mostrado abaixo para ajudar.";
@@ -68,12 +74,19 @@ function Speaking({onBack}:{onBack:()=>void}){
   if(en.startsWith("That's good to hear"))return "Que bom saber disso! Quantos anos você tem?";
   if(en.startsWith("I hope you feel better soon"))return "Espero que você se sinta melhor logo. Quantos anos você tem?";
   if(en.startsWith("I didn't understand how you feel"))return "Eu não entendi como você está se sentindo. Você pode dizer: I am fine, I am happy ou I am tired.";
-  if(en.includes("years old! Cool!"))return "Que legal! Qual é a sua cor favorita?";
+  if(en.includes("years old! Cool!"))return "Que legal! De onde você é?";
   if(en.startsWith("I didn't catch your age"))return "Eu não entendi sua idade. Tente dizer: I am nine years old.";
+  if(en.startsWith("Brazil! What a wonderful place"))return "Brasil! Que lugar maravilhoso! Qual é a sua cor favorita?";
+  if(en.startsWith("Thanks for telling me where you're from"))return "Obrigado por me contar de onde você é! Qual é a sua cor favorita?";
+  if(en.startsWith("I didn't understand where you're from"))return "Não entendi de onde você é. Tente dizer: I am from Brazil.";
   if(en.includes("is a beautiful color!"))return "É uma cor linda! Eu gosto de amarelo. Qual é o seu animal favorito?";
   if(en.startsWith("Hmm... I didn't hear a color"))return "Hmm... Eu não ouvi uma cor. Tente: My favorite color is blue.";
-  if(en.includes("Great choice! I love animals too"))return "Ótima escolha! Eu também adoro animais. Foi muito bom conversar com você. Até logo!";
+  if(en.includes("Great choice! I love animals too"))return "Ótima escolha! Eu também adoro animais. Você pode usar a frase completa mostrada pelo Pudim. Qual é a sua comida favorita?";
   if(en.startsWith("I didn't understand the animal"))return "Eu não entendi o animal. Tente dizer: My favorite animal is a cat.";
+  if(en.startsWith("Yummy! You can say"))return "Que delícia! Você pode dizer a frase completa mostrada pelo Pudim. O que você gosta de fazer?";
+  if(en.startsWith("I didn't understand the food"))return "Eu não entendi a comida. Tente dizer: My favorite food is pizza.";
+  if(en.startsWith("That sounds fun! You can say"))return "Parece divertido! Você pode usar a frase completa. Adorei conversar com você. Até logo!";
+  if(en.startsWith("Tell me an activity you enjoy"))return "Conte uma atividade de que você gosta. Tente dizer: I like to play.";
   return "";
  };
 
@@ -104,26 +117,46 @@ function Speaking({onBack}:{onBack:()=>void}){
    const nums:any={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15};
    const digit=t.match(/\b([5-9]|1[0-5])\b/); const word=Object.keys(nums).find(n=>t.includes(n));
    const age=digit?digit[1]:(word?String(nums[word]):"");
-   if(age)return {ok:true,value:age,reply:`${age} years old! Cool! What's your favorite color?`};
+   if(age)return {ok:true,value:age,reply:`${age} years old! Cool! Where are you from?`};
    return {ok:false,reply:"I didn't catch your age. Try saying: I am nine years old."};
+  }
+  if(item.kind==="place"){
+   const placeMatch=t.match(/(?:i am|i'm) from\s+([a-z ]{2,30})/i);
+   const place=(placeMatch?.[1]||(/\bbrazil\b/i.test(t)?"Brazil":"")).trim();
+   if(place){const label=place.replace(/\b\w/g,c=>c.toUpperCase());return {ok:true,value:label,reply:label==="Brazil"?"Brazil! What a wonderful place! What's your favorite color?":`Thanks for telling me where you're from! What's your favorite color?`}}
+   return {ok:false,reply:"I didn't understand where you're from. Try saying: I am from Brazil."};
   }
   if(item.kind==="color"){
    const colors=["red","blue","green","yellow","purple","orange","pink","black","white","brown"];
    const c=colors.find(x=>t.includes(x));
-   if(c)return {ok:true,value:c,reply:`${c.charAt(0).toUpperCase()+c.slice(1)} is a beautiful color! I like yellow. What's your favorite animal?`};
+   if(c)return {ok:true,value:c,reply:`${c.charAt(0).toUpperCase()+c.slice(1)} is a beautiful color! You can say: My favorite color is ${c}. I like yellow. What's your favorite animal?`};
    return {ok:false,reply:"Hmm... I didn't hear a color. Try: My favorite color is blue."};
   }
-  const animals=["cat","dog","rabbit","fish","bird","lion","tiger","elephant","monkey","horse"];
-  const animal=animals.find(x=>t.includes(x));
-  if(animal)return {ok:true,value:animal,reply:`A ${animal}! Great choice! I love animals too. It was great talking to you. See you soon!`};
-  return {ok:false,reply:"I didn't understand the animal. Try saying: My favorite animal is a cat."};
+  if(item.kind==="animal"){
+   const animals=["cat","dog","rabbit","fish","bird","lion","tiger","elephant","monkey","horse"];
+   const animal=animals.find(x=>t.includes(x));
+   if(animal)return {ok:true,value:animal,reply:`A ${animal}! Great choice! I love animals too. You can say: My favorite animal is a ${animal}. What's your favorite food?`};
+   return {ok:false,reply:"I didn't understand the animal. Try saying: My favorite animal is a cat."};
+  }
+  if(item.kind==="food"){
+   const foods=["pizza","apple","banana","rice","bread","cheese","egg","cake","pasta","chicken","fish"];
+   const food=foods.find(x=>t.includes(x));
+   if(food)return {ok:true,value:food,reply:`Yummy! You can say: My favorite food is ${food}. What do you like to do?`};
+   return {ok:false,reply:"I didn't understand the food. Try saying: My favorite food is pizza."};
+  }
+  const activities=["play","read","dance","draw","sing","swim","study","run","ride","cook"];
+  const activity=activities.find(x=>t.includes(x));
+  if(activity)return {ok:true,value:activity,reply:`That sounds fun! You can say: I like to ${activity}. I loved talking with you today. Keep practicing English. See you soon!`};
+  return {ok:false,reply:"Tell me an activity you enjoy. Try saying: I like to play."};
  };
 
  const respond=(text:string)=>{
   const clean=text.trim();if(!clean)return;
   setMessages(m=>[...m,{who:"user",text:clean}]);
   const result=understand(clean);
+  setTyping(true);
   setTimeout(()=>{
+   setTyping(false);
    setMessages(m=>[...m,{who:"pudim",text:result.reply,pt:translatePudim(result.reply)}]);
    setPudimChatState("talk");
    speak(result.reply,"en-US",1.18);
@@ -133,7 +166,7 @@ function Speaking({onBack}:{onBack:()=>void}){
     else setStep(v=>v+1);
    }
    // resposta inválida: permanece na mesma pergunta
-  },500);
+  },900);
  };
 
  const interactPudim=()=>{
@@ -156,15 +189,17 @@ function Speaking({onBack}:{onBack:()=>void}){
   rec.onresult=(e:any)=>respond(String(e.results[0][0].transcript||""));
   rec.onerror=()=>setListening(false);rec.onend=()=>setListening(false);rec.start();
  };
- const restart=()=>{setStep(0);setFinished(false);setMessages([{who:"pudim",text:CHAT_STEPS[0].q,pt:CHAT_STEPS[0].pt}]);speak(CHAT_STEPS[0].q,"en-US",1.18)};
+ const restart=()=>{setStep(0);setFinished(false);setTyping(false);setMessages([{who:"pudim",text:CHAT_STEPS[0].q,pt:CHAT_STEPS[0].pt}]);speak(CHAT_STEPS[0].q,"en-US",1.18)};
 
  return <main className="screen"><header className="top"><button onClick={onBack}>←</button><h1>💬 Conversation</h1><span/></header>
   <section className="chat-scene">
-   <div className="chat-geovana"><img src="/home-geovana.png" alt="Geovana"/></div>
+   <div className="conversation-landmarks" aria-hidden="true"><span>🇬🇧</span><span>🕰️</span><span>🌎</span><span>🗽</span><span>🇺🇸</span></div>
+   <div className="chat-geovana"><div className="geovana-welcome"><b>Let's talk!</b><small>Vamos conversar!</small></div><img src="/geovana-learn.png" alt="Geovana"/></div>
    <div className="chat-phone">
-    <div className="chat-head"><img src="/sprites/pudim-front.png" alt="Pudim"/><div><b>Pudim</b><small>● online • English chat</small></div></div>
-    <div className="chat-body">
+    <div className="chat-head"><img src="/sprites/pudim-front.png" alt="Pudim"/><div><b>Pudim</b><small>{typing?"● typing...":listening?"● listening...":"● online • English coach"}</small></div><em>{Math.min(step+1,CHAT_STEPS.length)}/{CHAT_STEPS.length}</em></div>
+    <div className="chat-body" ref={chatBodyRef}>
      {messages.map((m,i)=><div key={i} className={`chat-row ${m.who}`}><div className="chat-bubble"><b className="chat-en">{m.text}</b>{m.who==="pudim"&&m.pt&&<span className="chat-pt">🇧🇷 {m.pt}</span>}<small>{m.who==="pudim"?"Pudim":"You"}</small></div></div>)}
+     {typing&&<div className="chat-row pudim"><div className="chat-typing" aria-label="Pudim está digitando"><i/><i/><i/></div></div>}
      {!finished&&<div className="chat-help"><b>💡 Your turn — answer in English</b><span>Example: {item.example}</span><span className="translation">{item.pt}</span></div>}
     </div>
     <div className="chat-compose">{!finished?<><button className={`chat-mic ${listening?"listening":""}`} onClick={listen} disabled={listening||!supported}>🎤</button><button className="chat-example" onClick={()=>speak(item.example,"en-US",1.12)}>🔊 Ouvir exemplo</button></>:<button className="chat-restart" onClick={restart}>🔄 Conversar novamente</button>}</div>

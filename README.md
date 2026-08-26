@@ -1,5 +1,13 @@
 # As Aventuras de Geovana — V13
 
+## V14.22 — Conversation e cenário aprimorados
+- Cenário internacional com parque, céu, vegetação e referências de Londres e Nova York.
+- Geovana aparece inteira e recebe um balão de convite para conversar.
+- Chat ganhou rolagem automática, indicador “digitando”, progresso e status de escuta.
+- Conversa ampliada para nome, sentimento, idade, origem, cor, animal, comida e atividade favorita.
+- Pudim aceita respostas naturais, ensina a frase completa e não avança quando a resposta não corresponde.
+- Pista inferior do Pudim ganhou mais detalhes, profundidade e melhor visibilidade.
+
 ## V14.21 — Pergunta sobre Mother simplificada
 - Substituída a relação indireta “My father's wife is my...” por uma pergunta direta de vocabulário.
 - Nova questão: `How do you say 'mãe' in English?` / `Como se diz “mãe” em inglês?`.

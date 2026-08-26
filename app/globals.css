@@ -535,6 +535,30 @@
 .pronounce-heard,.pronounce-good,.pronounce-retry{margin-top:12px;border-radius:15px;padding:10px;display:grid;gap:3px}.pronounce-heard{background:#f0e9ff}.pronounce-good{background:#e3ffec;color:#167844;font-weight:900}.pronounce-retry{background:#fff0dc;color:#995200;font-weight:900}.pronounce-good span,.pronounce-retry span{font-size:11px;font-weight:700}
 @media(max-width:600px){.word-actions{grid-template-columns:1fr}.learn-word{min-height:250px}.pronounce-word{font-size:32px}}
 
+/* V14.22 — cenário internacional e conversa mais natural */
+.chat-scene{isolation:isolate;padding:20px;border-radius:32px;background:linear-gradient(180deg,#68c9ff 0 36%,#dff7ff 36% 58%,#8bd96a 58% 100%);box-shadow:inset 0 0 0 4px #ffffffaa,0 15px 35px #32106d44;overflow:visible}
+.chat-scene:before{content:"☁️      ☁️            ☁️";position:absolute;z-index:-1;inset:8px 0 auto;color:#ffffffd9;font-size:42px;letter-spacing:28px;white-space:nowrap;overflow:hidden;animation:cloudDrift 18s linear infinite}
+@keyframes cloudDrift{from{transform:translateX(-8%)}to{transform:translateX(8%)}}
+.conversation-landmarks{position:absolute;z-index:-1;left:1%;right:1%;bottom:91px;display:flex;justify-content:space-around;align-items:flex-end;font-size:clamp(35px,6vw,72px);filter:drop-shadow(0 5px 3px #29572e55);opacity:.78;pointer-events:none}
+.conversation-landmarks span:nth-child(2),.conversation-landmarks span:nth-child(4){font-size:1.35em}
+.chat-geovana{position:relative;height:465px!important;background:linear-gradient(#a9e7ffdd,#eafff4dd)!important;border:4px solid #fff;box-shadow:0 10px 24px #184e7a44}
+.chat-geovana img{width:100%!important;height:100%!important;object-fit:contain!important;object-position:center bottom!important;transform:none!important;filter:drop-shadow(0 8px 5px #21466a55)}
+.geovana-welcome{position:absolute;z-index:3;right:8px;top:16px;background:#fff;border:3px solid #ff9417;border-radius:18px;padding:8px 10px;text-align:center;color:#5521b0;box-shadow:0 5px 0 #bb590d}
+.geovana-welcome b,.geovana-welcome small{display:block}.geovana-welcome small{font-size:10px;color:#655374;margin-top:2px}
+.chat-phone{position:relative;z-index:2;border-color:#ffffff!important;box-shadow:0 14px 32px #1f164b55!important}
+.chat-head{background:linear-gradient(135deg,#5421b9,#7b36dd)!important}.chat-head em{margin-left:auto;font-style:normal;background:#ffffff24;border:1px solid #ffffff55;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:900}
+.chat-body{scroll-behavior:smooth;background:linear-gradient(#edf2ffeb,#fff9e9ed),radial-gradient(circle at 20% 30%,#7552df18 0 2px,transparent 3px)!important;background-size:auto,24px 24px!important}
+.chat-bubble{border:1px solid #dfd7eb}.chat-row.pudim .chat-bubble{border-top-left-radius:5px}.chat-row.user .chat-bubble{border-top-right-radius:5px;background:linear-gradient(135deg,#d9ffc9,#c6f7b6)!important}
+.chat-typing{display:flex;gap:5px;align-items:center;background:#fff;border-radius:5px 16px 16px 16px;padding:12px 15px;box-shadow:0 2px 5px #0002}
+.chat-typing i{width:7px;height:7px;border-radius:50%;background:#7659a0;animation:typingDot .8s ease-in-out infinite alternate}.chat-typing i:nth-child(2){animation-delay:.18s}.chat-typing i:nth-child(3){animation-delay:.36s}
+@keyframes typingDot{to{transform:translateY(-5px);background:#ff8b18}}
+.chat-help{position:sticky;bottom:0;box-shadow:0 5px 15px #4a287233}
+.chat-pudim-walk{left:20px!important;right:20px!important;width:auto!important;bottom:-126px!important;height:116px!important;border:4px solid #fff!important;background:url("/cenario-trilha-v133.png") center 70%/cover!important;box-shadow:0 9px 20px #28106444}
+.chat-pudim-walk:before{content:"🌼     🌿        🌸       🌿      🌼";position:absolute;inset:auto 0 4px;font-size:20px;letter-spacing:18px;white-space:nowrap;opacity:.8}
+.chat-pudim-walk img{width:98px!important;height:98px!important;z-index:2}
+@media(max-width:800px){.chat-scene{padding:12px}.chat-geovana{height:240px!important}.chat-geovana img{object-position:center 13%!important}.geovana-welcome{right:14%;top:10px}.conversation-landmarks{bottom:94px}.chat-pudim-walk{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;margin-top:8px}.chat-phone{order:2}.chat-pudim-walk{order:3}}
+@media(prefers-reduced-motion:reduce){.chat-scene:before,.chat-typing i{animation:none!important}}
+
 /* V14.18 — cards de vocabulário maiores, legíveis e ilustrativos */
 .category-view{width:min(1180px,96%);margin:0 auto}
 .learn-vocab{
