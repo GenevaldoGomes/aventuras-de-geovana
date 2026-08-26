@@ -104,3 +104,10 @@ Todas as mensagens do Pudim no chat exibem inglês e, logo abaixo, a tradução 
 - Perfil recebe brilho discreto.
 - Botões reagem ao toque.
 - Música inicial substituída por uma composição original mais rápida e alegre, mantendo execução apenas na tela inicial.
+
+## V14.13 — Conversação: personagem e Pudim interativo
+- Imagem da Geovana na conversação substituída pela arte principal do jogo.
+- Pudim inferior continua caminhando, mas agora para e vira de frente quando fala.
+- Ao clicar no Pudim, ele para, vira para o aluno e oferece uma dica em inglês.
+- Pudim também pergunta se o aluno precisa de ajuda e indica o uso do microfone/exemplo.
+- Após a interação, volta a caminhar.

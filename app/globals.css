@@ -444,3 +444,40 @@
 @media(prefers-reduced-motion:reduce){
  .home .hit,.home .hit::before,.home .hit::after,.home::after{animation:none!important}
 }
+
+/* V14.13 — personagem renovada e Pudim interativo na conversação */
+.chat-geovana{
+  background:linear-gradient(#8bdcff,#eaf9ff);
+  display:flex;align-items:flex-end;justify-content:center;
+}
+.chat-geovana img{
+  width:100%;height:100%;object-fit:cover!important;
+  object-position:52% 18%!important;
+  transform:scale(1.04);
+}
+.chat-pudim-walk{cursor:pointer;overflow:visible!important}
+.chat-pudim-walk.front img,.chat-pudim-walk.talk img{
+  left:50%!important;transform:translateX(-50%) scaleX(1)!important;
+  animation:pudimFrontBounce .45s ease-in-out infinite alternate!important;
+  width:96px;height:96px;
+}
+.chat-pudim-walk.talk img{animation:pudimTalkBounce .22s ease-in-out infinite alternate!important}
+@keyframes pudimFrontBounce{to{transform:translateX(-50%) translateY(-5px) scale(1.04)}}
+@keyframes pudimTalkBounce{to{transform:translateX(-50%) translateY(-7px) scale(1.08)}}
+.chat-pudim-tip{
+  position:absolute;z-index:8;left:50%;bottom:88px;transform:translateX(-50%);
+  width:min(430px,86vw);padding:11px 15px;background:#fff;border:3px solid #ff9417;
+  border-radius:18px;color:#5422aa;font-weight:900;text-align:center;
+  box-shadow:0 7px 18px #35127044;animation:tipPop .2s ease-out;
+}
+.chat-pudim-tip:after{
+  content:"";position:absolute;left:50%;bottom:-13px;transform:translateX(-50%);
+  border:7px solid transparent;border-top-color:#ff9417;
+}
+.chat-pudim-tip span{display:block;color:#666;font-size:10px;margin-top:4px}
+@keyframes tipPop{from{opacity:0;transform:translateX(-50%) scale(.75)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+.chat-pudim-walk:after{
+  content:"✨";position:absolute;left:calc(50% + 38px);bottom:58px;
+  opacity:0;animation:pudimSpark 2.4s ease-in-out infinite;
+}
+@keyframes pudimSpark{0%,70%,100%{opacity:0;transform:scale(.4)}82%{opacity:1;transform:scale(1.25) rotate(18deg)}}

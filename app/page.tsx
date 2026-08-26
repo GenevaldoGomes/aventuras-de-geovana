@@ -55,6 +55,8 @@ function Speaking({onBack}:{onBack:()=>void}){
  const [step,setStep]=useState(0);
  const [messages,setMessages]=useState<{who:"pudim"|"user";text:string;pt?:string}[]>([{who:"pudim",text:CHAT_STEPS[0].q,pt:CHAT_STEPS[0].pt}]);
  const [listening,setListening]=useState(false),[supported,setSupported]=useState(true),[finished,setFinished]=useState(false);
+ const [pudimChatState,setPudimChatState]=useState<"walk"|"front"|"talk">("walk");
+ const [pudimChatTip,setPudimChatTip]=useState("");
  const item=CHAT_STEPS[Math.min(step,CHAT_STEPS.length-1)];
 
  useEffect(()=>{setSupported(typeof window!=="undefined"&&!!((window as any).SpeechRecognition||(window as any).webkitSpeechRecognition));setTimeout(()=>speak(CHAT_STEPS[0].q,"en-US",1.18),350)},[]);
@@ -123,13 +125,28 @@ function Speaking({onBack}:{onBack:()=>void}){
   const result=understand(clean);
   setTimeout(()=>{
    setMessages(m=>[...m,{who:"pudim",text:result.reply,pt:translatePudim(result.reply)}]);
+   setPudimChatState("talk");
    speak(result.reply,"en-US",1.18);
+   setTimeout(()=>setPudimChatState("walk"),2600);
    if(result.ok){
     if(step>=CHAT_STEPS.length-1)setFinished(true);
     else setStep(v=>v+1);
    }
    // resposta inválida: permanece na mesma pergunta
   },500);
+ };
+
+ const interactPudim=()=>{
+  setPudimChatState("front");
+  const hints=[
+   `Need help? Try: ${item.example}`,
+   "Are you okay? You can tap the microphone and answer me.",
+   "Do you have a question? Listen to the example and try again!"
+  ];
+  const hint=hints[Math.floor(Math.random()*hints.length)];
+  setPudimChatTip(hint);
+  speak(hint,"en-US",1.16);
+  setTimeout(()=>{setPudimChatTip("");setPudimChatState("walk")},3600);
  };
 
  const listen=()=>{
@@ -143,7 +160,7 @@ function Speaking({onBack}:{onBack:()=>void}){
 
  return <main className="screen"><header className="top"><button onClick={onBack}>←</button><h1>💬 Conversation</h1><span/></header>
   <section className="chat-scene">
-   <div className="chat-geovana"><img src="/geovana-learn.png" alt="Geovana"/></div>
+   <div className="chat-geovana"><img src="/home-geovana.png" alt="Geovana"/></div>
    <div className="chat-phone">
     <div className="chat-head"><img src="/sprites/pudim-front.png" alt="Pudim"/><div><b>Pudim</b><small>● online • English chat</small></div></div>
     <div className="chat-body">
@@ -153,7 +170,10 @@ function Speaking({onBack}:{onBack:()=>void}){
     <div className="chat-compose">{!finished?<><button className={`chat-mic ${listening?"listening":""}`} onClick={listen} disabled={listening||!supported}>🎤</button><button className="chat-example" onClick={()=>speak(item.example,"en-US",1.12)}>🔊 Ouvir exemplo</button></>:<button className="chat-restart" onClick={restart}>🔄 Conversar novamente</button>}</div>
     {!supported&&<div className="speech-warning">Use Chrome ou Edge e permita o microfone.</div>}
    </div>
-   <div className="chat-pudim-walk"><img src="/sprites/walk-clean-2.png" alt="Pudim"/></div>
+   <div className={`chat-pudim-walk ${pudimChatState}`} onClick={interactPudim} role="button" tabIndex={0}>
+    {pudimChatTip&&<div className="chat-pudim-tip">{pudimChatTip}<span>{pudimChatTip.startsWith("Need")?"Precisa de ajuda?":"Clique no Pudim para receber ajuda."}</span></div>}
+    <img src={pudimChatState==="walk"?"/sprites/walk-clean-2.png":"/sprites/pudim-front.png"} alt="Pudim interativo"/>
+   </div>
   </section>
  </main>
 }
