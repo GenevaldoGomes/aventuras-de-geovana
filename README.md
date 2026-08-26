@@ -78,3 +78,9 @@ O Pudim agora interpreta o conteúdo da resposta. Se a criança responder algo q
 
 ## V14.8 — Tradução visual na conversação
 Todas as mensagens do Pudim no chat exibem inglês e, logo abaixo, a tradução em português. A síntese de voz continua reproduzindo exclusivamente a frase em inglês; a tradução nunca é falada.
+
+## V14.9 — Correção de build Vercel
+- Removida chamada inválida `setUnlocked(...)`.
+- O desbloqueio dos mundos continua sendo calculado pela constante `unlocked`,
+  baseada na quantidade de mundos concluídos.
+- Mantidas conversação realista, tradução visual e demais recursos da V14.8.

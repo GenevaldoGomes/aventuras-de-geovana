@@ -358,7 +358,6 @@ export default function Home(){
    const done=[...new Set([...completed,world])];
    setCompleted(done);
    localStorage.setItem("geovana-completed",JSON.stringify(done));
-   setUnlocked(v=>Math.max(v,world+2));
    setSelected(null);
    setVoiceHeard("");
    setVoiceMessage("");
