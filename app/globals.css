@@ -773,3 +773,41 @@
     display:none!important;
   }
 }
+
+/* V12.5 — Home aprovada, 10% mais compacta */
+.game-poster>.home-main-art{
+  object-fit:cover!important;
+  object-position:center top!important;
+}
+
+/* Mantém os hotspots sobre os botões desenhados da nova arte. */
+@media (orientation:portrait), (max-width:900px){
+  .game-poster>.hotspot.sound{
+    left:3%!important; top:1.5%!important;
+    width:13%!important; height:7%!important;
+  }
+  .game-poster>.hotspot.language{
+    left:16.5%!important; top:1.5%!important;
+    width:13%!important; height:7%!important;
+  }
+  .game-poster>.hotspot.friend{
+    left:68%!important; top:1.5%!important;
+    width:28%!important; height:7%!important;
+  }
+  .game-poster>.hotspot.play{
+    left:18%!important; top:70.5%!important;
+    width:64%!important; height:9%!important;
+  }
+  .game-poster>.hotspot.worlds{
+    left:5%!important; top:79.5%!important;
+    width:28%!important; height:12%!important;
+  }
+  .game-poster>.hotspot.ranking{
+    left:36%!important; top:79.5%!important;
+    width:28%!important; height:12%!important;
+  }
+  .game-poster>.hotspot.learn{
+    left:67%!important; top:79.5%!important;
+    width:28%!important; height:12%!important;
+  }
+}

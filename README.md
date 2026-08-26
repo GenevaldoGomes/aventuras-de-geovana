@@ -79,3 +79,9 @@ Pudim integrado às fases: caminhada na trilha, pausas, falas e reações. Masco
 - Hotspots transparentes mantêm Som, Idioma, Perfil, Jogar, Mundos, Ranking e Aprender funcionais.
 - Removidos da Home os elementos duplicados de balão, aviso e Pudim caminhante.
 - As fases e o Pudim animado/interativo continuam preservados.
+
+## V12.5
+- Nova arte vertical compactada aplicada à tela principal.
+- Hotspots reajustados para os novos botões desenhados.
+- Mantidas as funções Som, Idioma, Perfil, Jogar, Mundos, Ranking e Aprender.
+- Fases e interações do Pudim preservadas.
