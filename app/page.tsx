@@ -87,6 +87,9 @@ function Speaking({onBack}:{onBack:()=>void}){
   if(en.startsWith("I didn't understand the food"))return "Eu não entendi a comida. Tente dizer: My favorite food is pizza.";
   if(en.startsWith("That sounds fun! You can say"))return "Parece divertido! Você pode usar a frase completa. Adorei conversar com você. Até logo!";
   if(en.startsWith("Tell me an activity you enjoy"))return "Conte uma atividade de que você gosta. Tente dizer: I like to play.";
+  if(en.startsWith("Almost! Do not use 'you'"))return "Quase! Não use “you” entre “like” e “to”. Diga: I like to play the guitar.";
+  if(en.startsWith("I understood the activity"))return "Eu entendi a atividade, mas tente responder com uma frase completa: I like to play the guitar.";
+  if(en.startsWith("Great correction!"))return "Ótima correção! Agora a frase está correta. Adorei conversar com você. Continue praticando inglês!";
   return "";
  };
 
@@ -144,15 +147,22 @@ function Speaking({onBack}:{onBack:()=>void}){
    if(food)return {ok:true,value:food,reply:`Yummy! You can say: My favorite food is ${food}. What do you like to do?`};
    return {ok:false,reply:"I didn't understand the food. Try saying: My favorite food is pizza."};
   }
-  const activities=["play","read","dance","draw","sing","swim","study","run","ride","cook"];
-  const activity=activities.find(x=>t.includes(x));
-  if(activity)return {ok:true,value:activity,reply:`That sounds fun! You can say: I like to ${activity}. I loved talking with you today. Keep practicing English. See you soon!`};
+  if(/\bi like you to\b/i.test(t))return {ok:false,reply:"Almost! Do not use 'you' between 'like' and 'to'. Say: I like to play the guitar."};
+  const infinitives=["play","read","dance","draw","sing","swim","study","run","ride","cook"];
+  const gerunds:{[key:string]:string}={playing:"play",reading:"read",dancing:"dance",drawing:"draw",singing:"sing",swimming:"swim",studying:"study",running:"run",riding:"ride",cooking:"cook"};
+  const infinitive=infinitives.find(x=>new RegExp(`\\bi (?:really )?like to ${x}\\b`,"i").test(t));
+  const gerund=Object.keys(gerunds).find(x=>new RegExp(`\\bi (?:really )?like ${x}\\b`,"i").test(t));
+  const activity=infinitive||(gerund?gerunds[gerund]:"");
+  if(activity)return {ok:true,value:activity,reply:`Great correction! “I like to ${activity}” is correct. I loved talking with you today. Keep practicing English. See you soon!`};
+  const understood=infinitives.find(x=>t.includes(x))||Object.keys(gerunds).find(x=>t.includes(x));
+  if(understood)return {ok:false,reply:"I understood the activity, but please use a complete sentence. Try: I like to play the guitar."};
   return {ok:false,reply:"Tell me an activity you enjoy. Try saying: I like to play."};
  };
 
  const respond=(text:string)=>{
   const clean=text.trim();if(!clean)return;
-  setMessages(m=>[...m,{who:"user",text:clean}]);
+  const display=clean.charAt(0).toUpperCase()+clean.slice(1)+( /[.!?]$/.test(clean)?"":".");
+  setMessages(m=>[...m,{who:"user",text:display}]);
   const result=understand(clean);
   setTyping(true);
   setTimeout(()=>{

@@ -1,5 +1,12 @@
 # As Aventuras de Geovana — V13
 
+## V14.23 — Correção gramatical da conversação
+- Pudim não aceita mais `I like you to play the guitar` como resposta correta.
+- Formas aceitas: `I like to play the guitar` e `I like playing the guitar`.
+- Quando entende apenas a atividade, Pudim pede uma frase completa e permanece na mesma pergunta.
+- A correção é explicada em inglês, com tradução visual em português.
+- As mensagens reconhecidas recebem capitalização e pontuação para melhorar a leitura do chat.
+
 ## V14.22 — Conversation e cenário aprimorados
 - Cenário internacional com parque, céu, vegetação e referências de Londres e Nova York.
 - Geovana aparece inteira e recebe um balão de convite para conversar.
