@@ -567,3 +567,70 @@
   .game-poster>.home-mobile-art{display:none!important}
   .game-poster>.home-desktop-art{display:block!important;visibility:visible!important}
 }
+
+/* V12.2 — UMA ÚNICA HOME
+   A imagem vertical mobile passa a ser a única arte da tela inicial. */
+.home-desktop-art,.home-mobile-art{display:none!important}
+
+.game-poster{
+  position:relative!important;
+  width:min(100vw,calc(100svh * 9 / 16))!important;
+  height:min(100svh,calc(100vw * 16 / 9))!important;
+  aspect-ratio:9/16!important;
+  margin:0 auto!important;
+  overflow:hidden!important;
+  background:#23105f!important;
+}
+
+.game-poster>.home-main-art{
+  display:block!important;
+  visibility:visible!important;
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center center!important;
+  z-index:0!important;
+}
+
+/* Em celular vertical, ocupa toda a largura disponível. */
+@media (orientation:portrait){
+  .app-shell:has(.game-poster){
+    width:100vw!important;
+    min-height:100svh!important;
+    display:flex!important;
+    align-items:flex-start!important;
+    justify-content:center!important;
+    overflow:hidden!important;
+    background:#23105f!important;
+  }
+  .game-poster{
+    width:100vw!important;
+    height:calc(100vw * 16 / 9)!important;
+    min-height:100svh!important;
+    max-width:none!important;
+    max-height:none!important;
+  }
+}
+
+/* Desktop/paisagem também usa a MESMA imagem vertical, centralizada.
+   Não existe mais troca para a antiga arte horizontal. */
+@media (orientation:landscape){
+  .app-shell:has(.game-poster){
+    min-height:100svh!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    overflow:hidden!important;
+    background:#23105f!important;
+  }
+}
+
+/* Garante que controles reais permaneçam acima da única imagem. */
+.game-poster>.hotspot,
+.game-poster>.music-hint,
+.game-poster>.pudim-phrase,
+.game-poster>.pudim-walker{
+  z-index:10!important;
+}

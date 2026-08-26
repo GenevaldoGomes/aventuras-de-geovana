@@ -55,3 +55,10 @@ Pudim integrado às fases: caminhada na trilha, pausas, falas e reações. Masco
 - Som, idioma, perfil, jogar, mundos, ranking e aprender continuam sendo controles reais do jogo.
 - Os controles são reposicionados sobre a composição vertical.
 - Todas as fases, áudio, Pudim animado e sistema de dicas da V11.5 foram preservados.
+
+## V12.2 — Uma única imagem na Home
+- Removida a arte horizontal da tela inicial.
+- A imagem vertical `home-mobile-v12.png` é agora a única imagem da Home.
+- A mesma composição é usada em celular, tablet, notebook e desktop.
+- Em telas largas, a arte vertical permanece centralizada.
+- Mantidos os botões funcionais e toda a lógica do jogo.
