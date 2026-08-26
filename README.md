@@ -72,3 +72,9 @@ Código reconstruído do zero. Home 9:16 é o layout padrão e não depende de r
 
 ## V14.5 — Interface animada
 Cards por categoria flutuam suavemente, ícones reagem, estrelas piscam, o card de conversação ganha brilho, botões têm pulso e feedback ao toque, alternativas recebem brilho passageiro e botões de áudio mostram notas musicais.
+
+## V14.7 — Conversação mais realista
+O Pudim agora interpreta o conteúdo da resposta. Se a criança responder algo que não faz sentido para a pergunta, ele explica que não entendeu, dá um exemplo e permanece na mesma pergunta. A conversa só avança quando a resposta é coerente. As respostas do Pudim também mudam conforme nome, sentimento, idade, cor e animal informados.
+
+## V14.8 — Tradução visual na conversação
+Todas as mensagens do Pudim no chat exibem inglês e, logo abaixo, a tradução em português. A síntese de voz continua reproduzindo exclusivamente a frase em inglês; a tradução nunca é falada.
