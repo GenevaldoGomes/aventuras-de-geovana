@@ -35,19 +35,12 @@ function hintFor(q:Q){
 
 const LEARN_CATEGORIES=[
  {name:"Animals",pt:"Animais",icon:"🐾",items:[["🐱","Cat","Gato"],["🐶","Dog","Cachorro"],["🐰","Rabbit","Coelho"],["🐟","Fish","Peixe"],["🐘","Elephant","Elefante"],["🦁","Lion","Leão"]]},
- {name:"Family",pt:"Família",icon:"👨‍👩‍👧‍👦",questions:[
-    {q:"Como se diz mãe em inglês?",pt:"Escolha a resposta em inglês.",o:["Mother","Father","Sister"],a:0,img:"/worlds/family.png",hint:"Mother means mãe."},
-    {q:"Como se diz pai em inglês?",pt:"Escolha a resposta em inglês.",o:["Brother","Father","Grandfather"],a:1,img:"/worlds/family.png",hint:"Father means pai."},
-    {q:"Como se diz irmã em inglês?",pt:"Escolha a resposta em inglês.",o:["Mother","Brother","Sister"],a:2,img:"/worlds/family.png",hint:"Sister means irmã."},
-    {q:"Como se diz irmão em inglês?",pt:"Escolha a resposta em inglês.",o:["Brother","Sister","Father"],a:0,img:"/worlds/family.png",hint:"Brother means irmão."},
-    {q:"Como se diz avó em inglês?",pt:"Escolha a resposta em inglês.",o:["Grandfather","Grandmother","Mother"],a:1,img:"/worlds/family.png",hint:"Grandmother means avó."},
-    {q:"Como se diz avô em inglês?",pt:"Escolha a resposta em inglês.",o:["Father","Grandmother","Grandfather"],a:2,img:"/worlds/family.png",hint:"Grandfather means avô."}
-  ]},
-  {name:"Colors",pt:"Cores",icon:"🎨",items:[["🔴","Red","Vermelho"],["🔵","Blue","Azul"],["🟢","Green","Verde"],["🟡","Yellow","Amarelo"],["🟣","Purple","Roxo"],["🟠","Orange","Laranja"]]},
- {name:"Greetings",pt:"Saudações",icon:"👋",items:[["👋","Hello","Olá"],["☀️","Good morning","Bom dia"],["🌤️","Good afternoon","Boa tarde"],["🌙","Good night","Boa noite"],["😊","How are you?","Como você está?"],["👋","Goodbye","Tchau"]]},
+ {name:"Family",pt:"Família",icon:"👨‍👩‍👧‍👦",items:[["👩‍👧","Mother","Mãe"],["👨‍👧","Father","Pai"],["👧","Sister","Irmã"],["👦","Brother","Irmão"],["👵","Grandmother","Avó"],["👴","Grandfather","Avô"]]},
+ {name:"Colors",pt:"Cores",icon:"🎨",items:[["🔴","Red","Vermelho"],["🔵","Blue","Azul"],["🟢","Green","Verde"],["🟡","Yellow","Amarelo"],["🟣","Purple","Roxo"],["🟠","Orange","Laranja"]]},
+ {name:"Greetings",pt:"Saudações",icon:"👋",items:[["👋","Hello","Olá"],["🌅","Good morning","Bom dia"],["🌞","Good afternoon","Boa tarde"],["🌙","Good night","Boa noite"],["😊","How are you?","Como você está?"],["👋","Goodbye","Tchau"]]},
  {name:"Food",pt:"Comidas",icon:"🍎",items:[["🍎","Apple","Maçã"],["🍌","Banana","Banana"],["🍞","Bread","Pão"],["🥛","Milk","Leite"],["🍚","Rice","Arroz"],["🥚","Egg","Ovo"]]},
  {name:"School",pt:"Escola",icon:"🎒",items:[["📚","Book","Livro"],["✏️","Pencil","Lápis"],["🖊️","Pen","Caneta"],["📓","Notebook","Caderno"],["🎒","Backpack","Mochila"],["🏫","School","Escola"]]},
- {name:"Numbers",pt:"Números",icon:"🔢",items:[["1️⃣","One","Um"],["2️⃣","Two","Dois"],["3️⃣","Three","Três"],["4️⃣","Four","Quatro"],["5️⃣","Five","Cinco"],["🔟","Ten","Dez"]]},
+ {name:"Numbers",pt:"Números",icon:"🔢",items:[["1️⃣","One","Um"],["2️⃣","Two","Dois"],["3️⃣","Three","Três"],["4️⃣","Four","Quatro"],["5️⃣","Five","Cinco"],["6️⃣","Six","Seis"],["7️⃣","Seven","Sete"],["8️⃣","Eight","Oito"],["9️⃣","Nine","Nove"],["🔟","Ten","Dez"]]},
  {name:"Body",pt:"Corpo",icon:"🧒",items:[["👁️","Eyes","Olhos"],["👂","Ears","Orelhas"],["👃","Nose","Nariz"],["👄","Mouth","Boca"],["✋","Hand","Mão"],["🦶","Foot","Pé"]]}
 ];
 const CHAT_STEPS=[
