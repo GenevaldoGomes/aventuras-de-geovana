@@ -54,3 +54,9 @@ Código reconstruído do zero. Home 9:16 é o layout padrão e não depende de r
 - Erro: Pudim para, vira de frente e demonstra tristeza.
 - As reações usam imagens frontais dedicadas e não alteram a escala da pista.
 - Depois da reação, o fluxo normal do jogo pode continuar.
+
+## V13.9 — Pudim fala somente inglês
+- Todas as falas automáticas do Pudim são reproduzidas apenas em inglês.
+- Removida a leitura em português das interações e dicas.
+- A tradução em português continua aparecendo visualmente nos balões para apoiar a compreensão.
+- Acertos, erros, estrelas, caminhada e interações da V13.8 foram preservados.

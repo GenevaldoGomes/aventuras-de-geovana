@@ -76,7 +76,6 @@ function Pudim({q,reaction,sound}:{q:Q;reaction:"walk"|"correct"|"wrong";sound:b
    setCompanion(p);
    if(sound){
     speak(p.en,"en-US",1.28);
-    setTimeout(()=>speak(p.pt,"pt-BR",1.3),1100);
    }
    setTimeout(()=>setCompanion(null),5500);
   },delay);
@@ -92,9 +91,8 @@ function Pudim({q,reaction,sound}:{q:Q;reaction:"walk"|"correct"|"wrong";sound:b
   const first=clean.charAt(0).toUpperCase();
   const msg=`A resposta começa com a letra ${first} e tem ${clean.length} letras. Ouça as alternativas com atenção.`;
   if(sound){
-   speak("Meow! I have a hint for you!","en-US",1.35);
-   setTimeout(()=>speak("Miau! Eu tenho uma dica para você!","pt-BR",1.45),900);
-   setTimeout(()=>speak(msg,"pt-BR",1.3),1900);
+   const spokenHint=`Meow! I have a hint for you. The answer starts with the letter ${first} and has ${clean.length} letters. Listen to the choices carefully.`;
+   speak(spokenHint,"en-US",1.35);
   }
   setTimeout(()=>setHint(false),8000);
  };
