@@ -60,6 +60,7 @@ function Speaking({onBack}:{onBack:()=>void}){
  useEffect(()=>{setSupported(typeof window!=="undefined"&&!!((window as any).SpeechRecognition||(window as any).webkitSpeechRecognition));setTimeout(()=>speak(CHAT_STEPS[0].q,"en-US",1.18),350)},[]);
 
  const translatePudim=(en:string)=>{
+  if(en.startsWith("Please answer in English"))return "Responda em inglês. Use o exemplo mostrado abaixo para ajudar.";
   if(en.startsWith("Nice to meet you"))return en.replace(/Nice to meet you,\s*([^!]+)!.*/i,"Prazer em conhecer você, $1! Eu sou o Pudim. Como você está hoje?");
   if(en.startsWith("Hmm... I didn't understand your name"))return "Hmm... Eu não entendi seu nome. Tente dizer: My name is Geovana.";
   if(en.startsWith("That's good to hear"))return "Que bom saber disso! Quantos anos você tem?";
@@ -74,8 +75,17 @@ function Speaking({onBack}:{onBack:()=>void}){
   return "";
  };
 
+ const looksPortuguese=(text:string)=>{
+  const t=(" "+text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")+" ");
+  const ptWords=[" meu "," minha "," nome "," eu "," sou "," estou "," tenho "," anos "," bem "," feliz "," triste "," cansado "," cansada "," azul "," vermelho "," verde "," amarelo "," roxo "," rosa "," gato "," cachorro "," coelho "," peixe "," leao "," elefante "," macaco "," cavalo "," e "," favorito "," favorita "];
+  return ptWords.some(w=>t.includes(w));
+ };
+
  const understand=(text:string)=>{
   const t=text.toLowerCase().trim();
+  if(looksPortuguese(t)){
+   return {ok:false,reply:`Please answer in English. Try saying: ${item.example}`};
+  }
   if(item.kind==="name"){
    const m=t.match(/(?:my name is|i am|i'm)\s+([a-z]+)/i);
    if(m)return {ok:true,value:m[1],reply:`Nice to meet you, ${m[1]}! I'm Pudim. How are you today?`};
@@ -138,7 +148,7 @@ function Speaking({onBack}:{onBack:()=>void}){
     <div className="chat-head"><img src="/sprites/pudim-front.png" alt="Pudim"/><div><b>Pudim</b><small>● online • English chat</small></div></div>
     <div className="chat-body">
      {messages.map((m,i)=><div key={i} className={`chat-row ${m.who}`}><div className="chat-bubble"><b className="chat-en">{m.text}</b>{m.who==="pudim"&&m.pt&&<span className="chat-pt">🇧🇷 {m.pt}</span>}<small>{m.who==="pudim"?"Pudim":"You"}</small></div></div>)}
-     {!finished&&<div className="chat-help"><b>💡 Your turn</b><span>Example: {item.example}</span><span className="translation">{item.pt}</span></div>}
+     {!finished&&<div className="chat-help"><b>💡 Your turn — answer in English</b><span>Example: {item.example}</span><span className="translation">{item.pt}</span></div>}
     </div>
     <div className="chat-compose">{!finished?<><button className={`chat-mic ${listening?"listening":""}`} onClick={listen} disabled={listening||!supported}>🎤</button><button className="chat-example" onClick={()=>speak(item.example,"en-US",1.12)}>🔊 Ouvir exemplo</button></>:<button className="chat-restart" onClick={restart}>🔄 Conversar novamente</button>}</div>
     {!supported&&<div className="speech-warning">Use Chrome ou Edge e permita o microfone.</div>}

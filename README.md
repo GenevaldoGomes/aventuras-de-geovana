@@ -89,3 +89,18 @@ Todas as mensagens do Pudim no chat exibem inglês e, logo abaixo, a tradução 
 - Restaurada a função `saveProfile`.
 - O botão Salvar do Perfil volta a atualizar o nome, gravar no localStorage e retornar à tela inicial.
 - Mantida a correção anterior de `setUnlocked`.
+
+## V14.11 — Respostas da conversação somente em inglês
+- A tradução em português continua disponível apenas como apoio visual.
+- A criança precisa responder em inglês para a conversa avançar.
+- Respostas detectadas em português são recusadas.
+- Pudim orienta em inglês: `Please answer in English`, com tradução visual.
+- A voz do Pudim continua falando somente inglês.
+
+## V14.12 — Tela inicial mais animada
+- Botão Jogar pulsa com brilho.
+- Mundos, Ranking e Aprender flutuam suavemente.
+- Estrelas piscam ao redor das áreas clicáveis.
+- Perfil recebe brilho discreto.
+- Botões reagem ao toque.
+- Música inicial substituída por uma composição original mais rápida e alegre, mantendo execução apenas na tela inicial.
