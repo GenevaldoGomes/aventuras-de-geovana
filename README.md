@@ -98,3 +98,10 @@ Pudim integrado às fases: caminhada na trilha, pausas, falas e reações. Masco
 - O jogo passa a usar sempre a composição vertical 9:16.
 - Ao girar o aparelho, a interface não troca para uma versão horizontal.
 - Mantidos os controles funcionais e as fases.
+
+## V12.8 — Hotfix retrato inicial
+- Home vertical passa a ser o layout padrão, antes de qualquer media query.
+- Removida dependência de `:has()` para dimensionar a tela inicial.
+- Removido `body position: fixed` como requisito da Home.
+- Adicionado viewport explícito para largura real do aparelho.
+- A página abre diretamente em retrato sem precisar girar o telefone.

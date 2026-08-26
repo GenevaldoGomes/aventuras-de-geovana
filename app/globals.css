@@ -998,3 +998,112 @@ body{
     max-height:100vh!important;
   }
 }
+
+/* ==========================================================
+   V12.8 — HOTFIX DEFINITIVO PARA ABRIR DIRETO EM RETRATO
+   Não depende de :has(), orientation ou body position:fixed.
+   ========================================================== */
+
+html{
+  width:100%;
+  min-height:100%;
+  background:#16084f;
+}
+
+body{
+  position:static!important;
+  inset:auto!important;
+  width:100%!important;
+  min-width:0!important;
+  height:auto!important;
+  min-height:100svh!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  background:#16084f!important;
+}
+
+.app-shell{
+  width:100%!important;
+  min-width:0!important;
+  min-height:100svh!important;
+}
+
+/* A home nasce vertical por padrão — sem esperar media query/orientation. */
+.game-poster{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  max-width:480px!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  aspect-ratio:9/16!important;
+  margin:0 auto!important;
+  padding:0!important;
+  overflow:hidden!important;
+  visibility:visible!important;
+  opacity:1!important;
+  transform:none!important;
+  background:#16084f!important;
+}
+
+.game-poster>.home-main-art{
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center top!important;
+  z-index:0!important;
+}
+
+/* Celular: largura total, retrato desde o primeiro carregamento. */
+@media screen and (max-width:900px){
+  body{
+    min-height:100svh!important;
+  }
+
+  .app-shell{
+    display:block!important;
+    width:100vw!important;
+    min-height:100svh!important;
+    height:auto!important;
+    overflow:visible!important;
+  }
+
+  .game-poster{
+    width:100vw!important;
+    max-width:none!important;
+    height:auto!important;
+    aspect-ratio:9/16!important;
+    margin:0!important;
+  }
+
+  .game-poster>.hotspot{
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    position:absolute!important;
+    z-index:20!important;
+    pointer-events:auto!important;
+    touch-action:manipulation!important;
+  }
+}
+
+/* Se o aparelho for girado, NÃO cria outra versão:
+   apenas mantém o quadro 9:16 centralizado. */
+@media screen and (orientation:landscape) and (max-width:900px){
+  .app-shell{
+    display:flex!important;
+    align-items:flex-start!important;
+    justify-content:center!important;
+  }
+  .game-poster{
+    width:min(100vw, calc(100svh * 9 / 16))!important;
+    height:auto!important;
+    aspect-ratio:9/16!important;
+  }
+}
