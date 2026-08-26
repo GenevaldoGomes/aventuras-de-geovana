@@ -481,3 +481,24 @@
   opacity:0;animation:pudimSpark 2.4s ease-in-out infinite;
 }
 @keyframes pudimSpark{0%,70%,100%{opacity:0;transform:scale(.4)}82%{opacity:1;transform:scale(1.25) rotate(18deg)}}
+
+/* V14.15 — Aprender + treino de pronúncia com Pudim */
+.learn-vocab{gap:20px!important}
+.learn-word{padding:18px!important;min-height:235px;transition:transform .2s ease,box-shadow .2s ease}
+.learn-word:hover{transform:translateY(-5px);box-shadow:0 12px 25px #3b176733}
+.word-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-top:8px}
+.word-actions button{width:100%;min-height:42px}
+.practice-speech{background:linear-gradient(135deg,#ff7b18,#ffb21e)!important;color:#fff!important;box-shadow:0 4px 0 #c7560a!important;animation:practicePulse 1.7s ease-in-out infinite alternate}
+@keyframes practicePulse{to{transform:scale(1.04);filter:brightness(1.12);box-shadow:0 4px 0 #c7560a,0 0 13px #ffd54d!important}}
+.pronounce-overlay{position:fixed;inset:0;z-index:9999;background:#261052aa;display:grid;place-items:center;padding:18px;backdrop-filter:blur(5px)}
+.pronounce-card{position:relative;width:min(430px,94vw);background:#fff;border:5px solid #ff9b1a;border-radius:30px;padding:20px;text-align:center;box-shadow:0 20px 60px #1c073c88;animation:pronouncePop .22s ease-out}
+@keyframes pronouncePop{from{transform:scale(.72);opacity:0}to{transform:scale(1);opacity:1}}
+.pronounce-close{position:absolute;right:12px;top:10px;border:0;background:#6b31c6;color:#fff;width:34px;height:34px;border-radius:50%;font-size:23px;font-weight:900}
+.pronounce-pudim{height:120px}.pronounce-pudim img{height:120px;width:120px;object-fit:contain;animation:pudimCoach .65s ease-in-out infinite alternate}
+.pronounce-pudim.good img{animation:pudimCoach .25s ease-in-out infinite alternate;filter:drop-shadow(0 0 9px #ffd329)}
+.pronounce-pudim.retry img{animation:pudimSad 1s ease-in-out infinite alternate}
+@keyframes pudimCoach{to{transform:translateY(-7px) rotate(3deg)}}@keyframes pudimSad{to{transform:translateY(3px) rotate(-3deg)}}
+.pronounce-card h2{color:#5925b7;margin:4px}.pronounce-card p{margin:7px;color:#555}.pronounce-word{display:block;font-size:38px;color:#ff7217;margin:8px 0 14px}
+.pronounce-listen,.pronounce-mic{border:0;border-radius:999px;padding:12px 18px;font-weight:900;margin:5px}.pronounce-listen{background:#6531c5;color:#fff}.pronounce-mic{background:#ff8518;color:#fff;box-shadow:0 5px 0 #c85309}.pronounce-mic.listening{animation:micPulse .5s infinite alternate}
+.pronounce-heard,.pronounce-good,.pronounce-retry{margin-top:12px;border-radius:15px;padding:10px;display:grid;gap:3px}.pronounce-heard{background:#f0e9ff}.pronounce-good{background:#e3ffec;color:#167844;font-weight:900}.pronounce-retry{background:#fff0dc;color:#995200;font-weight:900}.pronounce-good span,.pronounce-retry span{font-size:11px;font-weight:700}
+@media(max-width:600px){.word-actions{grid-template-columns:1fr}.learn-word{min-height:250px}.pronounce-word{font-size:32px}}

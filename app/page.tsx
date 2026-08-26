@@ -185,6 +185,46 @@ function Speaking({onBack}:{onBack:()=>void}){
  </main>
 }
 
+
+function PronunciationTrainer({word,onClose}:{word:string;onClose:()=>void}){
+ const [listening,setListening]=useState(false);
+ const [heard,setHeard]=useState("");
+ const [status,setStatus]=useState<"idle"|"good"|"retry">("idle");
+ const normalize=(v:string)=>v.toLowerCase().replace(/[^a-z0-9 ]/g,"").trim();
+
+ const listen=()=>{
+  const SR=(window as any).SpeechRecognition||(window as any).webkitSpeechRecognition;
+  if(!SR){setHeard("Microfone indisponível neste navegador.");setStatus("retry");return}
+  const rec=new SR();rec.lang="en-US";rec.interimResults=false;rec.maxAlternatives=5;
+  setListening(true);setHeard("");setStatus("idle");
+  rec.onresult=(e:any)=>{
+   const alternatives=Array.from(e.results[0]||[]).map((x:any)=>String(x.transcript||""));
+   const first=alternatives[0]||"";setHeard(first);
+   const target=normalize(word);
+   const ok=alternatives.some(v=>{const n=normalize(v);return n===target||n.includes(target)||target.includes(n)});
+   setStatus(ok?"good":"retry");
+   if(ok)speak("Excellent! Great pronunciation!","en-US",1.2);
+   else speak(`Try again. Listen carefully: ${word}.`,"en-US",1.12);
+  };
+  rec.onerror=()=>{setListening(false);setStatus("retry");setHeard("Não consegui ouvir claramente.")};
+  rec.onend=()=>setListening(false);rec.start();
+ };
+ return <div className="pronounce-overlay" onClick={onClose}>
+  <div className="pronounce-card" onClick={e=>e.stopPropagation()}>
+   <button className="pronounce-close" onClick={onClose}>×</button>
+   <div className={`pronounce-pudim ${status}`}><img src={status==="retry"?"/sprites/pudim-front.png":"/sprites/pudim-front.png"} alt="Pudim"/></div>
+   <h2>🐱 Treine com o Pudim</h2>
+   <p>Diga esta palavra em inglês:</p>
+   <strong className="pronounce-word">{word}</strong>
+   <button className="pronounce-listen" onClick={()=>speak(word,"en-US",1.05)}>🔊 Ouvir Pudim</button>
+   <button className={`pronounce-mic ${listening?"listening":""}`} onClick={listen} disabled={listening}>🎤 {listening?"Listening...":"Treinar minha fala"}</button>
+   {heard&&<div className="pronounce-heard"><small>I heard:</small><b>“{heard}”</b></div>}
+   {status==="good"&&<div className="pronounce-good">⭐ Excellent! Great pronunciation!<span>Excelente! Muito boa pronúncia!</span></div>}
+   {status==="retry"&&<div className="pronounce-retry">🐾 Try again! Listen to Pudim.<span>Tente novamente. Ouça o Pudim e repita.</span></div>}
+  </div>
+ </div>
+}
+
 function Pudim({q,reaction,sound}:{q:Q;reaction:"walk"|"correct"|"wrong";sound:boolean}){
  const [x,setX]=useState(8),[dir,setDir]=useState(1),[hint,setHint]=useState(false),[frame,setFrame]=useState(0);
  const [companion,setCompanion]=useState<{en:string;pt:string;hint?:boolean}|null>(null);
@@ -300,6 +340,8 @@ export default function Home(){
  const [voiceMessage,setVoiceMessage]=useState("");
  const [reaction,setReaction]=useState<"walk"|"correct"|"wrong">("walk");
  const [learnCategory,setLearnCategory]=useState<number|null>(null);
+ const [practiceWord,setPracticeWord]=useState<string|null>(null);
+ const selectedLearnCategory = learnCategory !== null ? LEARN_CATEGORIES[learnCategory] : null;
  useEffect(()=>{try{const n=localStorage.getItem("geovana-player");if(n){setName(n);setDraft(n)}const c=JSON.parse(localStorage.getItem("geovana-completed")||"[]");setCompleted(c)}catch{}},[]);
  useEffect(()=>{
   if(screen!=="home")return;
@@ -432,10 +474,10 @@ export default function Home(){
 
  if(screen==="learn")return <Shell title="Aprender" back={()=>{if(learnCategory!==null)setLearnCategory(null);else setScreen("home")}}>
    <div className="learn-speaking"><button onClick={()=>setScreen("speaking")}><span>💬</span><b>CONVERSAÇÃO COM PUDIM</b><small>Converse em inglês como em um chat</small><em>🎤 COMEÇAR</em></button></div>
-   {learnCategory===null?
+   {learnCategory===null || !selectedLearnCategory?
     <div className="category-grid">{LEARN_CATEGORIES.map((c,i)=><button key={c.name} className="category-card" onClick={()=>setLearnCategory(i)}><span>{c.icon}</span><b>{c.name}</b><small>{c.pt}</small><em>Explorar →</em></button>)}</div>
     :
-    <div className="category-view"><div className="category-title"><button onClick={()=>setLearnCategory(null)}>← Categorias</button><h2>{LEARN_CATEGORIES[learnCategory].icon} {LEARN_CATEGORIES[learnCategory].name}</h2></div><div className="vocab">{LEARN_CATEGORIES[learnCategory].items.map(v=><div className="word" key={v[1]}><span>{v[0]}</span><b>{v[1]}</b><small>{v[2]}</small><button onClick={()=>speak(v[1])}>🔊 Ouvir</button></div>)}</div></div>}
+    <div className="category-view"><div className="category-title"><button onClick={()=>setLearnCategory(null)}>← Categorias</button><h2>{selectedLearnCategory?.icon} {selectedLearnCategory?.name}</h2></div><div className="vocab learn-vocab">{selectedLearnCategory?.items.map(v=><div className="word learn-word" key={v[1]}><span>{v[0]}</span><b>{v[1]}</b><small>{v[2]}</small><div className="word-actions"><button onClick={()=>speak(v[1])}>🔊 Ouvir</button><button className="practice-speech" onClick={()=>setPracticeWord(v[1])}>🎤 Treinar fala</button></div></div>)}</div>{practiceWord&&<PronunciationTrainer word={practiceWord} onClose={()=>setPracticeWord(null)}/>}</div>}
   </Shell>;
 
  if(screen==="speaking")return <Speaking onBack={()=>setScreen("learn")}/>;

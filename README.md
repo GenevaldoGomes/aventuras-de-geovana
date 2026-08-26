@@ -111,3 +111,9 @@ Todas as mensagens do Pudim no chat exibem inglês e, logo abaixo, a tradução 
 - Ao clicar no Pudim, ele para, vira para o aluno e oferece uma dica em inglês.
 - Pudim também pergunta se o aluno precisa de ajuda e indica o uso do microfone/exemplo.
 - Após a interação, volta a caminhar.
+
+## V14.15 — Treino de fala no Aprender
+Cada card de vocabulário agora possui Ouvir e Treinar fala. No treino, Pudim aparece como tutor, pronuncia a palavra, escuta a criança pelo microfone e dá feedback positivo ou pede nova tentativa. O reconhecimento usa inglês (en-US), mantendo o português apenas como apoio visual.
+
+## V14.16 — Correção TypeScript/Vercel
+Corrigido `Object is possibly 'undefined'` na tela Aprender. A categoria selecionada agora é resolvida em `selectedLearnCategory` e o JSX usa acesso seguro antes de renderizar ícone, nome e itens. Mantido o treino de fala com Pudim.
