@@ -341,7 +341,7 @@ export default function Home(){
  const [reaction,setReaction]=useState<"walk"|"correct"|"wrong">("walk");
  const [learnCategory,setLearnCategory]=useState<number|null>(null);
  const [practiceWord,setPracticeWord]=useState<string|null>(null);
- const selectedLearnCategory = learnCategory !== null ? LEARN_CATEGORIES[learnCategory] : null;
+ const selectedLearnCategory = learnCategory !== null ? (LEARN_CATEGORIES[learnCategory] ?? null) : null;
  useEffect(()=>{try{const n=localStorage.getItem("geovana-player");if(n){setName(n);setDraft(n)}const c=JSON.parse(localStorage.getItem("geovana-completed")||"[]");setCompleted(c)}catch{}},[]);
  useEffect(()=>{
   if(screen!=="home")return;
@@ -477,7 +477,7 @@ export default function Home(){
    {learnCategory===null || !selectedLearnCategory?
     <div className="category-grid">{LEARN_CATEGORIES.map((c,i)=><button key={c.name} className="category-card" onClick={()=>setLearnCategory(i)}><span>{c.icon}</span><b>{c.name}</b><small>{c.pt}</small><em>Explorar →</em></button>)}</div>
     :
-    <div className="category-view"><div className="category-title"><button onClick={()=>setLearnCategory(null)}>← Categorias</button><h2>{selectedLearnCategory?.icon} {selectedLearnCategory?.name}</h2></div><div className="vocab learn-vocab">{selectedLearnCategory?.items.map(v=><div className="word learn-word" key={v[1]}><span>{v[0]}</span><b>{v[1]}</b><small>{v[2]}</small><div className="word-actions"><button onClick={()=>speak(v[1])}>🔊 Ouvir</button><button className="practice-speech" onClick={()=>setPracticeWord(v[1])}>🎤 Treinar fala</button></div></div>)}</div>{practiceWord&&<PronunciationTrainer word={practiceWord} onClose={()=>setPracticeWord(null)}/>}</div>}
+    <div className="category-view"><div className="category-title"><button onClick={()=>setLearnCategory(null)}>← Categorias</button><h2>{selectedLearnCategory?.icon} {selectedLearnCategory?.name}</h2></div><div className="vocab learn-vocab">{(selectedLearnCategory?.items ?? []).map(v=><div className="word learn-word" key={v[1]}><span>{v[0]}</span><b>{v[1]}</b><small>{v[2]}</small><div className="word-actions"><button onClick={()=>speak(v[1])}>🔊 Ouvir</button><button className="practice-speech" onClick={()=>setPracticeWord(v[1])}>🎤 Treinar fala</button></div></div>)}</div>{practiceWord&&<PronunciationTrainer word={practiceWord} onClose={()=>setPracticeWord(null)}/>}</div>}
   </Shell>;
 
  if(screen==="speaking")return <Speaking onBack={()=>setScreen("learn")}/>;
