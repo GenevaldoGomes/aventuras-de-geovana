@@ -41,3 +41,10 @@ Código reconstruído do zero. Home 9:16 é o layout padrão e não depende de r
 - Ao parar, Pudim mantém o mesmo personagem, tamanho e estilo lateral.
 - O balão foi ampliado e fica acima do mascote sem esconder o texto.
 - Com som ligado, as falas são reproduzidas em inglês e depois em português.
+
+## V13.7 — Pudim olha para o aluno
+- Enquanto caminha, Pudim continua usando a animação lateral.
+- Quando para espontaneamente para conversar, vira de frente.
+- Quando o aluno toca nele para pedir dica, também vira de frente.
+- Durante a interação frontal há uma animação suave de respiração/fala.
+- Ao terminar a interação, volta para a caminhada lateral.

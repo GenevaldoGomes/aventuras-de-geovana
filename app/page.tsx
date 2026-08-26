@@ -119,7 +119,11 @@ function Pudim({q,reaction,sound}:{q:Q;reaction:"walk"|"correct"|"wrong";sound:b
       <b>{text.en}</b><span>{text.pt}</span>
       {companion?.hint&&!hint&&<small>🐾 Toque no Pudim / Tap Pudim</small>}
     </div>
-    <img src={frames[frame%frames.length]} className={dir<0?"flip":""} alt="Pudim animado"/>
+    <img
+      src={(hint||companion)?"/sprites/pudim-front.png":frames[frame%frames.length]}
+      className={(hint||companion)?"front-facing":(dir<0?"flip":"")}
+      alt={(hint||companion)?"Pudim olhando para o aluno":"Pudim caminhando"}
+    />
    </button>
    {reaction==="walk"&&!hint&&!companion&&<div className="hint-note">🐾 Clique no Pudim para uma dica!</div>}
  </div>
