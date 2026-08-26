@@ -24,3 +24,32 @@
 /* V13.3: cenário enviado pelo usuário e frames válidos */
 .trail{background-image:url("/cenario-trilha-v133.png")!important;background-size:cover!important;background-position:center bottom!important;background-repeat:no-repeat!important}
 .walker img{object-fit:contain!important}
+
+/* V13.4 — Pudim clicável para dica */
+.walker{
+  border:0!important;
+  padding:0!important;
+  background:transparent!important;
+  color:inherit!important;
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+.walker:focus-visible{outline:4px solid #ffd400;border-radius:18px}
+.walker .bubble{pointer-events:none!important}
+.walker img{pointer-events:none!important;user-select:none!important;-webkit-user-drag:none!important}
+.hint-note{pointer-events:none!important;z-index:5!important}
+
+/* V13.5 — quadros limpos e estáveis do Pudim */
+.walker{width:155px!important;height:165px!important}
+.walker img{
+ width:155px!important;height:165px!important;
+ object-fit:contain!important;object-position:center bottom!important;
+ background:transparent!important;
+}
+@media(max-width:650px){
+ .walker{width:130px!important;height:145px!important}
+ .walker img{width:130px!important;height:145px!important}
+}

@@ -34,8 +34,8 @@ function hintFor(q:Q){
 function Pudim({q,reaction,sound}:{q:Q;reaction:"walk"|"correct"|"wrong";sound:boolean}){
  const [x,setX]=useState(8),[dir,setDir]=useState(1),[hint,setHint]=useState(false),[frame,setFrame]=useState(0);
  const walkFrames=[
-  "/sprites/walk-0.png","/sprites/walk-1.png","/sprites/walk-2.png","/sprites/walk-3.png",
-  "/sprites/walk-4.png","/sprites/walk-5.png","/sprites/walk-6.png","/sprites/walk-7.png"
+  "/sprites/walk-clean-0.png","/sprites/walk-clean-1.png","/sprites/walk-clean-2.png","/sprites/walk-clean-3.png",
+  "/sprites/walk-clean-4.png","/sprites/walk-clean-5.png","/sprites/walk-clean-6.png","/sprites/walk-clean-7.png"
  ];
  const idleFrames=["/sprites/idle.png"];
  const correctFrames=["/sprites/correct.png","/sprites/happy.png"];
