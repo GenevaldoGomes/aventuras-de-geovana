@@ -491,3 +491,79 @@
 @media (orientation:landscape){
   .mobile-home-v12{display:none!important}
 }
+
+/* V12.1 — HOTFIX: a arte mobile agora existe de fato no JSX */
+.home-mobile-art{display:none!important}
+
+@media (orientation:portrait) and (max-width:900px){
+  .game-poster{
+    position:relative!important;
+    width:100vw!important;
+    height:calc(100vw * 16 / 9)!important;
+    min-height:100svh!important;
+    aspect-ratio:auto!important;
+    overflow:hidden!important;
+    background:#23105f!important;
+  }
+
+  .game-poster>.home-desktop-art{
+    display:none!important;
+    visibility:hidden!important;
+  }
+
+  .game-poster>.home-mobile-art{
+    display:block!important;
+    visibility:visible!important;
+    position:absolute!important;
+    inset:0!important;
+    z-index:0!important;
+    width:100%!important;
+    height:100%!important;
+    object-fit:cover!important;
+    object-position:center top!important;
+  }
+
+  /* Todos os controles reais permanecem acima da arte */
+  .game-poster>.hotspot,
+  .game-poster>.music-hint,
+  .game-poster>.pudim-phrase,
+  .game-poster>.pudim-walker{
+    z-index:10!important;
+  }
+
+  /* Reposiciona os botões reais pela classe, sem depender da ordem */
+  .game-poster>.hotspot.sound{
+    left:4%!important; top:2.2%!important;
+    width:12%!important; height:7%!important;
+  }
+  .game-poster>.hotspot.language{
+    left:17%!important; top:2.2%!important;
+    width:12%!important; height:7%!important;
+  }
+  .game-poster>.hotspot.friend{
+    left:72%!important; top:2.2%!important;
+    width:24%!important; height:7%!important;
+  }
+  .game-poster>.hotspot.play{
+    left:17%!important; top:61%!important;
+    width:66%!important; height:10.5%!important;
+  }
+  .game-poster>.hotspot.worlds{
+    left:4%!important; top:74%!important;
+    width:28%!important; height:13%!important;
+  }
+  .game-poster>.hotspot.ranking{
+    left:36%!important; top:74%!important;
+    width:28%!important; height:13%!important;
+  }
+  .game-poster>.hotspot.learn{
+    left:68%!important; top:74%!important;
+    width:28%!important; height:13%!important;
+  }
+}
+
+/* Desktop e paisagem continuam com a arte original */
+@media (orientation:landscape), (min-width:901px){
+  .game-poster>.home-mobile-art{display:none!important}
+  .game-poster>.home-desktop-art{display:block!important;visibility:visible!important}
+}
