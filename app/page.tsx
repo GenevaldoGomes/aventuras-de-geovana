@@ -13,7 +13,7 @@ const W:World[]=[
   {en:"My mother's son is my...",pt:"O filho da minha mãe é meu...",o:["Brother","Uncle","Father"],a:0,icon:"👦"},{en:"Which food is a fruit?",pt:"Qual alimento é uma fruta?",o:["Bread","Apple","Cheese"],a:1,icon:"🍎"},{en:"Where do students learn?",pt:"Onde os estudantes aprendem?",o:["School","Hospital","Airport"],a:0,icon:"🏫"},{en:"My father's wife is my...",pt:"A esposa do meu pai é minha...",o:["Sister","Mother","Aunt"],a:1,icon:"👩"},{en:"Where can you see a doctor?",pt:"Onde você encontra um médico?",o:["Park","Hospital","Cinema"],a:1,icon:"🏥"},{en:"Which drink is white?",pt:"Qual bebida é branca?",o:["Milk","Coffee","Juice"],a:0,icon:"🥛"},{en:"You can buy food at the...",pt:"Você compra alimentos no...",o:["Library","Supermarket","Museum"],a:1,icon:"🛒"},{en:"My mother's mother is my...",pt:"A mãe da minha mãe é minha...",o:["Grandmother","Cousin","Daughter"],a:0,icon:"👵"},{en:"Which food is made with cheese?",pt:"Qual alimento é feito com queijo?",o:["Pizza","Apple","Rice"],a:0,icon:"🍕"},{en:"The Statue of Liberty is in...",pt:"A Estátua da Liberdade fica em...",o:["London","New York","Paris"],a:1,icon:"🗽"}]}
 ];
 
-type Screen="home"|"worlds"|"game"|"ranking"|"learn"|"result"|"profile";
+type Screen="home"|"worlds"|"game"|"ranking"|"learn"|"speaking"|"result"|"profile";
 
 const vocab=[
  ["👋","Hello","Olá"],["☀️","Good morning","Bom dia"],["🐱","Cat","Gato"],
@@ -31,6 +31,38 @@ function hintFor(q:Q){
  return `A resposta começa com "${clean.charAt(0).toUpperCase()}" e tem ${clean.length} letras. Ouça as opções e pense com atenção.`;
 }
 
+
+const SPEAKING=[
+ {ask:"Hello! What's your name?",pt:"Olá! Qual é o seu nome?",example:"My name is Geovana.",keys:["my name is","i am","i'm"]},
+ {ask:"How old are you?",pt:"Quantos anos você tem?",example:"I am nine years old.",keys:["years old","i am","i'm"]},
+ {ask:"How are you today?",pt:"Como você está hoje?",example:"I am fine, thank you.",keys:["fine","good","great","happy","okay","ok"]},
+ {ask:"What's your favorite color?",pt:"Qual é a sua cor favorita?",example:"My favorite color is blue.",keys:["blue","red","green","yellow","pink","purple","orange","black","white"]},
+ {ask:"What's your favorite animal?",pt:"Qual é o seu animal favorito?",example:"My favorite animal is a cat.",keys:["cat","dog","bird","fish","rabbit","lion","tiger"]},
+ {ask:"What do you like to do?",pt:"O que você gosta de fazer?",example:"I like to play games.",keys:["i like","play","read","study","draw","sing","dance","swim","games"]}
+];
+function Speaking({sound,onBack}:{sound:boolean;onBack:()=>void}){
+ const [step,setStep]=useState(0),[heard,setHeard]=useState(""),[listening,setListening]=useState(false),[feedback,setFeedback]=useState<"idle"|"good"|"retry">("idle");
+ const [supported,setSupported]=useState(true); const item=SPEAKING[step];
+ useEffect(()=>{setSupported(typeof window!=="undefined"&&!!((window as any).SpeechRecognition||(window as any).webkitSpeechRecognition))},[]);
+ useEffect(()=>{if(sound)speak(item.ask,"en-US",1.18)},[step]);
+ const listen=()=>{const SR=(window as any).SpeechRecognition||(window as any).webkitSpeechRecognition;if(!SR){setSupported(false);return}
+  const rec=new SR();rec.lang="en-US";rec.interimResults=false;rec.maxAlternatives=3;setListening(true);setFeedback("idle");setHeard("");
+  rec.onresult=(e:any)=>{const text=e.results[0][0].transcript;setHeard(text);const ok=item.keys.some(k=>text.toLowerCase().includes(k));setFeedback(ok?"good":"retry");if(sound)speak(ok?"Excellent! Great job!":"Good try! Listen to the example and try again.","en-US",1.2)};
+  rec.onerror=()=>{setListening(false);setFeedback("retry")};rec.onend=()=>setListening(false);rec.start();
+ };
+ const next=()=>{setHeard("");setFeedback("idle");setStep(v=>(v+1)%SPEAKING.length)};
+ return <main className="screen"><header className="top"><button onClick={onBack}>←</button><h1>🗣️ Speaking</h1><span/></header><section className="speaking-wrap">
+  <div className="speaking-pudim"><img src="/sprites/pudim-front.png" alt="Pudim"/><div className="speak-bubble"><b>{item.ask}</b><span>{item.pt}</span></div></div>
+  <div className="speaking-card"><p><b>Conversation {step+1} / {SPEAKING.length}</b></p><button className="example" onClick={()=>sound&&speak(item.ask)}>🔊 Ouvir pergunta</button>
+   <div className={`mic ${listening?"listening":""}`}>🎤</div><button className="primary" onClick={listen} disabled={listening||!supported}>{listening?"Listening...":"🎤 Falar em inglês"}</button>
+   {!supported&&<div className="speech-warning">Permita o microfone e use Chrome ou Edge para esta atividade.</div>}
+   {heard&&<div className="heard"><small>I heard:</small><strong>“{heard}”</strong></div>}
+   {feedback==="good"&&<div className="speech-good">⭐ Excellent! Muito bem!</div>}
+   {feedback==="retry"&&<div className="speech-retry">🐾 Good try! Ouça o exemplo e tente novamente.</div>}
+   <div className="model-answer"><span>Exemplo de resposta:</span><b>{item.example}</b><button onClick={()=>sound&&speak(item.example)}>🔊 Ouvir exemplo</button></div>
+   {feedback==="good"&&<button className="next" onClick={next}>Próxima conversa →</button>}
+  </div></section></main>
+}
 function Pudim({q,reaction,sound}:{q:Q;reaction:"walk"|"correct"|"wrong";sound:boolean}){
  const [x,setX]=useState(8),[dir,setDir]=useState(1),[hint,setHint]=useState(false),[frame,setFrame]=useState(0);
  const [companion,setCompanion]=useState<{en:string;pt:string;hint?:boolean}|null>(null);
@@ -175,7 +207,18 @@ export default function Home(){
 
  if(screen==="ranking")return <Shell title="Ranking" back={()=>setScreen("home")}><div className="card"><h2>🏆 Seu progresso</h2><p><b>{name}</b></p><p>Mundos concluídos: {completed.length}/4</p><p>Continue jogando para conquistar novas estrelas!</p></div></Shell>;
 
- if(screen==="learn")return <Shell title="Aprender" back={()=>setScreen("home")}><div className="vocab">{vocab.map(v=><button key={v[1]} onClick={()=>sound&&speak(v[1],"en-US",1.25)}><span>{v[0]}</span><b>{v[1]}</b><small>{v[2]}</small><em>🔊 Ouvir</em></button>)}</div></Shell>;
+ if(screen==="learn")return <Shell title="Aprender" back={()=>setScreen("home")}><div className="speaking-launcher">
+  <button type="button" onClick={()=>setScreen("speaking")} className="speaking-launch-button">
+    <span className="speaking-launch-icon">🗣️</span>
+    <span className="speaking-launch-copy">
+      <b>FALAR — SPEAKING</b>
+      <small>Treine sua conversação com o Pudim</small>
+    </span>
+    <span className="speaking-launch-cta">🎤 COMEÇAR</span>
+  </button>
+</div><div className="vocab">{vocab.map(v=><button key={v[1]} onClick={()=>sound&&speak(v[1],"en-US",1.25)}><span>{v[0]}</span><b>{v[1]}</b><small>{v[2]}</small><em>🔊 Ouvir</em></button>)}</div></Shell>;
+
+ if(screen==="speaking")return <Speaking sound={sound} onBack={()=>setScreen("learn")}/>;
 
  if(screen==="result")return <Shell title="Missão concluída!" back={()=>setScreen("home")}><div className="card result"><h1>🎉 Parabéns, {name}!</h1><p>Você concluiu <b>{W[world].name}</b>.</p><div className="big-score">⭐ {score} pontos</div><button className="primary" onClick={()=>setScreen("worlds")}>Próximo mundo</button></div></Shell>;
 
