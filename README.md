@@ -13,3 +13,10 @@ Código reconstruído do zero. Home 9:16 é o layout padrão e não depende de r
 - Pudim agora alterna quadros de caminhada enquanto se desloca.
 - Há quadros diferentes para parado/dica, acerto e erro.
 - Mantida a interação de clicar no Pudim para receber dica.
+
+## V13.3 — Correção do cenário e Pudim
+- Usa exatamente o cenário enviado pelo usuário na pista.
+- Corrigidos todos os caminhos dos frames do Pudim para arquivos realmente existentes em public/sprites.
+- Caminhada usa walk-0.png até walk-7.png.
+- Acerto usa correct/happy; erro usa wrong; dica usa idle.
+- Eliminado o ícone de imagem quebrada.
